@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Substituição de Item</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #2b669c;
+      font-family: Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background-color: #fff;
+      padding: 30px 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      width: 90%;
+      max-width: 500px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #2b669c;
+      margin-bottom: 25px;
+      font-size: 22px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .form-group input {
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      outline: none;
+      width: 100%;
+    }
+
+    .row {
+      display: flex;
+      gap: 10px;
+      flex-direction: row;
+    }
+
+    .row input {
+      flex: 1;
+    }
+
+    @media (max-width: 600px) {
+      .row {
+        flex-direction: column;
+      }
+    }
+
+    input:disabled {
+      background-color: #eee;
+      color: #999;
+      cursor: not-allowed;
+    }
+
+    button {
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      background-color: #2b669c;
+      color: #fff;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    button:disabled {
+      background-color: #aaa;
+      cursor: not-allowed;
+    }
+
+    /* Modal */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+    }
+
+    .modal-content {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+    }
+
+    .modal-content p {
+      margin-bottom: 20px;
+      font-size: 18px;
+    }
+
+    .modal-content .buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .modal-content .buttons button {
+      flex: 1 1 45%;
+      min-width: 100px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Substituição de Item no Contrato</h2>
+    <div class="form-group">
+      <input type="text" id="contrato" placeholder="Número do Contrato" oninput="atualizarEstado()" />
+      <div class="row">
+        <input type="text" id="itemRetirado" placeholder="Item Retirado" disabled oninput="atualizarEstado()" />
+        <input type="text" id="itemAdicionado" placeholder="Item Adicionado" disabled oninput="atualizarEstado()" />
+      </div>
+      <button id="btnAlterar" disabled onclick="abrirModal()">Alterar</button>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal" id="modalConfirmacao">
+    <div class="modal-content">
+      <p>Deseja realmente alterar os itens?</p>
+      <div class="buttons">
+        <button onclick="confirmarAlteracao()">Confirmar</button>
+        <button onclick="fecharModal()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function atualizarEstado() {
+      const contrato = document.getElementById("contrato");
+      const itemRetirado = document.getElementById("itemRetirado");
+      const itemAdicionado = document.getElementById("itemAdicionado");
+      const btnAlterar = document.getElementById("btnAlterar");
+
+      const contratoOK = contrato.value.trim().length >= 3;
+
+      // Habilita/desabilita campos de item
+      itemRetirado.disabled = !contratoOK;
+      itemAdicionado.disabled = !contratoOK;
+
+      // Habilita botão Alterar somente se todos estiverem preenchidos
+      const todosPreenchidos = contratoOK &&
+        itemRetirado.value.trim().length > 0 &&
+        itemAdicionado.value.trim().length > 0;
+
+      btnAlterar.disabled = !todosPreenchidos;
+    }
+
+    function abrirModal() {
+      document.getElementById("modalConfirmacao").style.display = "flex";
+    }
+
+    function fecharModal() {
+      document.getElementById("modalConfirmacao").style.display = "none";
+    }
+
+    function confirmarAlteracao() {
+      fecharModal();
+      alert("Alterações confirmadas!");
+      document.getElementById("contrato").value = "";
+      document.getElementById("itemRetirado").value = "";
+      document.getElementById("itemAdicionado").value = "";
+      atualizarEstado();
+    }
+  </script>
+
+</body>
+</html>
