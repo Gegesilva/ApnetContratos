@@ -22,7 +22,7 @@ header('Content-type: text/html; charset=ISO-8895-1');
     <div class="container">
         <h2>Selecione uma opção</h2>
         <div class="buttons-grid">
-            <a class="menu-button" href="saldosbancos/public/index.php">SUBS ITEM</a>
+            <a class="menu-button" href="subsMaq.php">SUBS ITEM</a>
             <!-- <a class="menu-button" href="saldocli/public/index.php">SALDO CLIENTES</a>
             <a class="menu-button" href="saldoforn/public/index.php">SALDO FORNECEDORES</a>
             <a class="menu-button" href="saldocredcli/public/index.php">SALDO CRÉDITOS CLIENTES</a>

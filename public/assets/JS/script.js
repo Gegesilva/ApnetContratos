@@ -27,10 +27,31 @@ function atualizarEstado() {
   }
 
   function confirmarAlteracao() {
-    fecharModal();
-    alert("Alterações confirmadas!");
-    document.getElementById("contrato").value = "";
-    document.getElementById("itemRetirado").value = "";
-    document.getElementById("itemAdicionado").value = "";
-    atualizarEstado();
+    // Captura os valores dos inputs
+    const contrato = document.getElementById("contrato").value;
+    const itemRetirado = document.getElementById("itemRetirado").value;
+    const itemAdicionado = document.getElementById("itemAdicionado").value;
+  
+    // Envia via fetch para um arquivo PHP
+    fetch("alterar_item.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: `contrato=${encodeURIComponent(contrato)}&itemRetirado=${encodeURIComponent(itemRetirado)}&itemAdicionado=${encodeURIComponent(itemAdicionado)}`
+    })
+    .then(response => response.text())
+    .then(data => {
+      fecharModal();
+      alert(data); // ou exiba como quiser
+      document.getElementById("contrato").value = "";
+      document.getElementById("itemRetirado").value = "";
+      document.getElementById("itemAdicionado").value = "";
+      atualizarEstado(); // sua função
+    })
+    .catch(error => {
+      alert("Erro ao enviar os dados!");
+      console.error("Erro:", error);
+    });
   }
+  

@@ -1,3 +1,15 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['usuario'])) {
+    // Redireciona para login, se não estiver logado
+    header("Location: ../../public/login.php");
+    exit;
+}
+
+header('Content-type: text/html; charset=ISO-8895-1');
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -17,7 +29,7 @@
         <input type="text" id="itemAdicionado" placeholder="Item Adicionado" disabled oninput="atualizarEstado()" />
       </div>
       <button id="btnAlterar" disabled onclick="abrirModal()">Alterar</button>
-      <button id="btnAlterar" onclick="window.location='../../public/login.php'">Voltar</button>
+      <button id="btnAlterar" onclick="window.location='../../public/menu.php'">Voltar</button>
     </div>
   </div>
 
