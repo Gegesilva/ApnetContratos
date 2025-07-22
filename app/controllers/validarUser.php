@@ -21,11 +21,11 @@ try {
     if ($user['Usuario'] != NULL) {
         $_SESSION['usuario'] = $user['Usuario'];
         $_SESSION['senha'] = $user['Senha'];
-        header("Location: ../views/subsMaq.php");
+        header("Location: ../views/menu.php");
         exit;
     } else {
         echo "<script>window.alert('Usuario e/ou senha invalidos!')</script>";
-        echo "<script>location.href='login.php'</script>";
+        echo "<script>location.href='../../public/login.php'</script>";
     }
 
 } catch (PDOException $e) {
