@@ -21,7 +21,7 @@ try {
     if ($user['Usuario'] != NULL) {
         $_SESSION['usuario'] = $user['Usuario'];
         $_SESSION['senha'] = $user['Senha'];
-        header("Location: painel.php");
+        header("Location: ../views/subsMaq.php");
         exit;
     } else {
         echo "<script>window.alert('Usuario e/ou senha invalidos!')</script>";
