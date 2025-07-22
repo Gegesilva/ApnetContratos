@@ -29,7 +29,7 @@ header('Content-type: text/html; charset=ISO-8895-1');
         <input type="text" id="itemAdicionado" placeholder="Item Adicionado" disabled oninput="atualizarEstado()" />
       </div>
       <button id="btnAlterar" disabled onclick="abrirModal()">Alterar</button>
-      <button id="btnAlterar" onclick="window.location='../../public/menu.php'">Voltar</button>
+      <button id="btnAlterar" onclick="window.location='menu.php'">Voltar</button>
     </div>
   </div>
 
