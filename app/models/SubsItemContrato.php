@@ -1,5 +1,5 @@
 <?php
-include '../config/database.php'; // ou como estiver
+include '../config/database.php'; 
 
 $contrato = $_POST['contrato'] ?? '';
 $itemRetirado = $_POST['itemRetirado'] ?? '';
