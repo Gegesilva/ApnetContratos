@@ -51,7 +51,6 @@ include 'insereTabSubs.php';
                     <?php
 
                     try {
-                        $pdo = new PDO("sqlsrv:Server=$serverName;Database=$database", $user, $password);
                         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
                         $sql = "SELECT [PAT_ENTRADA], [PAT_SAIDA], [PEDIDO_COMPRA], [ORCAMENTO], [STATUS_COMPRA], 
