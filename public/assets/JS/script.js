@@ -33,7 +33,7 @@ function atualizarEstado() {
     const itemAdicionado = document.getElementById("itemAdicionado").value;
   
     // Envia via fetch para um arquivo PHP
-    fetch("alterar_item.php", {
+    fetch("../models/SubsItemContrato.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
