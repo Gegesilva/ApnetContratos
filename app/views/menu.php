@@ -37,7 +37,7 @@ header('Content-type: text/html; charset=ISO-8895-1');
             <a class="menu-button" href="saldocredforn/public/index.php">SALDO CRÉDITOS FORNECEDORES</a>
             <a class="menu-button" href="beneficios/public/index.php">SALDO BENEFÍCIOS</a> -->
             <!-- <a class="menu-button" href="">SALDO ESTOQUE</a> -->
-            <a class="menu-button" href="../../public/login.php">SAIR</a>
+            <a class="sair-button" href="../../public/login.php">SAIR</a>
         </div>
     </div>
 

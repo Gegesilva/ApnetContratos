@@ -82,7 +82,7 @@ img {
 
 
 .acomp-button {
-    background-color: var(--button-color);
+    background-color: green;
     border: 2px solid var(--primary-color);
     color: rgb(234, 240, 234);
     padding: 16px 20px;
@@ -96,7 +96,26 @@ img {
 }
 
 .acomp-button:hover {
-    background-color: var(--button-hover);
+    background-color: greenyellow;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.sair-button {
+    background-color: orange;
+    border: 2px solid var(--primary-color);
+    color: rgb(234, 240, 234);
+    padding: 16px 20px;
+    font-size: 1rem;
+    border-radius: 10px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.sair-button:hover {
+    background-color: rgb(237, 207, 151);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
