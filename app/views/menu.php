@@ -1,5 +1,13 @@
 
 <?php
+session_start();
+
+if (!isset($_SESSION['usuario'])) {
+    // Redireciona para login, se não estiver logado
+    header("Location: ../../public/login.php");
+    exit;
+}
+
 header('Content-type: text/html; charset=ISO-8895-1');
 ?>
 <!DOCTYPE html>
@@ -22,14 +30,14 @@ header('Content-type: text/html; charset=ISO-8895-1');
     <div class="container">
         <h2>Selecione uma opção</h2>
         <div class="buttons-grid">
+            <a class="acomp-button" href="saldocli/public/index.php">ACOMPANHAMENTO</a>
             <a class="menu-button" href="subsMaq.php">SUBS ITEM</a>
-            <!-- <a class="menu-button" href="saldocli/public/index.php">SALDO CLIENTES</a>
-            <a class="menu-button" href="saldoforn/public/index.php">SALDO FORNECEDORES</a>
+            <!-- <a class="menu-button" href="saldoforn/public/index.php">SALDO FORNECEDORES</a>
             <a class="menu-button" href="saldocredcli/public/index.php">SALDO CRÉDITOS CLIENTES</a>
             <a class="menu-button" href="saldocredforn/public/index.php">SALDO CRÉDITOS FORNECEDORES</a>
             <a class="menu-button" href="beneficios/public/index.php">SALDO BENEFÍCIOS</a> -->
             <!-- <a class="menu-button" href="">SALDO ESTOQUE</a> -->
-           <!--  <a class="menu-button" href="resumo.html">RESUMO</a> -->
+            <a class="menu-button" href="../../public/login.php">SAIR</a>
         </div>
     </div>
 

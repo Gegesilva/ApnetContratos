@@ -23,10 +23,10 @@ header('Content-type: text/html; charset=ISO-8895-1');
   <div class="container">
     <h2>Substituição de Item no Contrato</h2>
     <div class="form-group">
-      <input type="text" id="contrato" placeholder="Número do Contrato" oninput="atualizarEstado()" />
+      <input type="text" id="contrato" placeholder="Número do Contrato" oninput="atualizarEstado()" required/>
       <div class="row">
-        <input type="text" id="itemRetirado" placeholder="Item Retirado" disabled oninput="atualizarEstado()" />
-        <input type="text" id="itemAdicionado" placeholder="Item Adicionado" disabled oninput="atualizarEstado()" />
+        <input type="text" id="itemRetirado" placeholder="Item Retirado" disabled oninput="atualizarEstado()" required/>
+        <input type="text" id="itemAdicionado" placeholder="Item Adicionado" disabled oninput="atualizarEstado()" required/>
       </div>
       <button id="btnAlterar" disabled onclick="abrirModal()">Alterar</button>
       <button id="btnAlterar" onclick="window.location='menu.php'">Voltar</button>
