@@ -67,3 +67,10 @@
       text-align: center;
       margin-bottom: 10px;
     }
+
+    .rodape {
+      text-align: center;
+      padding: 10px;
+      color: white;
+      font-size: 14px;
+    }

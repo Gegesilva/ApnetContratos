@@ -39,9 +39,10 @@ h2 {
 }
 
 img {
-    height: 42px;
-    width: 75.3px;
+    height: 59px;
+    width: 105px;
     flex: 0 0 auto;
+    border-radius: 20px;
 }
 
 .container {

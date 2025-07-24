@@ -29,7 +29,9 @@ session_destroy();
     <input type="password" name="senha" placeholder="Senha" required>
     <button type="submit">Entrar</button>
   </form>
-
+  <!-- <footer class="rodape">
+    © 2025 Sua Empresa. Todos os direitos reservados.
+  </footer> -->
 </body>
 
 </html>
