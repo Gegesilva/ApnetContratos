@@ -12,6 +12,7 @@ $user = $_SESSION['usuario'];
 header('Content-type: text/html; charset=ISO-8895-1');
 
 include '../../config/database.php'; 
+include 'insereTabSubs.php';
 
 $contrato = $_POST['contrato'] ?? '';
 $itemRetirado = $_POST['itemRetirado'] ?? '';
@@ -33,6 +34,8 @@ try {
         ':itemAntigo' => $itemRetirado,
         ':user' => $user
     ]);
+
+    insereTabSubs($pdo, $itemRetirado, $itemAdicionado, $contrato, $user);
 
     if ($stmt->rowCount()) {
         echo "Alteração feita com sucesso!";
