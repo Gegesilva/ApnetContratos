@@ -11,7 +11,6 @@ $user = $_SESSION['usuario'];
 header('Content-type: text/html; charset=ISO-8895-1');
 
 include '../../config/database.php';
-include 'insereTabSubs.php';
 ?>
 
 <!DOCTYPE html>
@@ -29,8 +28,8 @@ include 'insereTabSubs.php';
     <body>
         <div class="container">
             <div class="header">
-                <h2>Substituições de Contrato</h2>
-                <button class="btn-nova">Nova Substituição</button>
+                <h2>Acompanhamento</h2>
+                <a href="menu.php" class="btn-sair">VOLTAR</a>
             </div>
             <table id="substituicoes">
                 <thead>
