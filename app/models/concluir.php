@@ -1,5 +1,5 @@
 <?php
-include '../../config/database.php'; // ajuste caminho
+include '../../config/database.php'; 
 
 $entrada = $_POST['PAT_ENTRADA'] ?? null;
 $saida   = $_POST['PAT_SAIDA'] ?? null;
@@ -25,3 +25,6 @@ try {
 } catch (PDOException $e) {
     echo "Erro: " . $e->getMessage();
 }
+
+header("Location: ../views/acomp.php");
+exit;

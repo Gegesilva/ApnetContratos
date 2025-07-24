@@ -55,3 +55,24 @@ function atualizarEstado() {
     });
   }
   
+
+  function enviarEAtualizar(form) {
+    const formData = new FormData(form);
+
+    fetch(form.action, {
+      method: "POST",
+      body: formData
+    })
+    .then(response => {
+      if (!response.ok) throw new Error("Erro na requisição");
+      return response.text();
+    })
+    .then(() => {
+      window.location.reload(); // recarrega a página após o sucesso
+    })
+    .catch(error => {
+      alert("Erro ao concluir: " + error.message);
+    });
+
+    return false; // impede o submit tradicional
+  }
