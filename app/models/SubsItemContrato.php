@@ -2,7 +2,6 @@
 session_start();
 
 if (!isset($_SESSION['usuario'])) {
-    // Redireciona para login, se não estiver logado
     header("Location: ../../public/login.php");
     exit;
 }
@@ -23,16 +22,34 @@ if (!$contrato || !$itemRetirado || !$itemAdicionado || $user == '') {
     exit;
 }
 
+// Verifica se os dois PATs pertencem ao contrato informado
+$verificaSql = "SELECT COUNT(*) AS total
+                FROM TB02112
+                WHERE TB02112_PAT IN (:itemRetirado, :itemAdicionado)
+                  AND TB02112_CODIGO = :contrato";
+
+$verificaStmt = $pdo->prepare($verificaSql);
+$verificaStmt->execute([
+    ':itemRetirado'   => $itemRetirado,
+    ':itemAdicionado' => $itemAdicionado,
+    ':contrato'       => $contrato
+]);
+
+$total = $verificaStmt->fetchColumn();
+
+if ($total < 2) {
+    echo "Os itens não pertencem ao contrato informado.";
+    exit;
+}
+
+// Cria pedido de compra
 try {
     $stmt = $pdo->prepare("EXEC CriarPedidoCompra 
                                         @CodigosPat = :itemAntigo,
-                                        @User = :user;
-                                    ");
+                                        @User = :user;");
     $stmt->execute([
-        //':itemNovo' => $itemAdicionado,
-        //':contrato' => $contrato,
         ':itemAntigo' => $itemRetirado,
-        ':user' => $user
+        ':user'       => $user
     ]);
 
     insereTabSubs($pdo, $itemRetirado, $itemAdicionado, $contrato, $user);
