@@ -12,7 +12,7 @@ if (!$entrada || !$saida || !$pedido) {
 
 try {
     $sql = "UPDATE SUBS_CONTRATO
-            SET CONCLUIDO_A_N = 'S'
+            SET CONCLUIDO_S_N = 'S'
             WHERE PAT_ENTRADA = :entrada AND PAT_SAIDA = :saida";
 
     $stmt = $pdo->prepare($sql);

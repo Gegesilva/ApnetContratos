@@ -55,7 +55,7 @@ include '../../config/database.php';
                                 ,[STATUS_COMPRA]
                                 ,[OPCAD]
                                 ,[COD_CONTRATO]
-                                ,[CONCLUIDO_A_N]
+                                ,[CONCLUIDO_S_N]
                                 ,[TIPO_OP]
                                 ,[TB02002_CODPRE]
                             FROM [dbo].[SUBS_CONTRATO]
@@ -74,7 +74,7 @@ include '../../config/database.php';
                         echo "<td>{$row['CONCLUIDO_A_N']}</td>";
                         echo "<td>{$row['TIPO_OP']}</td>";
 
-                        if ($row['CONCLUIDO_A_N'] == 'N' && $row['TB02002_CODPRE'] != NULL) {
+                        if ($row['CONCLUIDO_S_N'] == 'N' && $row['TB02002_CODPRE'] != NULL) {
                             echo "<td>
                                 <form method='POST' action='../models/concluir.php'>
                                     <input type='hidden' name='PAT_ENTRADA' value='{$row['PAT_ENTRADA']}'>
