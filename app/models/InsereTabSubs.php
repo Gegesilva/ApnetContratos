@@ -9,7 +9,7 @@ function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user) {
                                                         ,[STATUS_COMPRA]
                                                         ,[OPCAD]
                                                         ,[COD_CONTRATO]
-                                                        ,[CONCLUIDO_A_N]
+                                                        ,[CONCLUIDO_S_N]
                                                         ,[TIPO_OP])
                                                     VALUES
                                                         (:itemNovo

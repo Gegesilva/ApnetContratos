@@ -71,10 +71,10 @@ include '../../config/database.php';
                         echo "<td>{$row['STATUS_COMPRA']}</td>";
                         echo "<td>{$row['OPCAD']}</td>";
                         echo "<td>{$row['COD_CONTRATO']}</td>";
-                        echo "<td>{$row['CONCLUIDO_A_N']}</td>";
+                        echo "<td>{$row['CONCLUIDO_S_N']}</td>";
                         echo "<td>{$row['TIPO_OP']}</td>";
 
-                        if ($row['CONCLUIDO_S_N'] == 'N' && $row['TB02002_CODPRE'] != NULL) {
+                        if ($row['CONCLUIDO_S_N'] == 'N' /* && $row['TB02002_CODPRE'] != NULL */) {
                             echo "<td>
                                 <form method='POST' action='../models/concluir.php'>
                                     <input type='hidden' name='PAT_ENTRADA' value='{$row['PAT_ENTRADA']}'>
@@ -84,7 +84,7 @@ include '../../config/database.php';
                                     <input type='hidden' name='STATUS_COMPRA' value='{$row['STATUS_COMPRA']}'>
                                     <input type='hidden' name='OPCAD' value='{$row['OPCAD']}'>
                                     <input type='hidden' name='COD_CONTRATO' value='{$row['COD_CONTRATO']}'>
-                                    <input type='hidden' name='CONCLUIDO_A_N' value='{$row['CONCLUIDO_A_N']}'>
+                                    <input type='hidden' name='CONCLUIDO_S_N' value='{$row['CONCLUIDO_S_N']}'>
                                     <input type='hidden' name='TIPO_OP' value='{$row['TIPO_OP']}'>
                                     <button type='submit' class='btn-nova'>Concluir</button>
                                 </form>
