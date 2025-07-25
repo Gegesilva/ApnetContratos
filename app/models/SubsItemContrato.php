@@ -25,20 +25,25 @@ if (!$contrato || !$itemRetirado || !$itemAdicionado || $user == '') {
 // Verifica se os dois PATs pertencem ao contrato informado
 $verificaSql = "SELECT COUNT(*) AS total
                 FROM TB02112
-                WHERE TB02112_PAT IN (:itemRetirado, :itemAdicionado)
-                  AND TB02112_CODIGO = :contrato";
+                WHERE TB02112_PAT = :itemRetirado
+                    AND TB02112_CODIGO = :contrato
+                    AND EXISTS (SELECT * FROM TB02054 WHERE TB02054_PAT = :itemAdicionado)
+                    AND NOT EXISTS (SELECT * FROM SUBS_CONTRATO WHERE COD_CONTRATO = :contrato2 AND PAT_ENTRADA = :itemAdicionado2 AND PAT_SAIDA = :itemRetirado2)";
 
 $verificaStmt = $pdo->prepare($verificaSql);
 $verificaStmt->execute([
     ':itemRetirado'   => $itemRetirado,
+    ':itemRetirado2'   => $itemRetirado,
     ':itemAdicionado' => $itemAdicionado,
-    ':contrato'       => $contrato
+    ':itemAdicionado2' => $itemAdicionado,
+    ':contrato'       => $contrato,
+    ':contrato2'      => $contrato
 ]);
 
-$total = $verificaStmt->fetchColumn();
+$total = (INT) $verificaStmt->fetchColumn();
 
-if ($total < 2) {
-    echo "Os itens não pertencem ao contrato informado.";
+if ($total === 0) {
+    echo "Dados incorretos. Confira se os dados informados estão corretos.";
     exit;
 }
 
