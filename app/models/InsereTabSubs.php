@@ -1,4 +1,14 @@
 <?php
+session_start();
+
+if (!isset($_SESSION['usuario'])) {
+    header("Location: ../../public/login.php");
+    exit;
+}
+
+$user = $_SESSION['usuario'];
+
+header('Content-type: text/html; charset=ISO-8895-1');
 function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user) {
     try {
         $stmt = $pdo->prepare("INSERT INTO [dbo].[SUBS_CONTRATO]

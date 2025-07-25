@@ -1,4 +1,15 @@
 <?php
+session_start();
+
+if (!isset($_SESSION['usuario'])) {
+    header("Location: ../../public/login.php");
+    exit;
+}
+
+$user = $_SESSION['usuario'];
+
+header('Content-type: text/html; charset=ISO-8895-1');
+
 include '../../config/database.php'; 
 
 $itemAdicionado = $_POST['PAT_ENTRADA'];
@@ -6,7 +17,7 @@ $itemRetirado   = $_POST['PAT_SAIDA'];
 $pedidoCompra  = $_POST['PEDIDO_COMPRA'];
 $contrato  = $_POST['COD_CONTRATO'];
 
-if (!$entrada || !$saida || !$pedido) {
+if (!$itemAdicionado || !$itemRetirado || !$pedidoCompra || !$contrato) {
     echo "Dados incompletos.";
     exit;
 }
@@ -16,16 +27,23 @@ try {
             SET CONCLUIDO_S_N = 'S'
             WHERE PAT_ENTRADA = :entrada AND PAT_SAIDA = :saida"; */
 
-    $sql = "EXEC @RC = [dbo].[TROCAR_ITEM_CONTRATO] 
-                        @Contrato
-                        ,@ItemRetirado
-                        ,@ItemAdicionado
-                        ,@User";
+    $sql = "EXEC [dbo].[TROCAR_ITEM_CONTRATO] 
+                        @Contrato = :contrato 
+                        ,@ItemRetirado = :itemRetirado
+                        ,@ItemAdicionado = :itemAdicionado
+                        ,@User = '$user'
+                        
+            UPDATE SUBS_CONTRATO
+            SET CONCLUIDO_S_N = 'S'
+            WHERE PAT_ENTRADA = :itemAdicionadoUp AND PAT_SAIDA = :itemRetiradoUp";
 
     $stmt = $pdo->prepare($sql);
     $stmt->execute([
         ':itemAdicionado' => $itemAdicionado,
+        ':itemAdicionadoUp' => $itemAdicionado,
         ':itemRetirado'   => $itemRetirado,
+        ':itemRetiradoUp'   => $itemRetirado,
+        ':contrato'   => $contrato,
     ]);
 
     echo "Substituição concluída com sucesso!";

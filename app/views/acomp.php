@@ -55,7 +55,7 @@ include '../../config/database.php';
                                 ,[STATUS_COMPRA]
                                 ,[OPCAD]
                                 ,[COD_CONTRATO]
-                                ,[CONCLUIDO_S_N]
+                                ,CASE WHEN [CONCLUIDO_S_N] = 'S' THEN 'SIM' ELSE 'NÃO' END AS CONCLUIDO_S_N
                                 ,[TIPO_OP]
                                 ,[TB02002_CODPRE]
                             FROM [dbo].[SUBS_CONTRATO]
