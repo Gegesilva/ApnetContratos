@@ -74,7 +74,7 @@ include '../../config/database.php';
                         echo "<td>{$row['CONCLUIDO_S_N']}</td>";
                         echo "<td>{$row['TIPO_OP']}</td>";
 
-                        if ($row['CONCLUIDO_S_N'] == 'N' /* && $row['TB02002_CODPRE'] != NULL */) {
+                        if ($row['CONCLUIDO_S_N'] == 'NÃO' /* && $row['TB02002_CODPRE'] != NULL */) {
                             echo "<td>
                                 <form method='POST' action='../models/concluir.php'>
                                     <input type='hidden' name='PAT_ENTRADA' value='{$row['PAT_ENTRADA']}'>

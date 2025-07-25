@@ -9,6 +9,9 @@ if (!isset($_SESSION['usuario'])) {
 $user = $_SESSION['usuario'];
 
 header('Content-type: text/html; charset=ISO-8895-1');
+ini_set('max_input_vars', 3000);
+error_reporting(0); // Desativa a exibição de todos os tipos de erros
+ini_set('display_errors', '0'); // Garante que erros não sejam exibidos no navegador
 
 include '../../config/database.php'; 
 

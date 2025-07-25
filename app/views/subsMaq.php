@@ -1,5 +1,5 @@
 <?php
-session_start();
+//session_start();
 
 if (!isset($_SESSION['usuario'])) {
     // Redireciona para login, se não estiver logado
@@ -8,6 +8,7 @@ if (!isset($_SESSION['usuario'])) {
 }
 
 header('Content-type: text/html; charset=ISO-8895-1');
+
 ?>
 
 <!DOCTYPE html>
