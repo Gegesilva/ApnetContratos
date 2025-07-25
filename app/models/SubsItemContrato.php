@@ -22,7 +22,7 @@ if (!$contrato || !$itemRetirado || !$itemAdicionado || $user == '') {
     exit;
 }
 
-// Verifica se os dois PATs pertencem ao contrato informado
+// Verifica se o PAT de saida pertence ao contrato, se o PAT de entrada existe e se essa substituição ja foi iniciada.
 $verificaSql = "SELECT COUNT(*) AS total
                 FROM TB02112
                 WHERE TB02112_PAT = :itemRetirado
