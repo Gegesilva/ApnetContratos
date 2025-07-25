@@ -48,9 +48,18 @@ include '../../config/database.php';
                 try {
                     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-                    $sql = "SELECT [PAT_ENTRADA], [PAT_SAIDA], [PEDIDO_COMPRA], [ORCAMENTO], [STATUS_COMPRA], 
-                                   [OPCAD], [COD_CONTRATO], [CONCLUIDO_A_N], [TIPO_OP]
-                            FROM [dbo].[SUBS_CONTRATO]";
+                    $sql = "SELECT [PAT_ENTRADA]
+                                ,[PAT_SAIDA]
+                                ,[PEDIDO_COMPRA]
+                                ,[ORCAMENTO]
+                                ,[STATUS_COMPRA]
+                                ,[OPCAD]
+                                ,[COD_CONTRATO]
+                                ,[CONCLUIDO_A_N]
+                                ,[TIPO_OP]
+                                ,[TB02002_CODPRE]
+                            FROM [dbo].[SUBS_CONTRATO]
+                            LEFT JOIN TB02002 ON TB02002_CODPRE = PEDIDO_COMPRA";
                     $stmt = $pdo->query($sql);
 
                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -65,7 +74,7 @@ include '../../config/database.php';
                         echo "<td>{$row['CONCLUIDO_A_N']}</td>";
                         echo "<td>{$row['TIPO_OP']}</td>";
 
-                        if ($row['CONCLUIDO_A_N'] == 'N') {
+                        if ($row['CONCLUIDO_A_N'] == 'N' && $row['TB02002_CODPRE'] != NULL) {
                             echo "<td>
                                 <form method='POST' action='../models/concluir.php'>
                                     <input type='hidden' name='PAT_ENTRADA' value='{$row['PAT_ENTRADA']}'>

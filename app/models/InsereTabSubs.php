@@ -14,7 +14,10 @@ function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user) {
                                                     VALUES
                                                         (:itemNovo
                                                         ,:itemAntigo
-                                                        ,(SELECT TOP 1 TB02030_CODIGO FROM TB02030 WHERE TB02030_CONTRATO = :contrato2 ORDER BY TB02030_DTCAD DESC)
+                                                        ,(SELECT TOP 1 
+                                                                TB02030_CODIGO FROM TB02030 
+                                                          WHERE TB02030_CONTRATO = :contrato2
+                                                            AND EXISTS(SELECT * FROM TB02112 WHERE TB02112_CODIGO = :contrato3 AND TB02112_PAT = :itemAntigo2) ORDER BY TB02030_DTCAD DESC)
                                                         ,NULL
                                                         ,NULL
                                                         ,:user
@@ -23,9 +26,11 @@ function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user) {
                                                         ,'SubsItemContrato')");
                                                         $stmt->execute([
                                                             ':itemAntigo' => $itemAntigo,
+                                                            ':itemAntigo2' => $itemAntigo,
                                                             ':itemNovo' => $itemNovo,
                                                             ':contrato' => $contrato,
                                                             ':contrato2' => $contrato,
+                                                            ':contrato3' => $contrato,
                                                             ':user' => $user
                                                         ]);
 
