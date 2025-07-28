@@ -11,13 +11,8 @@ $user = $_SESSION['usuario'];
 header('Content-type: text/html; charset=ISO-8895-1');
 include '../../config/database.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['selecionados'])) {
-    $_SESSION['pats_selecionados'] = $_POST['selecionados'];
-    header("Location: processaSelecionados.php");
-    exit;
-}
 
-$contrato = $_POST['contrato'] ?? '';
+$contrato = $_POST['contrato'];
 if (empty($contrato)) {
     echo "<script>alert('Número do contrato não pode ser vazio.');</script>";
     header("Location: subsRazSocial.php");
