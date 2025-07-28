@@ -47,8 +47,8 @@ $patJson = htmlspecialchars(json_encode($patArray), ENT_QUOTES, 'UTF-8');
       <input type="hidden" id="patArray" name="patArray" value="<?= $patJson ?>" />
 
       <div class="row">
-        <input type="text" id="contrato" placeholder="Novo contrato" disabled oninput="atualizarEstado()" required/>
-        <input type="text" id="cliente" placeholder="Novo Cliente" disabled oninput="atualizarEstado()" required/>
+        <input type="text" id="contrato" placeholder="Novo contrato"  oninput="atualizarEstado()" required/>
+        <input type="text" id="cliente" placeholder="Novo Cliente"  oninput="atualizarEstado()" required/>
       </div>
       <button id="btnAlterar" disabled onclick="abrirModal()">Alterar</button>
       <button id="btnVoltar" onclick="window.location='selecEquips.php'">Voltar</button>
