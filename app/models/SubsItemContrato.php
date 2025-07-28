@@ -1,14 +1,4 @@
 <?php
-//session_start();
-
-if (!isset($_SESSION['usuario'])) {
-    header("Location: ../../public/login.php");
-    exit;
-}
-
-$user = $_SESSION['usuario'];
-
-header('Content-type: text/html; charset=ISO-8895-1');
 
 include '../../config/database.php'; 
 include 'insereTabSubs.php';
@@ -29,6 +19,7 @@ $verificaSql = "SELECT COUNT(*) AS total
                     AND TB02112_CODIGO = :contrato
                     AND TB02112_SITUACAO = 'A'
                     AND EXISTS (SELECT * FROM TB02054 WHERE TB02054_PAT = :itemAdicionado AND TB02054_QTPROD > TB02054_QTPRODS)
+                    AND NOT EXISTS (SELECT * FROM TB02112 WHERE TB02112_PAT = :itemAdicionado3 AND  TB02112_SITUACAO = 'A')
                     AND NOT EXISTS (SELECT * FROM SUBS_CONTRATO WHERE COD_CONTRATO = :contrato2 AND PAT_ENTRADA = :itemAdicionado2 AND PAT_SAIDA = :itemRetirado2)";
 
 $verificaStmt = $pdo->prepare($verificaSql);
@@ -37,6 +28,7 @@ $verificaStmt->execute([
     ':itemRetirado2'  => $itemRetirado,
     ':itemAdicionado' => $itemAdicionado,
     ':itemAdicionado2'=> $itemAdicionado,
+    ':itemAdicionado3'=> $itemAdicionado,
     ':contrato'       => $contrato,
     ':contrato2'      => $contrato
 ]);
