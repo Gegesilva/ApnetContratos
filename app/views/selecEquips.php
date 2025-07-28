@@ -46,7 +46,7 @@ if (empty($contrato)) {
         <table id="substituicoes">
             <thead>
                 <tr>
-                    <th>✔</th>
+                    <th onclick="selecionarTodos()" style="cursor: pointer;">✔</th>
                     <th class="titulo-col-tab" onclick="ordenarTabela(0)">Patrimônio <i class="fa fa-sort"></i></th>
                     <th class="titulo-col-tab" onclick="ordenarTabela(1)">Cod Produto <i class="fa fa-sort"></i></th>
                     <th class="titulo-col-tab" onclick="ordenarTabela(2)">Serie <i class="fa fa-sort"></i></th>
@@ -73,7 +73,7 @@ if (empty($contrato)) {
 
                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                         echo "<tr>";
-                        echo "<td><input type='checkbox' name='selecionados[]' value='{$row['Pat']}'></td>";
+                        echo "<td><input class='chk-item' type='checkbox' name='selecionados[]' value='{$row['Pat']}'></td>";
                         echo "<td>{$row['Pat']}</td>";
                         echo "<td>{$row['Produto']}</td>";
                         echo "<td>{$row['Serie']}</td>";
@@ -88,7 +88,7 @@ if (empty($contrato)) {
         </table>
     </form>
 </div>
-
+<script src="../../public/assets/JS/defCliente.js"></script>
 </body>
 
 </html>
