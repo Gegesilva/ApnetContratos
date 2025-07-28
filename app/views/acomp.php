@@ -33,15 +33,15 @@ include '../../config/database.php';
             <thead>
                 <tr>
                     <th class="titulo-col-tab" onclick="ordenarTabela(0)">PAT Entrada <i class="fa fa-sort" aria-hidden="true"></i></th>
-                    <th>PAT Saída</th>
-                    <th>Pedido Compra</th>
-                    <th>Orçamento</th>
-                    <th>Status Compra</th>
-                    <th>Operador</th>
-                    <th>Contrato</th>
-                    <th>Concluído?</th>
-                    <th>Tipo</th>
-                    <th>Ação</th>
+                    <th class="titulo-col-tab" onclick="ordenarTabela(1)">PAT Saída <i class="fa fa-sort" aria-hidden="true"></i></th>
+                    <th class="titulo-col-tab" onclick="ordenarTabela(2)">Pedido Compra <i class="fa fa-sort" aria-hidden="true"></i></th>
+                    <th class="titulo-col-tab" onclick="ordenarTabela(3)">Orçamento <i class="fa fa-sort" aria-hidden="true"></i></th>
+                    <th class="titulo-col-tab" onclick="ordenarTabela(4)">Status Compra <i class="fa fa-sort" aria-hidden="true"></i></th>
+                    <th class="titulo-col-tab" onclick="ordenarTabela(5)">Operador <i class="fa fa-sort" aria-hidden="true"></i></th>
+                    <th class="titulo-col-tab" onclick="ordenarTabela(6)">Contrato <i class="fa fa-sort" aria-hidden="true"></i></th>
+                    <th class="titulo-col-tab" onclick="ordenarTabela(7)">Concluído? <i class="fa fa-sort" aria-hidden="true"></i></th>
+                    <th class="titulo-col-tab" onclick="ordenarTabela(8)">Tipo <i class="fa fa-sort" aria-hidden="true"></i></th>
+                    <th class="titulo-col-tab" onclick="ordenarTabela(9)">Ação <i class="fa fa-sort" aria-hidden="true"></i></th>
                 </tr>
             </thead>
             <tbody>
@@ -103,6 +103,7 @@ include '../../config/database.php';
             </tbody>
         </table>
     </div>
+    <script src="../../public/assets/JS/script.js"></script>
 </body>
 
 </html>
