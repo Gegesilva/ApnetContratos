@@ -1,37 +1,28 @@
- // Atualiza o array antes de enviar (convertendo JSON para múltiplos inputs hidden)
- function confirmarAlteracao() {
-    const pats = JSON.parse(document.getElementById('patArray').value);
-    const patsHidden = document.getElementById('patsHidden');
-    const contrato = document.getElementById('contrato').value;
-    const cliente = document.getElementById('cliente').value;
+function confirmarAlteracao() {
+  const pats = JSON.parse(document.getElementById('patArray').value);
+  const contrato = document.getElementById('contrato').value.trim();
+  const cliente = document.getElementById('cliente').value.trim();
 
-    // Cria um input para cada valor do array
-    patsHidden.name = 'pats[]';
-    patsHidden.value = pats.join(',');
+  // Preenche os campos escondidos do formulário no modal
+  document.getElementById('patsHidden').value = JSON.stringify(pats);
+  document.getElementById('contratoHidden').value = contrato;
+  document.getElementById('clienteHidden').value = cliente;
 
-    document.getElementById('contratoHidden').value = contrato;
-    document.getElementById('clienteHidden').value = cliente;
+  // Fecha o modal (opcional se você quiser ver ele sumir ao confirmar)
+  // document.getElementById('modalConfirmacao').style.display = 'none';
+  // Formulário será enviado automaticamente pelo botão "submit"
+}
 
-    // Submete o formulário automaticamente
-    patsHidden.form.submit();
-  }
-
-  function fecharModal() {
-    document.getElementById('modalConfirmacao').style.display = 'none';
-  }
-
-  function abrirModal() {
-    document.getElementById('modalConfirmacao').style.display = 'block';
-  }
-
-  function atualizarEstado() {
-    const contrato = document.getElementById('contrato').value.trim();
-    const cliente = document.getElementById('cliente').value.trim();
-    document.getElementById('btnAlterar').disabled = !(contrato && cliente);
-  }
+function abrirModal() {
+  const modal = document.getElementById('modalConfirmacao');
+  modal.style.display = 'flex';
+}
 
 
-  // Controla estado dos botões
+function fecharModal() {
+  document.getElementById('modalConfirmacao').style.display = 'none';
+}
+
 function atualizarEstado() {
   const contrato = document.getElementById("contrato");
   const cliente = document.getElementById("cliente");
@@ -40,7 +31,5 @@ function atualizarEstado() {
   const contratoOK = contrato.value.trim().length >= 3;
   const clienteOK = cliente.value.trim().length >= 3;
 
-  const todosPreenchidos = contratoOK && clienteOK;
-
-  btnAlterar.disabled = !todosPreenchidos;
+  btnAlterar.disabled = !(contratoOK && clienteOK);
 }

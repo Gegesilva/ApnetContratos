@@ -61,7 +61,7 @@ $patJson = htmlspecialchars(json_encode($patArray), ENT_QUOTES, 'UTF-8');
     <!-- Modal -->
     <div class="modal" id="modalConfirmacao">
         <div class="modal-content">
-            <p>Deseja realmente alterar os itens?</p>
+            <p>Deseja realmente substituir o cliente?</p>
             <div class="buttons">
                 <form method="POST" action="processarAlteracao.php">
                     <!-- Envia o array original novamente -->
