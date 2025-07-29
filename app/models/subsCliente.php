@@ -8,8 +8,8 @@ if (!isset($_SESSION['usuario'])) {
 
 $user = $_SESSION['usuario'];
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['patsSelecionados'])) {
-    $_SESSION['pats_selecionados'] = $_POST['patsSelecionados'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['patArray'])) {
+    $_SESSION['pats_selecionados'] = $_POST['patArray'];
 
 }
 
@@ -25,14 +25,21 @@ if (!empty($patArray)) {
 
 header('Content-type: text/html; charset=ISO-8895-1');
 include '../../config/database.php';
-include 'insereTabSubs.php';
 
 $ContratoAnt = $_POST['contratoAnt'];
-$ContratoNov = $_POST['contratoNov'];
+$ContratoNov = $_POST['contrato'];
 $CodCli = $_POST['cliente'];
 
 if (!$ContratoAnt || !$ContratoNov || !$CodCli || !$patFormatado || $user == '') {
+   /*  if (!empty($patArray)) {
+        echo 'Array preenchido';
+    } else {
+        echo 'Array vazio';
+    } */
+
+    echo $ContratoAnt . ' - ' . $ContratoNov . ' - ' . $CodCli . ' - ' . $patFormatado . ' - ' . $user;
     echo "Dados incompletos.";
+   
     exit;
 }
 

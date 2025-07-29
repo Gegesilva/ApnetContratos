@@ -25,6 +25,8 @@ if (!empty($patArray)) {
 
 // Mantém o array original como JSON, para reuso em JavaScript ou reenvio oculto
 $patJson = htmlspecialchars(json_encode($patArray), ENT_QUOTES, 'UTF-8');
+
+$ContratoAnt = $_POST['contrato'] = isset($_POST['contrato']) ? $_POST['contrato'] : '';
 ?>
 
 <!DOCTYPE html>
@@ -47,11 +49,12 @@ $patJson = htmlspecialchars(json_encode($patArray), ENT_QUOTES, 'UTF-8');
                 required><?= $patFormatado ?></textarea>
 
             <!-- Campo oculto com array original em JSON -->
-            <input type="hidden" id="patArray" name="patsSelecionados" value="<?= $patJson ?>" />
+            <input type="hidden" id="patArray" name="patArray" value="<?= $patJson ?>" />
 
             <div class="row">
                 <input type="text" name="contratoNov" id="contrato" placeholder="Novo contrato" oninput="atualizarEstado()" required />
-                <input type="text" name="cliente" id="cliente" placeholder="Novo Cliente" oninput="atualizarEstado()" required />
+                <input type="text" maxlength="8" name="clienteInp" id="clienteInp" placeholder="Novo Cliente" oninput="atualizarEstado()" required />
+                <input type="hidden" name="contratoAnt" id="contratoAnt" value="<?=$ContratoAnt?>">
             </div>
             <button id="btnAlterar" disabled onclick="abrirModal()">Alterar</button>
             <button id="btnVoltar" onclick="window.location='selecEquips.php'">Voltar</button>
@@ -63,10 +66,11 @@ $patJson = htmlspecialchars(json_encode($patArray), ENT_QUOTES, 'UTF-8');
         <div class="modal-content">
             <p>Deseja realmente substituir o cliente?</p>
             <div class="buttons">
-                <form method="POST" action="processarAlteracao.php">
+                <form method="GET" action="../models/subsCliente.php">
                     <!-- Envia o array original novamente -->
                     <input type="hidden" name="pats[]" id="patsHidden" />
                     <input type="hidden" name="contrato" id="contratoHidden" />
+                    <input type="hidden" name="contratoAnt" id="contratoAntHidden" />
                     <input type="hidden" name="cliente" id="clienteHidden" />
                     <button type="submit">Confirmar</button>
                 </form>

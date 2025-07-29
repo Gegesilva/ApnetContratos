@@ -1,11 +1,13 @@
 function confirmarAlteracao() {
   const pats = JSON.parse(document.getElementById('patArray').value);
   const contrato = document.getElementById('contrato').value.trim();
-  const cliente = document.getElementById('cliente').value.trim();
+  const contratoAnt = document.getElementById('contratoAnt').value.trim();
+  const cliente = document.getElementById('clienteInp').value.trim();
 
   // Preenche os campos escondidos do formulário no modal
   document.getElementById('patsHidden').value = JSON.stringify(pats);
   document.getElementById('contratoHidden').value = contrato;
+  document.getElementById('contratoAntHidden').value = contratoAnt;
   document.getElementById('clienteHidden').value = cliente;
 
   // Fecha o modal (opcional se você quiser ver ele sumir ao confirmar)
@@ -25,13 +27,14 @@ function fecharModal() {
 
 function atualizarEstado() {
   const contrato = document.getElementById("contrato");
-  const cliente = document.getElementById("cliente");
+  const cliente = document.getElementById("clienteInp");
   const btnAlterar = document.getElementById("btnAlterar");
 
   const contratoOK = contrato.value.trim().length >= 3;
-  const clienteOK = cliente.value.trim().length >= 3;
+  const clienteOK = cliente.value.trim().length == 8;
 
   btnAlterar.disabled = !(contratoOK && clienteOK);
+
 }
 
 

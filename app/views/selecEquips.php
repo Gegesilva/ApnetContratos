@@ -86,6 +86,7 @@ if (empty($contrato)) {
                 ?>
             </tbody>
         </table>
+        <input type="hidden" name="contrato" value="<?=$contrato?>">
     </form>
 </div>
 <script src="../../public/assets/JS/defCliente.js"></script>
