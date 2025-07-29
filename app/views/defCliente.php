@@ -20,7 +20,7 @@ $patArray = isset($_SESSION['pats_selecionados']) ? $_SESSION['pats_selecionados
 // Transforma o array em string: (009677, 023650, ...)
 $patFormatado = '';
 if (!empty($patArray)) {
-    $patFormatado =  implode(', ', $patArray) ;
+    $patFormatado = implode(', ', $patArray);
 }
 
 // Mantém o array original como JSON, para reuso em JavaScript ou reenvio oculto
@@ -52,9 +52,11 @@ $ContratoAnt = $_POST['contrato'] = isset($_POST['contrato']) ? $_POST['contrato
             <input type="hidden" id="patArray" name="patArray" value="<?= $patJson ?>" />
 
             <div class="row">
-                <input type="text" name="contratoNov" id="contrato" placeholder="Novo contrato" oninput="atualizarEstado()" required />
-                <input type="text" maxlength="8" name="clienteInp" id="clienteInp" placeholder="Novo Cliente" oninput="atualizarEstado()" required />
-                <input type="hidden" name="contratoAnt" id="contratoAnt" value="<?=$ContratoAnt?>">
+                <input type="text" name="contratoNov" id="contrato" placeholder="Novo contrato"
+                    oninput="atualizarEstado()" required />
+                <input type="text" maxlength="8" name="clienteInp" id="clienteInp" placeholder="Novo Cliente"
+                    oninput="atualizarEstado()" required />
+                <input type="hidden" name="contratoAnt" id="contratoAnt" value="<?= $ContratoAnt ?>">
             </div>
             <button id="btnAlterar" disabled onclick="abrirModal()">Alterar</button>
             <button id="btnVoltar" onclick="window.location='selecEquips.php'">Voltar</button>
@@ -62,22 +64,24 @@ $ContratoAnt = $_POST['contrato'] = isset($_POST['contrato']) ? $_POST['contrato
     </div>
 
     <!-- Modal -->
+    <!-- Modal -->
     <div class="modal" id="modalConfirmacao">
         <div class="modal-content">
             <p>Deseja realmente substituir o cliente?</p>
             <div class="buttons">
-                <form method="GET" action="../models/subsCliente.php">
-                    <!-- Envia o array original novamente -->
-                    <input type="hidden" name="pats[]" id="patsHidden" />
-                    <input type="hidden" name="contrato" id="contratoHidden" />
-                    <input type="hidden" name="contratoAnt" id="contratoAntHidden" />
-                    <input type="hidden" name="cliente" id="clienteHidden" />
-                    <button type="submit">Confirmar</button>
-                </form>
+                <!-- Inputs ocultos para envio via JS -->
+                <input type="hidden" name="pats" id="patsHidden" />
+                <input type="hidden" name="contrato" id="contratoHidden" />
+                <input type="hidden" name="contratoAnt" id="contratoAntHidden" />
+                <input type="hidden" name="cliente" id="clienteHidden" />
+
+                <!-- Botão chama a função JS -->
+                <button onclick="confirmarAlteracao()">Confirmar</button>
                 <button onclick="fecharModal()">Cancelar</button>
             </div>
         </div>
     </div>
+
     <script src="../../public/assets/JS/defCliente.js"></script>
 </body>
 

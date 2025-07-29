@@ -1,19 +1,41 @@
 function confirmarAlteracao() {
-  const pats = JSON.parse(document.getElementById('patArray').value);
-  const contrato = document.getElementById('contrato').value.trim();
-  const contratoAnt = document.getElementById('contratoAnt').value.trim();
-  const cliente = document.getElementById('clienteInp').value.trim();
+  const contrato = document.getElementById("contrato").value;
+  const contratoAnt = document.getElementById("contratoAnt").value;
+  const cliente = document.getElementById("clienteInp").value;
+  const pats = document.getElementById("patArray").value;
 
-  // Preenche os campos escondidos do formulário no modal
-  document.getElementById('patsHidden').value = JSON.stringify(pats);
-  document.getElementById('contratoHidden').value = contrato;
-  document.getElementById('contratoAntHidden').value = contratoAnt;
-  document.getElementById('clienteHidden').value = cliente;
+  // Preencher os inputs ocultos dentro do modal
+  document.getElementById("contratoHidden").value = contrato;
+  document.getElementById("contratoAntHidden").value = contratoAnt;
+  document.getElementById("clienteHidden").value = cliente;
+  document.getElementById("patsHidden").value = pats;
 
-  // Fecha o modal (opcional se você quiser ver ele sumir ao confirmar)
-  // document.getElementById('modalConfirmacao').style.display = 'none';
-  // Formulário será enviado automaticamente pelo botão "submit"
+  // Criar um formulário e enviá-lo por POST
+  const form = document.createElement("form");
+  form.method = "POST";
+  form.action = "../models/subsCliente.php";
+
+  const addHidden = (name, value) => {
+    const input = document.createElement("input");
+    input.type = "hidden";
+    input.name = name;
+    input.value = value;
+    form.appendChild(input);
+  };
+
+  addHidden("contrato", contrato);
+  addHidden("contratoAnt", contratoAnt);
+  addHidden("cliente", cliente);
+  addHidden("patArray", pats);
+
+  document.body.appendChild(form);
+  form.submit();
 }
+
+
+
+
+
 
 function abrirModal() {
   const modal = document.getElementById('modalConfirmacao');
