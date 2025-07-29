@@ -42,16 +42,16 @@ $patJson = htmlspecialchars(json_encode($patArray), ENT_QUOTES, 'UTF-8');
     <div class="container">
         <h2>Defina o contrato novo e o cliente</h2>
         <div class="form-group">
-            <textarea name="patSelect" id="patSelec" rows="4"
+            <textarea name="patSelect" id="patSelec" rows="4" disabled
                 style="resize: vertical; width: 100%; max-height: 120px; overflow-y: auto;" readonly
                 required><?= $patFormatado ?></textarea>
 
             <!-- Campo oculto com array original em JSON -->
-            <input type="hidden" id="patArray" name="patArray" value="<?= $patJson ?>" />
+            <input type="hidden" id="patArray" name="patsSelecionados" value="<?= $patJson ?>" />
 
             <div class="row">
-                <input type="text" id="contrato" placeholder="Novo contrato" oninput="atualizarEstado()" required />
-                <input type="text" id="cliente" placeholder="Novo Cliente" oninput="atualizarEstado()" required />
+                <input type="text" name="contratoNov" id="contrato" placeholder="Novo contrato" oninput="atualizarEstado()" required />
+                <input type="text" name="cliente" id="cliente" placeholder="Novo Cliente" oninput="atualizarEstado()" required />
             </div>
             <button id="btnAlterar" disabled onclick="abrirModal()">Alterar</button>
             <button id="btnVoltar" onclick="window.location='selecEquips.php'">Voltar</button>
