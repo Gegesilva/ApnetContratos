@@ -24,9 +24,11 @@ if (!empty($patArray)) {
 header('Content-type: text/html; charset=ISO-8859-1');
 include '../../config/database.php';
 
-$ContratoAnt = $_POST['contratoAnt'] ?? '';
-$ContratoNov = $_POST['contrato'] ?? '';
-$CodCli = $_POST['cliente'] ?? '';
+$ContratoAnt = $_POST['contratoAnt'];
+$ContratoNov = $_POST['contrato'];
+$CodCli = $_POST['cliente'];
+
+
 
 
 if (empty($ContratoAnt) || empty($ContratoNov) || empty($CodCli) || empty($patFormatado) || empty($user)) {
