@@ -37,6 +37,16 @@ if (empty($ContratoAnt) || empty($ContratoNov) || empty($CodCli) || empty($patFo
     exit;
 }
 
+// Verifica se o contrato novo já existe
+$sqlCheck = "SELECT COUNT(*) FROM TB02111 WHERE TB02111_CODIGO = :ContratoNov";
+$stmtCheck = $pdo->prepare($sqlCheck);
+$stmtCheck->execute([':ContratoNov' => $ContratoNov]);
+$count = $stmtCheck->fetchColumn();
+if ($count > 0) {
+    echo "<script>alert('Contrato novo ja existe.'); window.location.href = '../views/selecEquips.php';</script>";
+    exit;
+}
+
 try {
     $sql = "EXEC [dbo].[SUBS_CILENTE_CONTRATO]
                 @ContratoAnt = :ContratoAnt,

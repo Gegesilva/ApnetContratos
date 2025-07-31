@@ -21,6 +21,12 @@ if (empty($contrato)) {
     header("Location: subsRazSocial.php");
     exit;
 }
+
+// Pega nome do contrato anterior
+$sqlNome = "SELECT TB01008_NOME FROM TB02111 LEFT JOIN TB01008 ON TB01008_CODIGO = TB02111_CODCLI WHERE TB02111_CODIGO = :Contrato";
+$stmtNome = $pdo->prepare($sqlNome);
+$stmtNome->execute([':Contrato' => $contrato]);
+$nome = $stmtNome->fetchColumn();
 ?>
 
 <!DOCTYPE html>
@@ -38,7 +44,7 @@ if (empty($contrato)) {
 <div class="container">
     <form action="defCliente.php" method="POST">
         <div class="header">
-            <h2>Equipamentos</h2>
+            <h2 class="titulo"><?=$nome?></h2>
             <div>
                 <button type="submit" class="btn-selec">SELECIONAR</button>
                 <button type="button" onclick="window.location.href= 'subsRazSocial.php'" class="btn-sair">← Voltar</button>

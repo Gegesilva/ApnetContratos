@@ -40,8 +40,8 @@
 
   .header h2 {
     margin: 0;
-    font-size: 22px;
-    color: #333;
+    font-size: 18px;
+    color: var(--azul-principal);
   }
 
   .btn-sair {
