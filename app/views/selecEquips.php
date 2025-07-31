@@ -12,7 +12,10 @@ header('Content-type: text/html; charset=ISO-8895-1');
 include '../../config/database.php';
 
 
-$contrato = $_POST['contrato'];
+$contrato = isset($_POST['contrato']) ? $_POST['contrato'] : $_SESSION['contrato'];
+
+$_SESSION['contrato'] = $contrato;
+
 if (empty($contrato)) {
     echo "<script>alert('Número do contrato não pode ser vazio.');</script>";
     header("Location: subsRazSocial.php");
@@ -37,9 +40,9 @@ if (empty($contrato)) {
         <div class="header">
             <h2>Equipamentos</h2>
             <div>
-                <input type="hidden" name="contrato" value="<?= htmlspecialchars($contrato) ?>">
-                <button type="submit" class="btn-sair">SELECIONAR</button>
-                <a href="subsRazSocial.php" class="btn-sair">VOLTAR</a>
+                <button type="submit" class="btn-selec">SELECIONAR</button>
+                <button type="button" onclick="window.location.href= 'subsRazSocial.php'" class="btn-sair">← Voltar</button>
+                
             </div>
         </div>
 
@@ -86,7 +89,9 @@ if (empty($contrato)) {
                 ?>
             </tbody>
         </table>
-        <input type="hidden" name="contrato" value="<?=$contrato?>">
+        <input type="hidden" name="contrato" value="<?= htmlspecialchars($contrato) ?>">
+        
+        
     </form>
 </div>
 <script src="../../public/assets/JS/defCliente.js"></script>

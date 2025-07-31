@@ -2,6 +2,8 @@
     --azul-principal: #2b669c;
     --cinza-tabela: #f4f4f4;
     --branco: #ffffff;
+    --preto: black;
+    --laranja: rgb(245, 212, 151);
     --azul-botao: #007bff;
     --azul-botao-hover: #0056b3;
   }
@@ -57,6 +59,24 @@
 
   .btn-sair:hover {
     background-color: var(--azul-botao-hover);
+  }
+
+  .btn-selec {
+    background-color: var(--laranja);
+    color: var(--preto);
+    padding: 5px 9px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+    text-decoration: none;
+  }
+
+  .btn-selec:hover {
+    background-color: var(--azul-botao-hover);
+    color: var(--branco);
   }
 
   table {
