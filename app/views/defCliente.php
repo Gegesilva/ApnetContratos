@@ -63,7 +63,7 @@ $patJson = htmlspecialchars(json_encode($patArray), ENT_QUOTES, 'UTF-8');
         <input type="hidden" id="patArray" name="patArray" value="<?= $patJson ?>" />
 
         <div class="row">
-            <input type="text" name="contratoNov" id="contrato" placeholder="Código do novo contrato"
+            <input type="text" maxlength="12" name="contratoNov" id="contrato" placeholder="Código do novo contrato"
                 oninput="atualizarEstado()" required />
             <input type="text" maxlength="8" minlength="8" name="clienteInp" id="clienteInp" placeholder="Código do novo cliente"
                 oninput="atualizarEstado()" required />

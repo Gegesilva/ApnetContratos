@@ -1,4 +1,5 @@
-ALTER PROCEDURE [dbo].[TROCAR_ITEM_CONTRATO]
+
+CREATE PROCEDURE [dbo].[TROCAR_ITEM_CONTRATO]
     @Contrato VARCHAR(10),
     @ItemRetirado VARCHAR(20),
     @ItemAdicionado VARCHAR(20),
@@ -73,7 +74,7 @@ BEGIN
            ,[TB02112_NUMSERIEINTEGRADO]
            ,[TB02112_PRECONTRATO]
            ,[TB02112_TIPOSLA])
-    SELECT 
+    SELECT TOP 1
            GETDATE()
            ,@User
            ,GETDATE()
@@ -106,7 +107,7 @@ BEGIN
            ,A.[TB02112_CONDPAG]
            ,A.[TB02112_STATUS]
            ,A.[TB02112_CODVENDA]
-           ,A.[TB02112_SITUACAO]
+           ,'A'
            ,A.[TB02112_DTINATIVO]
            ,A.[TB02112_LOCAL]
            ,A.[TB02112_IBTRACKER1]
@@ -160,3 +161,5 @@ BEGIN
 	AND TB02112_PAT = @ItemRetirado
 END
 GO
+
+

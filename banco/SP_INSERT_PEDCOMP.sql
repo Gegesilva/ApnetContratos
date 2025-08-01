@@ -1,4 +1,5 @@
-ALTER PROCEDURE CriarPedidoCompra
+
+CREATE PROCEDURE [dbo].[CriarPedidoCompra]
     @CodigosPat VARCHAR(MAX),
     @User VARCHAR(30)
 AS
@@ -304,3 +305,6 @@ INSERT INTO [dbo].[TB02030](
 
 				
 END
+GO
+
+
