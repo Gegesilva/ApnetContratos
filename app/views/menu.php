@@ -33,7 +33,7 @@ header('Content-type: text/html; charset=ISO-8895-1');
             <a class="acomp-button" href="acomp.php">ACOMPANHAMENTO</a>
             <a class="menu-button" href="subsMaq.php">SUBS ITEM</a>
             <a class="menu-button" href="subsRazSocial.php">SUBS RAZÃO SOCIAL</a>
-            <!-- <a class="menu-button" href="saldocredcli/public/index.php">SALDO CRÉDITOS CLIENTES</a>
+            <!-- <a class="menu-button" href="">SUBS EXTRAVIO</a>
             <a class="menu-button" href="saldocredforn/public/index.php">SALDO CRÉDITOS FORNECEDORES</a>
             <a class="menu-button" href="beneficios/public/index.php">SALDO BENEFÍCIOS</a> -->
             <!-- <a class="menu-button" href="">SALDO ESTOQUE</a> -->

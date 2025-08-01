@@ -27,7 +27,7 @@ include '../../config/database.php';
     <div class="container">
         <div class="header">
             <h2>Acompanhamento</h2>
-            <a href="menu.php" class="btn-sair">VOLTAR</a>
+            <button type="button" onclick="window.location.href= 'menu.php'" class="btn-sair">← Voltar</button>
         </div>
         <table id="substituicoes">
             <thead>

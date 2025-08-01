@@ -2,13 +2,11 @@
 session_start();
 
 if (!isset($_SESSION['usuario'])) {
-    // Redireciona para login, se não estiver logado
     header("Location: ../../public/login.php");
     exit;
 }
 
 header('Content-type: text/html; charset=ISO-8895-1');
-
 ?>
 
 <!DOCTYPE html>
@@ -25,21 +23,40 @@ header('Content-type: text/html; charset=ISO-8895-1');
     <h2>Substituição de Item no Contrato</h2>
     <div class="form-group">
       <input type="text" id="contrato" placeholder="Número do Contrato" oninput="atualizarEstado()" required/>
+      
       <div class="row">
         <input type="text" id="itemRetirado" placeholder="Item Retirado" disabled oninput="atualizarEstado()" required/>
         <input type="text" id="itemAdicionado" placeholder="Item Adicionado" disabled oninput="atualizarEstado()" required/>
       </div>
-      <button id="btnAlterar" disabled onclick="abrirModal()">Alterar</button>
-      <button id="btnAlterar" onclick="window.location='menu.php'">Voltar</button>
+
+      <!-- Checkbox -->
+      <div class="check-container">
+        <input type="checkbox" class="check" id="chkOpcao">
+        <label for="chkOpcao">Extravio?</label>
+      </div>
+
+      <button id="btnAlterar" disabled onclick="abrirModalVerificacao()">Alterar</button>
+      <button onclick="window.location='menu.php'">Voltar</button>
     </div>
   </div>
 
-  <!-- Modal -->
+  <!-- Modal original -->
   <div class="modal" id="modalConfirmacao">
     <div class="modal-content">
-      <p>Deseja realmente alterar os itens?</p>
+      <p>Deseja realmente trocar os itens?</p>
       <div class="buttons">
         <button onclick="confirmarAlteracao()">Confirmar</button>
+        <button onclick="fecharModal()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Novo modal (quando checkbox marcado) -->
+  <div class="modal" id="modalAlternativo">
+    <div class="modal-content">
+      <p>Deseja realmente trocar os itens extraviados?</p>
+      <div class="buttons">
+        <button onclick="confirmarAlteracaoAlternativa()">Confirmar</button>
         <button onclick="fecharModal()">Cancelar</button>
       </div>
     </div>

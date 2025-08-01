@@ -1,123 +1,138 @@
-    * {
-      box-sizing: border-box;
-    }
+* {
+  box-sizing: border-box;
+}
 
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: #2b669c;
-      font-family: Arial, sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-    }
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #2b669c;
+  font-family: Arial, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
 
-    .container {
-      background-color: #fff;
-      padding: 30px 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      width: 90%;
-      max-width: 500px;
-    }
+.container {
+  background-color: #fff;
+  padding: 30px 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  width: 90%;
+  max-width: 500px;
+}
 
-    h2 {
-      text-align: center;
-      color: #2b669c;
-      margin-bottom: 25px;
-      font-size: 22px;
-    }
+h2 {
+  text-align: center;
+  color: #2b669c;
+  margin-bottom: 25px;
+  font-size: 22px;
+}
 
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
 
-    .form-group input {
-      padding: 12px;
-      font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      outline: none;
-      width: 100%;
-    }
+.form-group input {
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  width: 100%;
+}
 
-    .row {
-      display: flex;
-      gap: 10px;
-      flex-direction: row;
-    }
+.row {
+  display: flex;
+  gap: 10px;
+  flex-direction: row;
+}
 
-    .row input {
-      flex: 1;
-    }
+.row input {
+  flex: 1;
+}
 
-    @media (max-width: 600px) {
-      .row {
-        flex-direction: column;
-      }
-    }
+/* Estilo melhorado para checkbox */
+.check-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  color: #333;
+}
 
-    input:disabled {
-      background-color: #eee;
-      color: #999;
-      cursor: not-allowed;
-    }
+.check-container input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
 
-    button {
-      padding: 12px;
-      font-size: 16px;
-      border: none;
-      border-radius: 6px;
-      background-color: #2b669c;
-      color: #fff;
-      cursor: pointer;
-      transition: 0.2s ease;
-    }
+@media (max-width: 600px) {
+  .row {
+    flex-direction: column;
+  }
+}
 
-    button:disabled {
-      background-color: #aaa;
-      cursor: not-allowed;
-    }
+input:disabled {
+  background-color: #eee;
+  color: #999;
+  cursor: not-allowed;
+}
 
-    /* Modal */
-    .modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0,0,0,0.5);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 999;
-    }
+button {
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  background-color: #2b669c;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
 
-    .modal-content {
-      background-color: #fff;
-      padding: 30px;
-      border-radius: 12px;
-      text-align: center;
-      max-width: 400px;
-      width: 90%;
-    }
+button:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+}
 
-    .modal-content p {
-      margin-bottom: 20px;
-      font-size: 18px;
-    }
+/* Modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
 
-    .modal-content .buttons {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
+.modal-content {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+}
 
-    .modal-content .buttons button {
-      flex: 1 1 45%;
-      min-width: 100px;
-    }
+.modal-content p {
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
+.modal-content .buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.modal-content .buttons button {
+  flex: 1 1 45%;
+  min-width: 100px;
+}
