@@ -1,7 +1,9 @@
 <?php
 
-include '../../config/database.php'; 
+include '../../config/database.php';
 include 'insereTabSubs.php';
+
+$user = $_SESSION['usuario'];
 
 $contrato = $_POST['contrato'] ?? '';
 $itemRetirado = $_POST['itemRetirado'] ?? '';
@@ -24,13 +26,13 @@ $verificaSql = "SELECT COUNT(*) AS total
 
 $verificaStmt = $pdo->prepare($verificaSql);
 $verificaStmt->execute([
-    ':itemRetirado'   => $itemRetirado,
-    ':itemRetirado2'  => $itemRetirado,
+    ':itemRetirado' => $itemRetirado,
+    ':itemRetirado2' => $itemRetirado,
     ':itemAdicionado' => $itemAdicionado,
-    ':itemAdicionado2'=> $itemAdicionado,
-    ':itemAdicionado3'=> $itemAdicionado,
-    ':contrato'       => $contrato,
-    ':contrato2'      => $contrato
+    ':itemAdicionado2' => $itemAdicionado,
+    ':itemAdicionado3' => $itemAdicionado,
+    ':contrato' => $contrato,
+    ':contrato2' => $contrato
 ]);
 
 $total = (INT) $verificaStmt->fetchColumn();
@@ -40,17 +42,34 @@ if ($total === 0) {
     exit;
 }
 
-// Cria pedido de orçamento
+// Cria orçamento
 try {
-    $stmt = $pdo->prepare("EXEC  CRIA_ORC
-                                        @Pat = '025748',
-                                        @Contrato = '2581',
-                                        @User = 'GEGE',
-                                        @SituacaoContrato = 'I'");
+    $stmt = $pdo->prepare("
+                            EXEC CRIA_ORC
+                                @Pat = :itemAntigo,
+                                @Contrato = :Contrato,
+                                @User = :user,
+                                @SituacaoContrato = 'I';
+");
     $stmt->execute([
         ':itemAntigo' => $itemRetirado,
-        ':user'       => $user
+        ':Contrato' => $contrato,
+        ':user' => $user
     ]);
+
+    $stmt2 = $pdo->prepare("
+                            EXEC CRIA_ORC
+                                @Pat = :itemNovo,
+                                @Contrato = :Contrato,
+                                @User = :user,
+                                @SituacaoContrato = 'A';
+");
+    $stmt2->execute([
+        ':itemNovo' => $itemAdicionado,
+        ':Contrato' => $contrato,
+        ':user' => $user
+    ]);
+
 
     insereTabSubs($pdo, $itemRetirado, $itemAdicionado, $contrato, $user);
 
