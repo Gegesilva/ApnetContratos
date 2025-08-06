@@ -15,10 +15,9 @@ include '../../config/database.php';
 
 $itemAdicionado = $_POST['PAT_ENTRADA'];
 $itemRetirado   = $_POST['PAT_SAIDA'];
-$pedidoCompra  = $_POST['PEDIDO_COMPRA'];
 $contrato  = $_POST['COD_CONTRATO'];
 
-if (!$itemAdicionado || !$itemRetirado || !$pedidoCompra || !$contrato) {
+if (!$itemAdicionado || !$itemRetirado || !$contrato) {
     echo "Dados incompletos.";
     exit;
 }
