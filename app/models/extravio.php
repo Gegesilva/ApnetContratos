@@ -65,10 +65,10 @@ try {
                                 @User = :user
     ");
     $stmt2->execute([
-        ':itemRetirado' => $itemRetirado,  // Garantir que o parâmetro é passado corretamente
-        ':itemNovo' => $itemAdicionado,   // Garantir que o parâmetro é passado corretamente
-        ':Contrato' => $contrato,         // Garantir que o parâmetro é passado corretamente
-        ':user' => $user                  // Garantir que o parâmetro é passado corretamente
+        ':itemRetirado' => $itemRetirado, 
+        ':itemNovo' => $itemAdicionado,   
+        ':Contrato' => $contrato,         
+        ':user' => $user                  
     ]);
 
     insereTabSubs($pdo, $itemRetirado, $itemAdicionado, $contrato, $user);
