@@ -45,40 +45,38 @@ if ($total === 0) {
 // Cria orçamento
 try {
     $stmt = $pdo->prepare("
-                            EXEC CRIA_ORC
+                            EXEC CRIA_ORC_SAIDA
                                 @Pat = :itemAntigo,
                                 @Contrato = :Contrato,
-                                @User = :user,
-                                @SituacaoContrato = 'I';
-");
+                                @User = :user
+    ");
     $stmt->execute([
         ':itemAntigo' => $itemRetirado,
         ':Contrato' => $contrato,
         ':user' => $user
     ]);
 
+    // Segundo EXEC com parâmetros corrigidos
     $stmt2 = $pdo->prepare("
-                            EXEC CRIA_ORC
-                                @Pat = :itemNovo,
-                                @Contrato = :Contrato,
-                                @User = :user,
-                                @SituacaoContrato = 'A';
-");
+                            EXEC CRIA_ORC_ENT
+                                @PatSai = :itemRetirado,  -- Parâmetro de saída
+                                @PatEnt = :itemNovo,     -- Parâmetro de entrada
+                                @Contrato = :Contrato,   
+                                @User = :user
+    ");
     $stmt2->execute([
-        ':itemNovo' => $itemAdicionado,
-        ':Contrato' => $contrato,
-        ':user' => $user
+        ':itemRetirado' => $itemRetirado,  // Garantir que o parâmetro é passado corretamente
+        ':itemNovo' => $itemAdicionado,   // Garantir que o parâmetro é passado corretamente
+        ':Contrato' => $contrato,         // Garantir que o parâmetro é passado corretamente
+        ':user' => $user                  // Garantir que o parâmetro é passado corretamente
     ]);
-
 
     insereTabSubs($pdo, $itemRetirado, $itemAdicionado, $contrato, $user);
 
-    if ($stmt->rowCount()) {
-        echo "Alteração feita com sucesso!";
-    } else {
-        echo "Nenhum item foi alterado.";
-    }
-
+    echo "Alteração feita com sucesso!";
 } catch (PDOException $e) {
     echo "Erro ao alterar: " . $e->getMessage();
+    echo "patsai: " . $itemRetirado . " - patent: " . $itemAdicionado . " - contrato: " . $contrato . " - user: " . $user;
 }
+
+
