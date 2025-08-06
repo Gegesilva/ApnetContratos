@@ -32,8 +32,8 @@ include '../../config/database.php';
         <table id="substituicoes">
             <thead>
                 <tr>
-                    <th class="titulo-col-tab" onclick="ordenarTabela(0)">PAT Entrada <i class="fa fa-sort" aria-hidden="true"></i></th>
                     <th class="titulo-col-tab" onclick="ordenarTabela(1)">PAT Saída <i class="fa fa-sort" aria-hidden="true"></i></th>
+                    <th class="titulo-col-tab" onclick="ordenarTabela(0)">PAT Entrada <i class="fa fa-sort" aria-hidden="true"></i></th>
                     <th class="titulo-col-tab" onclick="ordenarTabela(2)">Pedido Compra <i class="fa fa-sort" aria-hidden="true"></i></th>
                     <th class="titulo-col-tab" onclick="ordenarTabela(3)">Orçamento <i class="fa fa-sort" aria-hidden="true"></i></th>
                     <th class="titulo-col-tab" onclick="ordenarTabela(4)">Status Compra <i class="fa fa-sort" aria-hidden="true"></i></th>
@@ -65,8 +65,8 @@ include '../../config/database.php';
 
                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                         echo "<tr>";
-                        echo "<td>{$row['PAT_ENTRADA']}</td>";
                         echo "<td>{$row['PAT_SAIDA']}</td>";
+                        echo "<td>{$row['PAT_ENTRADA']}</td>";
                         echo "<td>{$row['PEDIDO_COMPRA']}</td>";
                         echo "<td>{$row['ORCAMENTO']}</td>";
                         echo "<td>{$row['STATUS_COMPRA']}</td>";
@@ -78,8 +78,8 @@ include '../../config/database.php';
                         if ($row['CONCLUIDO_S_N'] == 'NÃO' /* && $row['TB02002_CODPRE'] != NULL */) {
                             echo "<td>
                                 <form method='POST' action='../models/concluir.php'>
-                                    <input type='hidden' name='PAT_ENTRADA' value='{$row['PAT_ENTRADA']}'>
                                     <input type='hidden' name='PAT_SAIDA' value='{$row['PAT_SAIDA']}'>
+                                    <input type='hidden' name='PAT_ENTRADA' value='{$row['PAT_ENTRADA']}'>
                                     <input type='hidden' name='PEDIDO_COMPRA' value='{$row['PEDIDO_COMPRA']}'>
                                     <input type='hidden' name='ORCAMENTO' value='{$row['ORCAMENTO']}'>
                                     <input type='hidden' name='STATUS_COMPRA' value='{$row['STATUS_COMPRA']}'>

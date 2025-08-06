@@ -50,7 +50,7 @@ try {
         ':user'       => $user
     ]);
 
-    insereTabSubs($pdo, $itemRetirado, $itemAdicionado, $contrato, $user);
+    insereTabSubs($pdo, $itemRetirado, $itemAdicionado, $contrato, $user, 'S');
 
     if ($stmt->rowCount()) {
         echo "Alteração feita com sucesso!";

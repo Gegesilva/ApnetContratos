@@ -44,39 +44,53 @@ if ($total === 0) {
 
 // Cria orçamento
 try {
+    // Inicia a transação
+    $pdo->beginTransaction();
+
+    // Primeira execução (CRIA_ORC_SAIDA)
     $stmt = $pdo->prepare("
-                            EXEC CRIA_ORC_SAIDA
-                                @Pat = :itemAntigo,
-                                @Contrato = :Contrato,
-                                @User = :user
+        EXEC CRIA_ORC_SAIDA
+            @Pat = :itemAntigo,
+            @Contrato = :Contrato,
+            @User = :user
     ");
-    $stmt->execute([
+
+    if (!$stmt->execute([
         ':itemAntigo' => $itemRetirado,
         ':Contrato' => $contrato,
         ':user' => $user
-    ]);
+    ])) {
+        throw new Exception("Erro na execução da primeira consulta.");
+    }
 
-    // Segundo EXEC com parâmetros corrigidos
+    // Segunda execução (CRIA_ORC_ENT)
     $stmt2 = $pdo->prepare("
-                            EXEC CRIA_ORC_ENT
-                                @PatSai = :itemRetirado,  -- Parâmetro de saída
-                                @PatEnt = :itemNovo,     -- Parâmetro de entrada
-                                @Contrato = :Contrato,   
-                                @User = :user
+        EXEC CRIA_ORC_ENT
+            @PatSai = :itemRetirado,
+            @PatEnt = :itemNovo,
+            @Contrato = :Contrato,
+            @User = :user
     ");
-    $stmt2->execute([
-        ':itemRetirado' => $itemRetirado, 
-        ':itemNovo' => $itemAdicionado,   
-        ':Contrato' => $contrato,         
-        ':user' => $user                  
-    ]);
 
-    insereTabSubs($pdo, $itemRetirado, $itemAdicionado, $contrato, $user);
+    if (!$stmt2->execute([
+        ':itemRetirado' => $itemRetirado,
+        ':itemNovo' => $itemAdicionado,
+        ':Contrato' => $contrato,
+        ':user' => $user
+    ])) {
+        throw new Exception("Erro na execução da segunda consulta.");
+    }
+
+    // Inserção adicional
+    insereTabSubs($pdo, $itemRetirado, $itemAdicionado, $contrato, $user, 'E');
+
+    // Confirma a transação
+    $pdo->commit();
 
     echo "Alteração feita com sucesso!";
-} catch (PDOException $e) {
+} catch (Exception $e) {
+    $pdo->rollBack();
     echo "Erro ao alterar: " . $e->getMessage();
-    echo "patsai: " . $itemRetirado . " - patent: " . $itemAdicionado . " - contrato: " . $contrato . " - user: " . $user;
 }
 
 

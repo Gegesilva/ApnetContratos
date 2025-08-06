@@ -10,9 +10,12 @@ $user = $_SESSION['usuario'];
 
 header('Content-type: text/html; charset=ISO-8895-1');
 
-function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user) {
+function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user, $tipo)
+{
     try {
-        $stmt = $pdo->prepare("INSERT INTO [dbo].[SUBS_CONTRATO]
+
+        if ($tipo == 'S') {
+            $stmt = $pdo->prepare("INSERT INTO [dbo].[SUBS_CONTRATO]
                                                         ([PAT_ENTRADA]
                                                         ,[PAT_SAIDA]
                                                         ,[PEDIDO_COMPRA]
@@ -35,15 +38,50 @@ function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user) {
                                                         ,:contrato
                                                         ,'N'
                                                         ,'SubsItemContrato')");
-                                                        $stmt->execute([
-                                                            ':itemAntigo' => $itemAntigo,
-                                                            ':itemAntigo2' => $itemAntigo,
-                                                            ':itemNovo' => $itemNovo,
-                                                            ':contrato' => $contrato,
-                                                            ':contrato2' => $contrato,
-                                                            ':contrato3' => $contrato,
-                                                            ':user' => $user
-                                                        ]);
+            $stmt->execute([
+                ':itemAntigo' => $itemAntigo,
+                ':itemAntigo2' => $itemAntigo,
+                ':itemNovo' => $itemNovo,
+                ':contrato' => $contrato,
+                ':contrato2' => $contrato,
+                ':contrato3' => $contrato,
+                ':user' => $user
+            ]);
+        } else {
+            $stmt = $pdo->prepare("INSERT INTO [dbo].[SUBS_CONTRATO]
+                                                        ([PAT_ENTRADA]
+                                                        ,[PAT_SAIDA]
+                                                        ,[PEDIDO_COMPRA]
+                                                        ,[ORCAMENTO]
+                                                        ,[STATUS_COMPRA]
+                                                        ,[OPCAD]
+                                                        ,[COD_CONTRATO]
+                                                        ,[CONCLUIDO_S_N]
+                                                        ,[TIPO_OP])
+                                                    VALUES
+                                                        (:itemNovo
+                                                        ,:itemAntigo
+                                                        ,NULL
+                                                        ,(SELECT 
+                                                                STRING_AGG(TB02019_CODIGO, ',')
+                                                            FROM TB02019 
+                                                            LEFT JOIN TB02054 ON TB02054_NUMSERIE = TB02019_NUMSERIE
+                                                            WHERE TB02054_PAT IN (:itemNovo2,:itemAntigo2))
+                                                        ,NULL
+                                                        ,:user
+                                                        ,:contrato
+                                                        ,'N'
+                                                        ,'SubsItemContratoExtravio')");
+            $stmt->execute([
+                ':itemAntigo' => $itemAntigo,
+                ':itemAntigo2' => $itemAntigo,
+                ':itemNovo' => $itemNovo,
+                ':itemNovo2' => $itemNovo,
+                ':contrato' => $contrato,
+                ':user' => $user
+            ]);
+
+        }
 
         if ($stmt->rowCount()) {
             return "Alteração feita com sucesso!";
