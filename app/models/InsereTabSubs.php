@@ -61,12 +61,15 @@ function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user, $tipo)
                                                     VALUES
                                                         (:itemNovo
                                                         ,:itemAntigo
-                                                        ,NULL
+                                                        ,(SELECT TOP 1 
+                                                                TB02030_CODIGO FROM TB02030 
+                                                          WHERE TB02030_CONTRATO = :contrato2
+                                                            AND EXISTS(SELECT * FROM TB02112 WHERE TB02112_CODIGO = :contrato3 AND TB02112_PAT = :itemAntigo2) ORDER BY TB02030_DTCAD DESC)
                                                         ,(SELECT 
                                                                 STRING_AGG(TB02019_CODIGO, ',')
                                                             FROM TB02019 
                                                             LEFT JOIN TB02054 ON TB02054_NUMSERIE = TB02019_NUMSERIE
-                                                            WHERE TB02054_PAT IN (:itemNovo2,:itemAntigo2))
+                                                            WHERE TB02054_PAT IN (:itemNovo3,:itemAntigo3))
                                                         ,NULL
                                                         ,:user
                                                         ,:contrato
@@ -75,8 +78,10 @@ function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user, $tipo)
             $stmt->execute([
                 ':itemAntigo' => $itemAntigo,
                 ':itemAntigo2' => $itemAntigo,
+                ':itemAntigo3' => $itemAntigo,
                 ':itemNovo' => $itemNovo,
                 ':itemNovo2' => $itemNovo,
+                ':itemNovo3' => $itemNovo,
                 ':contrato' => $contrato,
                 ':user' => $user
             ]);
@@ -93,3 +98,12 @@ function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user, $tipo)
         return "Erro ao alterar: " . $e->getMessage();
     }
 }
+
+/* sub query para pegar utlitmo orçamento
+    (SELECT 
+        STRING_AGG(TB02019_CODIGO, ',')
+    FROM TB02019 
+    LEFT JOIN TB02054 ON TB02054_NUMSERIE = TB02019_NUMSERIE
+    WHERE TB02054_PAT IN (:itemNovo2,:itemAntigo2))
+
+*/

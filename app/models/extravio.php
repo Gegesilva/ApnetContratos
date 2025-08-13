@@ -63,20 +63,16 @@ try {
         throw new Exception("Erro na execução da primeira consulta.");
     }
 
-    // Segunda execução (CRIA_ORC_ENT)
+    // Segunda execução (CriarPedidoCompra)
     $stmt2 = $pdo->prepare("
-        EXEC CRIA_ORC_ENT
-            @PatSai = :itemRetirado,
-            @PatEnt = :itemNovo,
-            @Contrato = :Contrato,
-            @User = :user
+        EXEC CriarPedidoCompra 
+        @CodigosPat = :itemAntigo,
+        @User = :user;
     ");
 
     if (!$stmt2->execute([
-        ':itemRetirado' => $itemRetirado,
-        ':itemNovo' => $itemAdicionado,
-        ':Contrato' => $contrato,
-        ':user' => $user
+        ':itemAntigo' => $itemRetirado,
+        ':user'       => $user
     ])) {
         throw new Exception("Erro na execução da segunda consulta.");
     }
