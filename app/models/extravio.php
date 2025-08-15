@@ -77,10 +77,8 @@ try {
         throw new Exception("Erro na execução da segunda consulta.");
     }
 
-    // Inserção adicional
     insereTabSubs($pdo, $itemRetirado, $itemAdicionado, $contrato, $user, 'E');
 
-    // Confirma a transação
     $pdo->commit();
 
     echo "Alteração feita com sucesso!";
