@@ -65,7 +65,7 @@ try {
 
     // Segunda execução (CriarPedidoCompra)
     $stmt2 = $pdo->prepare("
-        EXEC CriarPedidoCompra 
+        EXEC CriarPedidoCompraExt
         @CodigosPat = :itemAntigo,
         @User = :user;
     ");
