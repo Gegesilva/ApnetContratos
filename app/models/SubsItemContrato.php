@@ -44,7 +44,9 @@ if ($total === 0) {
 try {
     $stmt = $pdo->prepare("EXEC CriarPedidoCompra 
                                         @CodigosPat = :itemAntigo,
-                                        @User = :user;");
+                                        @User = :user,
+                                        @Operacao = '65',
+	                                    @Status = '18';");
     $stmt->execute([
         ':itemAntigo' => $itemRetirado,
         ':user'       => $user

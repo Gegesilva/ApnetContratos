@@ -52,7 +52,9 @@ try {
         EXEC CRIA_ORC_SAIDA
             @Pat = :itemAntigo,
             @Contrato = :Contrato,
-            @User = :user
+            @User = :user,
+            @Operacao = '71',
+            @Status = 'A8';
     ");
 
     if (!$stmt->execute([
@@ -65,9 +67,11 @@ try {
 
     // Segunda execução (CriarPedidoCompra)
     $stmt2 = $pdo->prepare("
-        EXEC CriarPedidoCompraExt
+        EXEC CriarPedidoCompra
         @CodigosPat = :itemAntigo,
-        @User = :user;
+        @User = :user,
+        @Operacao = '67',
+        @Status = '42';
     ");
 
     if (!$stmt2->execute([

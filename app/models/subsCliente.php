@@ -63,6 +63,7 @@ try {
         //':Pats' => $patFormatado,
         ':user' => $user
     ]);
+    
 
     //echo "Substituição realizada com sucesso.";
 } catch (PDOException $e) {
