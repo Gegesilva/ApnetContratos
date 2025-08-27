@@ -63,6 +63,19 @@ try {
         //':Pats' => $patFormatado,
         ':user' => $user
     ]);
+
+    //cria pedido para cliente anterior
+    $stmt2 = $pdo->prepare("
+        EXEC CriarPedidoCompra
+        @CodigosPat = $patFormatado,
+        @User = :user,
+        @Operacao = '00',
+        @Status = '00';
+    ");
+
+    if (!$stmt2->execute([
+        ':user'       => $user
+    ]));
     
 
     //echo "Substituição realizada com sucesso.";
