@@ -77,6 +77,22 @@ try {
         ':user'       => $user
     ]));
     
+    //cria orçamento
+    $sql = "EXEC [dbo].[CRIA_ORC_SUB_CLI]
+                @ContratoAnt = :ContratoAnt,
+                @ContratoNov = :ContratoNov,
+                @CodCli  = :CodCli,
+                @Pats = $patFormatado,
+                @User = :user;";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        ':ContratoAnt' => $ContratoAnt,
+        ':ContratoNov' => $ContratoNov,
+        ':CodCli' => $CodCli,
+        //':Pats' => $patFormatado,
+        ':user' => $user
+    ]);
 
     //echo "Substituição realizada com sucesso.";
 } catch (PDOException $e) {
