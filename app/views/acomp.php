@@ -42,7 +42,8 @@ include '../../config/database.php';
                     <th class="titulo-col-tab" onclick="ordenarTabela(7)">Contrato <i class="fa fa-sort" aria-hidden="true"></i></th>
                     <th class="titulo-col-tab" onclick="ordenarTabela(8)">Concluído? <i class="fa fa-sort" aria-hidden="true"></i></th>
                     <th class="titulo-col-tab" onclick="ordenarTabela(9)">Tipo <i class="fa fa-sort" aria-hidden="true"></i></th>
-                    <th class="titulo-col-tab" onclick="ordenarTabela(10)">Ação <i class="fa fa-sort" aria-hidden="true"></i></th>
+                    <th class="titulo-col-tab" onclick="ordenarTabela(10)">Acessorios? <i class="fa fa-sort" aria-hidden="true"></i></th>
+                    <th class="titulo-col-tab" onclick="ordenarTabela(11)">Ação <i class="fa fa-sort" aria-hidden="true"></i></th>
                 </tr>
             </thead>
             <tbody>
@@ -58,6 +59,7 @@ include '../../config/database.php';
                                 ,[OPCAD]
                                 ,[COD_CONTRATO]
                                 ,CASE WHEN [CONCLUIDO_S_N] = 'S' THEN 'SIM' ELSE 'NÃO' END AS CONCLUIDO_S_N
+                                ,CASE WHEN [ACESSORIOS_S_N] = 'S' THEN 'SIM' ELSE 'NÃO' END AS ACESSORIOS_S_N
                                 ,[TIPO_OP]
                                 ,[TB02002_CODPRE]
                                 ,TB02030_ORCAMENTO OrcPed
@@ -78,8 +80,9 @@ include '../../config/database.php';
                         echo "<td>{$row['STATUS_COMPRA']}</td>";
                         echo "<td>{$row['OPCAD']}</td>";
                         echo "<td>{$row['COD_CONTRATO']}</td>";
-                        echo "<td>{$row['CONCLUIDO_S_N']}</td>";
                         echo "<td>{$row['TIPO_OP']}</td>";
+                        echo "<td>{$row['CONCLUIDO_S_N']}</td>";
+                        echo "<td>{$row['ACESSORIOS_S_N']}</td>";
 
                         if ($row['CONCLUIDO_S_N'] == 'NÃO' /* && $row['TB02002_CODPRE'] != NULL */) {
                             echo "<td>
@@ -93,6 +96,7 @@ include '../../config/database.php';
                                     <input type='hidden' name='COD_CONTRATO' value='{$row['COD_CONTRATO']}'>
                                     <input type='hidden' name='CONCLUIDO_S_N' value='{$row['CONCLUIDO_S_N']}'>
                                     <input type='hidden' name='TIPO_OP' value='{$row['TIPO_OP']}'>
+                                    <input type='hidden' name='ACESSORIOS_S_N' value='{$row['ACESSORIOS_S_N']}'>
                                     <button type='submit' class='btn-nova'>Concluir</button>
                                 </form>
                               </td>";

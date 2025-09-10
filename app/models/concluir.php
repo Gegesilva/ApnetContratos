@@ -16,6 +16,7 @@ include '../../config/database.php';
 $itemAdicionado = $_POST['PAT_ENTRADA'];
 $itemRetirado   = $_POST['PAT_SAIDA'];
 $contrato  = $_POST['COD_CONTRATO'];
+$acessorios  = strtoupper($_POST['ACESSORIOS_S_N']);
 
 if (!$itemAdicionado || !$itemRetirado || !$contrato) {
     echo "Dados incompletos.";
@@ -32,6 +33,7 @@ try {
                         ,@ItemRetirado = :itemRetirado
                         ,@ItemAdicionado = :itemAdicionado
                         ,@User = '$user'
+                        ,@Acessorios = $acessorios;
                         
             UPDATE SUBS_CONTRATO
             SET CONCLUIDO_S_N = 'S'
@@ -44,6 +46,7 @@ try {
         ':itemRetirado'   => $itemRetirado,
         ':itemRetiradoUp'   => $itemRetirado,
         ':contrato'   => $contrato,
+        
     ]);
 
     echo "Substituição concluída com sucesso!";
