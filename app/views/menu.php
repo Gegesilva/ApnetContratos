@@ -31,6 +31,7 @@ header('Content-type: text/html; charset=ISO-8895-1');
         <h2>Selecione uma opção</h2>
         <div class="buttons-grid">
             <a class="acomp-button" href="acomp.php">ACOMPANHAMENTO</a>
+            <a class="menu-button" href="concluidos.php">CONCLUÍDOS</a>
             <a class="menu-button" href="subsMaq.php">SUBS ITEM</a>
             <a class="menu-button" href="subsRazSocial.php">SUBS RAZÃO SOCIAL</a>
             <!-- <a class="menu-button" href="">SUBS EXTRAVIO</a>

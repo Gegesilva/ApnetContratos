@@ -10,7 +10,7 @@ $user = $_SESSION['usuario'];
 
 header('Content-type: text/html; charset=ISO-8895-1');
 
-function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user, $tipo)
+function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user, $tipo, $acessorios)
 {
     try {
 
@@ -24,7 +24,9 @@ function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user, $tipo)
                                                 ,[OPCAD]
                                                 ,[COD_CONTRATO]
                                                 ,[CONCLUIDO_S_N]
-                                                ,[TIPO_OP])
+                                                ,[TIPO_OP]
+                                                ,[ACESSORIOS_S_N]
+                                                ,[DTCAD])
                                             VALUES
                                                 (:itemNovo
                                                 ,:itemAntigo
@@ -37,7 +39,9 @@ function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user, $tipo)
                                                 ,:user
                                                 ,:contrato
                                                 ,'N'
-                                                ,'SubsItemContrato')");
+                                                ,'SubsItemContrato'
+                                                ,:acessorios
+                                                ,GETDATE())");
             $stmt->execute([
                 ':itemAntigo' => $itemAntigo,
                 ':itemAntigo2' => $itemAntigo,
@@ -45,7 +49,8 @@ function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user, $tipo)
                 ':contrato' => $contrato,
                 ':contrato2' => $contrato,
                 ':contrato3' => $contrato,
-                ':user' => $user
+                ':user' => $user,
+                ':acessorios' => $acessorios
             ]);
         } else {
             $stmt = $pdo->prepare("INSERT INTO [dbo].[SUBS_CONTRATO]
@@ -57,7 +62,9 @@ function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user, $tipo)
                                                 ,[OPCAD]
                                                 ,[COD_CONTRATO]
                                                 ,[CONCLUIDO_S_N]
-                                                ,[TIPO_OP])
+                                                ,[TIPO_OP]
+                                                ,[ACESSORIOS_S_N]
+                                                ,[DTCAD])
                                             VALUES
                                                 (:itemNovo
                                                 ,:itemAntigo
@@ -76,7 +83,9 @@ function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user, $tipo)
                                                 ,:user
                                                 ,:contrato
                                                 ,'N'
-                                                ,'SubsItemContratoExtravio')");
+                                                ,'SubsItemContratoExtravio'
+                                                ,:acessorios
+                                                ,GETDATE())");
             $stmt->execute([
                 ':itemAntigo' => $itemAntigo,
                 ':itemAntigo2' => $itemAntigo,
@@ -86,13 +95,14 @@ function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user, $tipo)
                 ':contrato2' => $contrato,
                 ':contrato3' => $contrato,
                 ':contrato4' => $contrato,
-                ':user' => $user
+                ':user' => $user,
+                ':acessorios' => $acessorios
             ]);
 
         }
 
         if ($stmt->rowCount()) {
-            return "Alteração feita com sucesso!";
+            return "Alteração feita com sucesso! na função";
         } else {
             return "Nenhum item foi alterado.";
         }

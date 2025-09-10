@@ -1,11 +1,12 @@
 <?php
 
-include '../../config/database.php'; 
+include '../../config/database.php';
 include 'insereTabSubs.php';
 
 $contrato = $_POST['contrato'] ?? '';
 $itemRetirado = $_POST['itemRetirado'] ?? '';
 $itemAdicionado = $_POST['itemAdicionado'] ?? '';
+$acessorios = $_POST['acessorios'] ?? '';
 
 if (!$contrato || !$itemRetirado || !$itemAdicionado || $user == '') {
     echo "Dados incompletos.";
@@ -24,13 +25,13 @@ $verificaSql = "SELECT COUNT(*) AS total
 
 $verificaStmt = $pdo->prepare($verificaSql);
 $verificaStmt->execute([
-    ':itemRetirado'   => $itemRetirado,
-    ':itemRetirado2'  => $itemRetirado,
+    ':itemRetirado' => $itemRetirado,
+    ':itemRetirado2' => $itemRetirado,
     ':itemAdicionado' => $itemAdicionado,
-    ':itemAdicionado2'=> $itemAdicionado,
-    ':itemAdicionado3'=> $itemAdicionado,
-    ':contrato'       => $contrato,
-    ':contrato2'      => $contrato
+    ':itemAdicionado2' => $itemAdicionado,
+    ':itemAdicionado3' => $itemAdicionado,
+    ':contrato' => $contrato,
+    ':contrato2' => $contrato
 ]);
 
 $total = (INT) $verificaStmt->fetchColumn();
@@ -49,13 +50,19 @@ try {
 	                                    @Status = '18';");
     $stmt->execute([
         ':itemAntigo' => $itemRetirado,
-        ':user'       => $user
+        ':user' => $user
     ]);
 
-    insereTabSubs($pdo, $itemRetirado, $itemAdicionado, $contrato, $user, 'S');
+
+    // depois (APENAS debug, sem mudar regras):
+    $respIns = insereTabSubs($pdo, $itemRetirado, $itemAdicionado, $contrato, $user, 'S', $acessorios);
+    error_log('[subsitemcontrato] resp insereTabSubs = ' . $respIns);
+    //echo ' | RESP_SUBS=' . $respIns;  // temporário pra você ver no alert/resposta
+
+
 
     if ($stmt->rowCount()) {
-        echo "Alteração feita com sucesso!";
+        echo "Alteração feita com sucesso! ";
     } else {
         echo "Nenhum item foi alterado.";
     }

@@ -8,6 +8,7 @@ $user = $_SESSION['usuario'];
 $contrato = $_POST['contrato'] ?? '';
 $itemRetirado = $_POST['itemRetirado'] ?? '';
 $itemAdicionado = $_POST['itemAdicionado'] ?? '';
+$acessorios = $_POST['acessorios'] ?? '';
 
 if (!$contrato || !$itemRetirado || !$itemAdicionado || $user == '') {
     echo "Dados incompletos.";
@@ -57,11 +58,13 @@ try {
             @Status = 'A8';
     ");
 
-    if (!$stmt->execute([
-        ':itemAntigo' => $itemRetirado,
-        ':Contrato' => $contrato,
-        ':user' => $user
-    ])) {
+    if (
+        !$stmt->execute([
+            ':itemAntigo' => $itemRetirado,
+            ':Contrato' => $contrato,
+            ':user' => $user
+        ])
+    ) {
         throw new Exception("Erro na execução da primeira consulta.");
     }
 
@@ -74,14 +77,20 @@ try {
         @Status = '42';
     ");
 
-    if (!$stmt2->execute([
-        ':itemAntigo' => $itemRetirado,
-        ':user'       => $user
-    ])) {
+    if (
+        !$stmt2->execute([
+            ':itemAntigo' => $itemRetirado,
+            ':user' => $user
+        ])
+    ) {
         throw new Exception("Erro na execução da segunda consulta.");
     }
 
-    insereTabSubs($pdo, $itemRetirado, $itemAdicionado, $contrato, $user, 'E');
+
+    // depois (APENAS debug, sem mudar regras):
+    $respIns = insereTabSubs($pdo, $itemRetirado, $itemAdicionado, $contrato, $user, 'S', $acessorios);
+    error_log('[subsitemcontrato] resp insereTabSubs = ' . $respIns);
+   // echo ' | RESP_SUBS=' . $respIns;  // temporário pra você ver no alert/resposta
 
     $pdo->commit();
 

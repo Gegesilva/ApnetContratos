@@ -33,6 +33,8 @@ header('Content-type: text/html; charset=ISO-8895-1');
       <div class="check-container">
         <input type="checkbox" class="check" id="chkOpcao">
         <label for="chkOpcao">Extravio?</label>
+        <input type="checkbox" class="check" id="chkOpcao2">
+        <label for="chkOpcao2">Incluir acessorios?</label>
       </div>
 
       <button id="btnAlterar" disabled onclick="abrirModalVerificacao()">Alterar</button>

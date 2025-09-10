@@ -18,14 +18,18 @@ function atualizarEstado() {
   btnAlterar.disabled = !todosPreenchidos;
 }
 
+let acessorios = 'N';
 // Função para decidir qual modal abrir
 function abrirModalVerificacao() {
   const check = document.getElementById("chkOpcao").checked;
+  const check2 = document.getElementById("chkOpcao2").checked;
+  
   if (check) {
       abrirModal("modalAlternativo");
   } else {
       abrirModal("modalConfirmacao");
   }
+  acessorios = check2 ? 'S' : 'N';
 }
 
 // Abre modal pelo ID
@@ -45,10 +49,11 @@ function confirmarAlteracao() {
   const itemRetirado = document.getElementById("itemRetirado").value;
   const itemAdicionado = document.getElementById("itemAdicionado").value;
 
+
   fetch("../models/SubsItemContrato.php", {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: `contrato=${encodeURIComponent(contrato)}&itemRetirado=${encodeURIComponent(itemRetirado)}&itemAdicionado=${encodeURIComponent(itemAdicionado)}`
+    body: `contrato=${encodeURIComponent(contrato)}&itemRetirado=${encodeURIComponent(itemRetirado)}&itemAdicionado=${encodeURIComponent(itemAdicionado)}&acessorios=${encodeURIComponent(acessorios)}`
   })
   .then(response => response.text())
   .then(data => {
@@ -74,7 +79,7 @@ function confirmarAlteracaoAlternativa() {
   fetch("../models/extravio.php", {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: `contrato=${encodeURIComponent(contrato)}&itemRetirado=${encodeURIComponent(itemRetirado)}&itemAdicionado=${encodeURIComponent(itemAdicionado)}`
+    body: `contrato=${encodeURIComponent(contrato)}&itemRetirado=${encodeURIComponent(itemRetirado)}&itemAdicionado=${encodeURIComponent(itemAdicionado)}&acessorios=${encodeURIComponent(acessorios)}`
   })
   .then(response => response.text())
   .then(data => {
