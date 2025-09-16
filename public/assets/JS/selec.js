@@ -11,11 +11,6 @@ function atualizarEstado() {
 
 
 
-
-
-
-  
-
   // Ordenação das Colunas
   function ordenarTabela(colIndex) {
     const table = document.querySelector("table");

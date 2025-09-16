@@ -30,6 +30,7 @@ function abrirModalVerificacao() {
   } else if (check2) {
     // chama somente quando o segundo checkbox está marcado
     selecaoAcessorios();
+    acessorios = 'S';
   } else {
     abrirModal("modalConfirmacao");
   }
@@ -58,7 +59,7 @@ function confirmarAlteracao() {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
       },
-      body: `contrato=${encodeURIComponent(contrato)}&itemRetirado=${encodeURIComponent(itemRetirado)}&itemAdicionado=${encodeURIComponent(itemAdicionado)}&acessorios=${encodeURIComponent(acessorios)}`
+      body: `contrato=${encodeURIComponent(contrato)}&itemRetirado=${encodeURIComponent(itemRetirado)}&itemAdicionado=${encodeURIComponent(itemAdicionado)}`
     })
     .then(response => response.text())
     .then(data => {

@@ -19,6 +19,38 @@ $contrato = isset($_POST['contrato']) ? $_POST['contrato'] : $_SESSION['contrato
 
 $_SESSION['contrato'] = $contrato;
 
+$itemRetirado = isset($_POST['itemRetirado']) ? $_POST['itemRetirado'] : $_SESSION['itemRetirado'];
+$itemAdicionado = isset($_POST['itemAdicionado']) ? $_POST['itemAdicionado'] : $_SESSION['itemAdicionado'];
+
+/* Veirifica se os itens  */
+// Verifica se o PAT de saida pertence ao contrato, se o PAT de entrada existe e se essa substituição ja foi iniciada.
+/* $verificaSql = "SELECT COUNT(*) AS total
+                FROM TB02112
+                WHERE TB02112_PAT = :itemRetirado
+                    AND TB02112_CODIGO = :contrato
+                    AND TB02112_SITUACAO = 'A'
+                    AND EXISTS (SELECT * FROM TB02054 WHERE TB02054_PAT = :itemAdicionado AND TB02054_QTPROD > TB02054_QTPRODS)
+                    AND NOT EXISTS (SELECT * FROM TB02112 WHERE TB02112_PAT = :itemAdicionado3 AND  TB02112_SITUACAO = 'A')
+                    AND NOT EXISTS (SELECT * FROM SUBS_CONTRATO WHERE COD_CONTRATO = :contrato2 AND PAT_ENTRADA = :itemAdicionado2 AND PAT_SAIDA = :itemRetirado2)";
+
+$verificaStmt = $pdo->prepare($verificaSql);
+$verificaStmt->execute([
+    ':itemRetirado' => $itemRetirado,
+    ':itemRetirado2' => $itemRetirado,
+    ':itemAdicionado' => $itemAdicionado,
+    ':itemAdicionado2' => $itemAdicionado,
+    ':itemAdicionado3' => $itemAdicionado,
+    ':contrato' => $contrato,
+    ':contrato2' => $contrato
+]); */
+
+/* $total = (INT) $verificaStmt->fetchColumn();
+
+if ($total === 0) {
+    echo "<script><alert>Dados incorretos. Confira se os dados informados estão corretos.</alert></script>";
+    echo "<script>window.location.href= 'subsMaq.php'</script>";
+}
+ */
 /* manda para a pagina onde inicia o processo */
 
 /* if (empty($contrato)) {
@@ -49,7 +81,7 @@ $nome = $stmtNome->fetchColumn();
     <div class="container">
         <form action="defCliente.php" method="POST">
             <div class="header">
-                <h2 class="titulo">Acessorios <?= $nome ?></h2>
+                <h2 class="titulo">Acessorios <?= $itemRetirado ?></h2>
                 <div>
                     <button type="submit" class="btn-selec">SELECIONAR</button>
                     <button type="button" onclick="window.location.href= 'subsMaq.php'" class="btn-sair">←
@@ -75,18 +107,22 @@ $nome = $stmtNome->fetchColumn();
                     try {
                         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-                        $sql = "SELECT 
+                        $sql = "SELECT DISTINCT
                                     TB02114_ACESSORIO codAcess,
                                     TB01010_NOME NomeAcess,
                                     TB02114_CODIGO Contrato,
-                                    TB02114_NUMSERIE numSerieMaq,
+                                    TB02114_NUMSERIE NumSerieMaq,
                                     TB02114_QTPROD qtde
                                 FROM TB02114
                                 LEFT JOIN TB01010 ON TB01010_CODIGO = TB02114_ACESSORIO
-                                WHERE TB02114_NUMSERIE = 'SPE05DZVE'";
+                                LEFT JOIN TB02054 ON TB02054_NUMSERIE = TB02114_NUMSERIE
+                                WHERE TB02054_PAT = :pat
+                                AND TB02114_CODIGO = :contrato";
 
                         $stmt = $pdo->prepare($sql);
-                        $stmt->execute();
+                        $stmt->execute([':pat' => $itemRetirado,
+                                                ':contrato' => $contrato
+                        ]);
 
                         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                             echo "<tr>";
@@ -94,7 +130,7 @@ $nome = $stmtNome->fetchColumn();
                             echo "<td>{$row['codAcess']}</td>";
                             echo "<td>{$row['NomeAcess']}</td>";
                             echo "<td>{$row['Contrato']}</td>";
-                            echo "<td>{$row['numSerieMaq']}</td>";
+                            echo "<td>{$row['NumSerieMaq']}</td>";
                             echo "<td>{$row['qtde']}</td>";
                             echo "</tr>";
                         }

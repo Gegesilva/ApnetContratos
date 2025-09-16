@@ -6,6 +6,8 @@ include 'insereTabSubs.php';
 $contrato = $_POST['contrato'] ?? '';
 $itemRetirado = $_POST['itemRetirado'] ?? '';
 $itemAdicionado = $_POST['itemAdicionado'] ?? '';
+
+/* Recebendo vazio durante a fase de testes, pq a SP pode receber assim. Revisar depois  */
 $acessorios = $_POST['acessorios'] ?? '';
 
 if (!$contrato || !$itemRetirado || !$itemAdicionado || $user == '') {
