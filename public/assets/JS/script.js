@@ -20,16 +20,19 @@ function atualizarEstado() {
 
 let acessorios = 'N';
 // Função para decidir qual modal abrir
+// Função para decidir qual modal abrir
 function abrirModalVerificacao() {
   const check = document.getElementById("chkOpcao").checked;
   const check2 = document.getElementById("chkOpcao2").checked;
-  
+
   if (check) {
-      abrirModal("modalAlternativo");
+    abrirModal("modalAlternativo");
+  } else if (check2) {
+    // chama somente quando o segundo checkbox está marcado
+    selecaoAcessorios();
   } else {
-      abrirModal("modalConfirmacao");
+    abrirModal("modalConfirmacao");
   }
-  acessorios = check2 ? 'S' : 'N';
 }
 
 // Abre modal pelo ID
@@ -51,23 +54,25 @@ function confirmarAlteracao() {
 
 
   fetch("../models/SubsItemContrato.php", {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: `contrato=${encodeURIComponent(contrato)}&itemRetirado=${encodeURIComponent(itemRetirado)}&itemAdicionado=${encodeURIComponent(itemAdicionado)}&acessorios=${encodeURIComponent(acessorios)}`
-  })
-  .then(response => response.text())
-  .then(data => {
-    fecharModal();
-    alert(data);
-    document.getElementById("contrato").value = "";
-    document.getElementById("itemRetirado").value = "";
-    document.getElementById("itemAdicionado").value = "";
-    atualizarEstado();
-  })
-  .catch(error => {
-    alert("Erro ao enviar os dados!");
-    console.error("Erro:", error);
-  });
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: `contrato=${encodeURIComponent(contrato)}&itemRetirado=${encodeURIComponent(itemRetirado)}&itemAdicionado=${encodeURIComponent(itemAdicionado)}&acessorios=${encodeURIComponent(acessorios)}`
+    })
+    .then(response => response.text())
+    .then(data => {
+      fecharModal();
+      alert(data);
+      document.getElementById("contrato").value = "";
+      document.getElementById("itemRetirado").value = "";
+      document.getElementById("itemAdicionado").value = "";
+      atualizarEstado();
+    })
+    .catch(error => {
+      alert("Erro ao enviar os dados!");
+      console.error("Erro:", error);
+    });
 }
 
 // Confirmação alternativa (quando checkbox marcado)
@@ -77,42 +82,73 @@ function confirmarAlteracaoAlternativa() {
   const itemAdicionado = document.getElementById("itemAdicionado").value;
 
   fetch("../models/extravio.php", {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: `contrato=${encodeURIComponent(contrato)}&itemRetirado=${encodeURIComponent(itemRetirado)}&itemAdicionado=${encodeURIComponent(itemAdicionado)}&acessorios=${encodeURIComponent(acessorios)}`
-  })
-  .then(response => response.text())
-  .then(data => {
-    fecharModal();
-    alert(data);
-    document.getElementById("contrato").value = "";
-    document.getElementById("itemRetirado").value = "";
-    document.getElementById("itemAdicionado").value = "";
-    atualizarEstado();
-  })
-  .catch(error => {
-    alert("Erro ao enviar os dados!");
-    console.error("Erro:", error);
-  });
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: `contrato=${encodeURIComponent(contrato)}&itemRetirado=${encodeURIComponent(itemRetirado)}&itemAdicionado=${encodeURIComponent(itemAdicionado)}`
+    })
+    .then(response => response.text())
+    .then(data => {
+      fecharModal();
+      alert(data);
+      document.getElementById("contrato").value = "";
+      document.getElementById("itemRetirado").value = "";
+      document.getElementById("itemAdicionado").value = "";
+      atualizarEstado();
+    })
+    .catch(error => {
+      alert("Erro ao enviar os dados!");
+      console.error("Erro:", error);
+    });
 }
+
+// Check inclui acessorios marcado
+function selecaoAcessorios() {
+  const contrato = document.getElementById("contrato").value;
+  const itemRetirado = document.getElementById("itemRetirado").value;
+  const itemAdicionado = document.getElementById("itemAdicionado").value;
+
+  // cria um form temporário para enviar por POST e abrir a tela
+  const form = document.createElement("form");
+  form.method = "POST";
+  form.action = "../views/acessorios.php";
+  form.style.display = "none";
+
+  const addField = (name, value) => {
+    const input = document.createElement("input");
+    input.type = "hidden";
+    input.name = name;
+    input.value = value;
+    form.appendChild(input);
+  };
+
+  addField("contrato", contrato);
+  addField("itemRetirado", itemRetirado);
+  addField("itemAdicionado", itemAdicionado);
+
+  document.body.appendChild(form);
+  form.submit(); // navega para a tela de acessórios com os parâmetros
+}
+
 
 function enviarEAtualizar(form) {
   const formData = new FormData(form);
 
   fetch(form.action, {
-    method: "POST",
-    body: formData
-  })
-  .then(response => {
-    if (!response.ok) throw new Error("Erro na requisição");
-    return response.text();
-  })
-  .then(() => {
-    window.location.reload();
-  })
-  .catch(error => {
-    console.log("Erro ao concluir: " + error.message);
-  });
+      method: "POST",
+      body: formData
+    })
+    .then(response => {
+      if (!response.ok) throw new Error("Erro na requisição");
+      return response.text();
+    })
+    .then(() => {
+      window.location.reload();
+    })
+    .catch(error => {
+      console.log("Erro ao concluir: " + error.message);
+    });
 
   return false;
 }
@@ -133,8 +169,8 @@ function ordenarTabela(colIndex) {
     const normalize = str =>
       parseFloat(
         str.replace(/R\$\s?/g, "")
-           .replace(/\./g, "")
-           .replace(",", ".")
+        .replace(/\./g, "")
+        .replace(",", ".")
       );
 
     const numA = normalize(cellA);
