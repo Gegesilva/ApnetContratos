@@ -117,46 +117,46 @@ function insereAcessorios($pdo, $itemAntigo, $itemNovo, $contrato, $user, $patri
 {
     try {
 
-            $stmt = $pdo->prepare("INSERT INTO [dbo].[SUBS_CONTRATO_ACESSORIOS]
-                                                            ([DTCAD]
-                                                            ,[OPCAD]
-                                                            ,[DTALT]
-                                                            ,[OPALT]
-                                                            ,[CONTRATO]
-                                                            ,[PRODUTO]
-                                                            ,[NUMSERIE]
-                                                            ,[CODACESSORIO]
-                                                            ,[QTPROD]
-                                                            ,[OBS]
-                                                            ,[NUMSERIEACESSORIO])
-                                                        SELECT DISTINCT
-                                                                GETDATE(),	--[DTCAD]
-                                                                '$user',	--[OPCAD]
-                                                                NULL,	--[DTALT]
-                                                                NULL,	--[OPALT]
-                                                                TB02114_CODIGO,	--[CONTRATO]
-                                                                TB02054_PRODUTO,	--[PRODUTO]
-                                                                TB02114_NUMSERIE,	--[NUMSERIE]
-                                                                TB02114_ACESSORIO,	--[CODACESSORIO]
-                                                                TB02114_QTPROD,	--[QTPROD]
-                                                                'App Subs Contrato',	--[OBS]
-                                                                TB02114_NUMSERIEACESSORIO	--[NUMSERIEACESSORIO]
-                                                            FROM TB02114
-                                                            LEFT JOIN TB01010 ON TB01010_CODIGO = TB02114_ACESSORIO
-                                                            LEFT JOIN TB02054 ON TB02054_NUMSERIE = TB02114_NUMSERIE
-                                                            WHERE TB02054_PAT = :pat
-                                                            AND TB02114_CODIGO = :contrato
+        $stmt = $pdo->prepare("INSERT INTO [dbo].[SUBS_CONTRATO_ACESSORIOS]
+                                    ([DTCAD]
+                                    ,[OPCAD]
+                                    ,[DTALT]
+                                    ,[OPALT]
+                                    ,[CONTRATO]
+                                    ,[PRODUTO]
+                                    ,[NUMSERIE]
+                                    ,[CODACESSORIO]
+                                    ,[QTPROD]
+                                    ,[OBS]
+                                    ,[NUMSERIEACESSORIO])
+                                SELECT DISTINCT
+                                        GETDATE(),	--[DTCAD]
+                                        '$user',	--[OPCAD]
+                                        NULL,	--[DTALT]
+                                        NULL,	--[OPALT]
+                                        TB02114_CODIGO,	--[CONTRATO]
+                                        TB02054_PRODUTO,	--[PRODUTO]
+                                        TB02114_NUMSERIE,	--[NUMSERIE]
+                                        TB02114_ACESSORIO,	--[CODACESSORIO]
+                                        TB02114_QTPROD,	--[QTPROD]
+                                        'App Subs Contrato',	--[OBS]
+                                        TB02114_NUMSERIEACESSORIO	--[NUMSERIEACESSORIO]
+                                    FROM TB02114
+                                    LEFT JOIN TB01010 ON TB01010_CODIGO = TB02114_ACESSORIO
+                                    LEFT JOIN TB02054 ON TB02054_NUMSERIE = TB02114_NUMSERIE
+                                    WHERE TB02054_PAT = :pat
+                                    AND TB02114_CODIGO = :contrato
 ");
-            $stmt->execute([
-                ':itemAntigo' => $itemAntigo,
-                ':itemAntigo2' => $itemAntigo,
-                ':itemNovo' => $itemNovo,
-                ':contrato' => $contrato,
-                ':contrato2' => $contrato,
-                ':contrato3' => $contrato,
-                ':user' => $user,
-                ':patrimonioAcessorios' => $patrimonioAcessorios
-            ]);
+        $stmt->execute([
+            ':itemAntigo' => $itemAntigo,
+            ':itemAntigo2' => $itemAntigo,
+            ':itemNovo' => $itemNovo,
+            ':contrato' => $contrato,
+            ':contrato2' => $contrato,
+            ':contrato3' => $contrato,
+            ':user' => $user,
+            ':patrimonioAcessorios' => $patrimonioAcessorios
+        ]);
 
         if ($stmt->rowCount()) {
             return "Alteração feita com sucesso! na função";
