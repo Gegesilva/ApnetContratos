@@ -42,7 +42,7 @@ $verificaStmt->execute([
     ':itemAdicionado3' => $itemAdicionado,
     ':contrato' => $contrato,
     ':contrato2' => $contrato
-]); */
+]); 
 
 /* $total = (INT) $verificaStmt->fetchColumn();
 
@@ -50,7 +50,7 @@ if ($total === 0) {
     echo "<script><alert>Dados incorretos. Confira se os dados informados estão corretos.</alert></script>";
     echo "<script>window.location.href= 'subsMaq.php'</script>";
 }
- */
+ 
 /* manda para a pagina onde inicia o processo */
 
 /* if (empty($contrato)) {

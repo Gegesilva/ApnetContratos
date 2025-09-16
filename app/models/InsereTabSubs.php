@@ -113,7 +113,7 @@ function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user, $tipo, $a
 }
 
 
-function insereAcessorios($pdo, $itemAntigo, $itemNovo, $contrato, $user, $acessorios)
+function insereAcessorios($pdo, $itemAntigo, $itemNovo, $contrato, $user, $patrimonioAcessorios)
 {
     try {
 
@@ -155,7 +155,7 @@ function insereAcessorios($pdo, $itemAntigo, $itemNovo, $contrato, $user, $acess
                 ':contrato2' => $contrato,
                 ':contrato3' => $contrato,
                 ':user' => $user,
-                ':acessorios' => $acessorios
+                ':patrimonioAcessorios' => $patrimonioAcessorios
             ]);
 
         if ($stmt->rowCount()) {

@@ -61,6 +61,10 @@ try {
     error_log('[subsitemcontrato] resp insereTabSubs = ' . $respIns);
     //echo ' | RESP_SUBS=' . $respIns;  // temporário pra você ver no alert/resposta
 
+    $respInsAcess = insereAcessorios($pdo, $itemAntigo, $itemNovo, $contrato, $user, $patrimonioAcessorios);
+    error_log('[subsitemcontrato] resp insereTabSubs = ' . $respInsAcess);
+    //echo ' | RESP_SUBS=' . $respInsAcess;  // temporário pra você ver no alert/resposta
+
 
 
     if ($stmt->rowCount()) {
