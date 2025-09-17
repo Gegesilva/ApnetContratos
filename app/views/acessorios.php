@@ -79,7 +79,7 @@ $nome = $stmtNome->fetchColumn();
 
 <body>
     <div class="container">
-        <form action="defCliente.php" method="POST">
+        <form action="../views/InsereTabSubs.php" method="POST">
             <div class="header">
                 <h2 class="titulo">Acessorios <?= $itemRetirado ?></h2>
                 <div>

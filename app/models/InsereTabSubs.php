@@ -1,4 +1,5 @@
 <?php
+header('Content-type: text/html; charset=ISO-8895-1');
 session_start();
 
 if (!isset($_SESSION['usuario'])) {
@@ -8,7 +9,18 @@ if (!isset($_SESSION['usuario'])) {
 
 $user = $_SESSION['usuario'];
 
-header('Content-type: text/html; charset=ISO-8895-1');
+/* pega os patrimonios selecionados */
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Verifica se alguma célula foi selecionada
+    if (isset($_POST['selecionado']) && is_array($_POST['selecionado'])) {
+        // Recupera os valores das células selecionadas
+        $selecionados = $_POST['selecionado'];
+
+        // Coloca os valores dentro de aspas simples e os separa por vírgula
+        $patrimonioAcessorios = "'".implode("','", array_map('htmlspecialchars', $selecionados))."'";
+    }
+}
+echo "<script>console.log('Debug Objects: " . $patrimonioAcessorios . "' );</script>";
 
 function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user, $tipo, $acessorios)
 {
@@ -16,32 +28,32 @@ function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user, $tipo, $a
 
         if ($tipo == 'S') {
             $stmt = $pdo->prepare("INSERT INTO [dbo].[SUBS_CONTRATO]
-                                                ([PAT_ENTRADA]
-                                                ,[PAT_SAIDA]
-                                                ,[PEDIDO_COMPRA]
-                                                ,[ORCAMENTO]
-                                                ,[STATUS_COMPRA]
-                                                ,[OPCAD]
-                                                ,[COD_CONTRATO]
-                                                ,[CONCLUIDO_S_N]
-                                                ,[TIPO_OP]
-                                                ,[ACESSORIOS_S_N]
-                                                ,[DTCAD])
-                                            VALUES
-                                                (:itemNovo
-                                                ,:itemAntigo
-                                                ,(SELECT TOP 1 
-                                                        TB02030_CODIGO FROM TB02030 
-                                                    WHERE TB02030_CONTRATO = :contrato2
-                                                    AND EXISTS(SELECT * FROM TB02112 WHERE TB02112_CODIGO = :contrato3 AND TB02112_PAT = :itemAntigo2) ORDER BY TB02030_DTCAD DESC)
-                                                ,NULL
-                                                ,NULL
-                                                ,:user
-                                                ,:contrato
-                                                ,'N'
-                                                ,'SubsItemContrato'
-                                                ,:acessorios
-                                                ,GETDATE())");
+                                        ([PAT_ENTRADA]
+                                        ,[PAT_SAIDA]
+                                        ,[PEDIDO_COMPRA]
+                                        ,[ORCAMENTO]
+                                        ,[STATUS_COMPRA]
+                                        ,[OPCAD]
+                                        ,[COD_CONTRATO]
+                                        ,[CONCLUIDO_S_N]
+                                        ,[TIPO_OP]
+                                        ,[ACESSORIOS_S_N]
+                                        ,[DTCAD])
+                                    VALUES
+                                        (:itemNovo
+                                        ,:itemAntigo
+                                        ,(SELECT TOP 1 
+                                                TB02030_CODIGO FROM TB02030 
+                                            WHERE TB02030_CONTRATO = :contrato2
+                                            AND EXISTS(SELECT * FROM TB02112 WHERE TB02112_CODIGO = :contrato3 AND TB02112_PAT = :itemAntigo2) ORDER BY TB02030_DTCAD DESC)
+                                        ,NULL
+                                        ,NULL
+                                        ,:user
+                                        ,:contrato
+                                        ,'N'
+                                        ,'SubsItemContrato'
+                                        ,:acessorios
+                                        ,GETDATE())");
             $stmt->execute([
                 ':itemAntigo' => $itemAntigo,
                 ':itemAntigo2' => $itemAntigo,
@@ -54,38 +66,38 @@ function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user, $tipo, $a
             ]);
         } else {
             $stmt = $pdo->prepare("INSERT INTO [dbo].[SUBS_CONTRATO]
-                                                ([PAT_ENTRADA]
-                                                ,[PAT_SAIDA]
-                                                ,[PEDIDO_COMPRA]
-                                                ,[ORCAMENTO]
-                                                ,[STATUS_COMPRA]
-                                                ,[OPCAD]
-                                                ,[COD_CONTRATO]
-                                                ,[CONCLUIDO_S_N]
-                                                ,[TIPO_OP]
-                                                ,[ACESSORIOS_S_N]
-                                                ,[DTCAD])
-                                            VALUES
-                                                (:itemNovo
-                                                ,:itemAntigo
-                                                ,(SELECT TOP 1 
-                                                        TB02030_CODIGO FROM TB02030 
-                                                    WHERE TB02030_CONTRATO = :contrato2
-                                                    AND EXISTS(SELECT * FROM TB02112 WHERE TB02112_CODIGO = :contrato3 AND TB02112_PAT = :itemAntigo2) ORDER BY TB02030_DTCAD DESC)
-                                                ,(SELECT TOP 1
-                                                        TB02019_CODIGO
-                                                    FROM TB02019 
-                                                    LEFT JOIN TB02018 ON TB02018_CODIGO = TB02019_CODIGO
-                                                    LEFT JOIN TB02054 ON TB02054_NUMSERIE = TB02019_NUMSERIE
-                                                    WHERE TB02018_CONTRATO = :contrato4 AND TB02054_PAT = :itemAntigo3
-                                                    ORDER BY TB02019_DTCAD DESC)
-                                                ,NULL
-                                                ,:user
-                                                ,:contrato
-                                                ,'N'
-                                                ,'SubsItemContratoExtravio'
-                                                ,:acessorios
-                                                ,GETDATE())");
+                                        ([PAT_ENTRADA]
+                                        ,[PAT_SAIDA]
+                                        ,[PEDIDO_COMPRA]
+                                        ,[ORCAMENTO]
+                                        ,[STATUS_COMPRA]
+                                        ,[OPCAD]
+                                        ,[COD_CONTRATO]
+                                        ,[CONCLUIDO_S_N]
+                                        ,[TIPO_OP]
+                                        ,[ACESSORIOS_S_N]
+                                        ,[DTCAD])
+                                    VALUES
+                                        (:itemNovo
+                                        ,:itemAntigo
+                                        ,(SELECT TOP 1 
+                                                TB02030_CODIGO FROM TB02030 
+                                            WHERE TB02030_CONTRATO = :contrato2
+                                            AND EXISTS(SELECT * FROM TB02112 WHERE TB02112_CODIGO = :contrato3 AND TB02112_PAT = :itemAntigo2) ORDER BY TB02030_DTCAD DESC)
+                                        ,(SELECT TOP 1
+                                                TB02019_CODIGO
+                                            FROM TB02019 
+                                            LEFT JOIN TB02018 ON TB02018_CODIGO = TB02019_CODIGO
+                                            LEFT JOIN TB02054 ON TB02054_NUMSERIE = TB02019_NUMSERIE
+                                            WHERE TB02018_CONTRATO = :contrato4 AND TB02054_PAT = :itemAntigo3
+                                            ORDER BY TB02019_DTCAD DESC)
+                                        ,NULL
+                                        ,:user
+                                        ,:contrato
+                                        ,'N'
+                                        ,'SubsItemContratoExtravio'
+                                        ,:acessorios
+                                        ,GETDATE())");
             $stmt->execute([
                 ':itemAntigo' => $itemAntigo,
                 ':itemAntigo2' => $itemAntigo,
@@ -144,7 +156,7 @@ function insereAcessorios($pdo, $itemAntigo, $itemNovo, $contrato, $user, $patri
                                     FROM TB02114
                                     LEFT JOIN TB01010 ON TB01010_CODIGO = TB02114_ACESSORIO
                                     LEFT JOIN TB02054 ON TB02054_NUMSERIE = TB02114_NUMSERIE
-                                    WHERE TB02054_PAT = :pat
+                                    WHERE TB02054_PAT IN ($patrimonioAcessorios)
                                     AND TB02114_CODIGO = :contrato
 ");
         $stmt->execute([
@@ -155,7 +167,7 @@ function insereAcessorios($pdo, $itemAntigo, $itemNovo, $contrato, $user, $patri
             ':contrato2' => $contrato,
             ':contrato3' => $contrato,
             ':user' => $user,
-            ':patrimonioAcessorios' => $patrimonioAcessorios
+            //':patrimonioAcessorios' => $patrimonioAcessorios
         ]);
 
         if ($stmt->rowCount()) {
