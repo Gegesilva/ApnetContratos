@@ -35,7 +35,7 @@ h2 {
   gap: 20px;
 }
 
-.form-group input {
+.form-group input, textarea {
   padding: 12px;
   font-size: 16px;
   border: 1px solid #ccc;
@@ -50,7 +50,7 @@ h2 {
   flex-direction: row;
 }
 
-.row input {
+.row input, textarea {
   flex: 1;
 }
 

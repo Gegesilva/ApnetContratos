@@ -130,7 +130,7 @@ $nome = $stmtNome->fetchColumn();
 
                         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                             echo "<tr>";
-                            echo "<td><input class='chk-item' type='checkbox' name='selecionado[]' value='{$row['Pat']}'></td>";
+                            echo "<td><input class='chk-item' type='checkbox' name='selecionados[]' value='{$row['codAcess']}'></td>";
                             echo "<td>{$row['codAcess']}</td>";
                             echo "<td>{$row['NomeAcess']}</td>";
                             echo "<td>{$row['Contrato']}</td>";
