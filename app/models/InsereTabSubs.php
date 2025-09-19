@@ -9,18 +9,8 @@ if (!isset($_SESSION['usuario'])) {
 
 $user = $_SESSION['usuario'];
 
-/* pega os patrimonios selecionados */
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Verifica se alguma célula foi selecionada
-    if (isset($_POST['selecionado']) && is_array($_POST['selecionado'])) {
-        // Recupera os valores das células selecionadas
-        $selecionados = $_POST['selecionado'];
 
-        // Coloca os valores dentro de aspas simples e os separa por vírgula
-        $patrimonioAcessorios = "'".implode("','", array_map('htmlspecialchars', $selecionados))."'";
-    }
-}
-echo "<script>console.log('Debug Objects: " . $patrimonioAcessorios . "' );</script>";
+//echo "<script>console.log('Debug Objects: " . $patrimonioAcessorios . "' );</script>";
 
 function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user, $tipo, $acessorios)
 {
@@ -125,7 +115,7 @@ function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user, $tipo, $a
 }
 
 
-function insereAcessorios($pdo, $itemAntigo, $itemNovo, $contrato, $user, $patrimonioAcessorios)
+function insereAcessorios($pdo, $itemAntigo, $itemNovo, $contrato, $user, $acessoriosSelecionados)
 {
     try {
 
@@ -156,18 +146,13 @@ function insereAcessorios($pdo, $itemAntigo, $itemNovo, $contrato, $user, $patri
                                     FROM TB02114
                                     LEFT JOIN TB01010 ON TB01010_CODIGO = TB02114_ACESSORIO
                                     LEFT JOIN TB02054 ON TB02054_NUMSERIE = TB02114_NUMSERIE
-                                    WHERE TB02054_PAT IN ($patrimonioAcessorios)
+                                    WHERE TB02114_ACESSORIO IN ($acessoriosSelecionados)
+									AND TB02054_PAT = :itemAntigo
                                     AND TB02114_CODIGO = :contrato
 ");
         $stmt->execute([
             ':itemAntigo' => $itemAntigo,
-            ':itemAntigo2' => $itemAntigo,
-            ':itemNovo' => $itemNovo,
             ':contrato' => $contrato,
-            ':contrato2' => $contrato,
-            ':contrato3' => $contrato,
-            ':user' => $user,
-            //':patrimonioAcessorios' => $patrimonioAcessorios
         ]);
 
         if ($stmt->rowCount()) {

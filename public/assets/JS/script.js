@@ -52,6 +52,7 @@ function confirmarAlteracao() {
   const contrato = document.getElementById("contrato").value;
   const itemRetirado = document.getElementById("itemRetirado").value;
   const itemAdicionado = document.getElementById("itemAdicionado").value;
+  const acessorios = document.getElementById("acessorios").value;
 
 
   fetch("../models/SubsItemContrato.php", {
@@ -59,7 +60,7 @@ function confirmarAlteracao() {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
       },
-      body: `contrato=${encodeURIComponent(contrato)}&itemRetirado=${encodeURIComponent(itemRetirado)}&itemAdicionado=${encodeURIComponent(itemAdicionado)}`
+      body: `contrato=${encodeURIComponent(contrato)}&itemRetirado=${encodeURIComponent(itemRetirado)}&itemAdicionado=${encodeURIComponent(itemAdicionado)}}&acessorios=${encodeURIComponent(acessorios)}`
     })
     .then(response => response.text())
     .then(data => {

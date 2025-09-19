@@ -30,7 +30,7 @@ if (isset($patrimonioAcessorios)) {
   $valueItemAdd = "value = '$itemAdicionado' ";
   $valueItemRet = "value = '$itemRetirado' ";
   $valueContrato = "value = '$contrato' ";
-  $textareaAcessorios = "<textarea name='pats' id='pats' disabled>$patrimonioAcessorios</textarea>";
+  $textareaAcessorios = "<textarea name='acessorios' id='acessorios' disabled>$patrimonioAcessorios</textarea>";
   $check = "hidden";
   $labelAcessorios = " ";
   $dissabled = "disabled";
