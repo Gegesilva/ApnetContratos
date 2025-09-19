@@ -79,7 +79,7 @@ $nome = $stmtNome->fetchColumn();
 
 <body>
     <div class="container">
-        <form action="../views/InsereTabSubs.php" method="POST">
+        <form action="../views/subsMaq.php" method="POST">
             <div class="header">
                 <h2 class="titulo">Acessorios <?= $itemRetirado ?></h2>
                 <div>
@@ -89,6 +89,10 @@ $nome = $stmtNome->fetchColumn();
 
                 </div>
             </div>
+            <!-- inputs para retorno  -->
+             <input type="hidden" value="<?=$itemAdicionado?>" name="itemAdicionado" class="itemAdicionado">
+             <input type="hidden" value="<?=$itemRetirado?>" name="itemRetirado" class="itemRetirado">
+             <input type="hidden" value="<?=$contrato?>" name="contrato" class="contrato">
 
             <table id="substituicoes">
                 <thead>
@@ -126,7 +130,7 @@ $nome = $stmtNome->fetchColumn();
 
                         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                             echo "<tr>";
-                            echo "<td><input class='chk-item' type='checkbox' name='selecionados[]' value='{$row['Pat']}'></td>";
+                            echo "<td><input class='chk-item' type='checkbox' name='selecionado[]' value='{$row['Pat']}'></td>";
                             echo "<td>{$row['codAcess']}</td>";
                             echo "<td>{$row['NomeAcess']}</td>";
                             echo "<td>{$row['Contrato']}</td>";
