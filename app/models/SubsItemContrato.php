@@ -40,19 +40,19 @@ $verificaStmt->execute([
 $total = (INT) $verificaStmt->fetchColumn();
 
 if ($total === 0) {
-    echo "Dados incorretos. Confira se os dados informados estão corretos.";
+    echo "Dados incorretos. Confira se os dados informados estão corretos.". $contrato." - ". $itemRetirado." - ". $itemAdicionado.' - '.$total; 
     exit;
 }
 
 // Cria pedido de compra
 try {
     $stmt = $pdo->prepare("EXEC CriarPedidoCompra 
-                                        @CodigosPat = :itemAntigo,
+                                        @CodigosPat = :itemRetirado,
                                         @User = :user,
                                         @Operacao = '65',
 	                                    @Status = '18';");
     $stmt->execute([
-        ':itemAntigo' => $itemRetirado,
+        ':itemRetirado' => $itemRetirado,
         ':user' => $user
     ]);
 
@@ -62,7 +62,7 @@ try {
     error_log('[subsitemcontrato] resp insereTabSubs = ' . $respIns);
     //echo ' | RESP_SUBS=' . $respIns;  // temporário pra você ver no alert/resposta
 
-    $respInsAcess = insereAcessorios($pdo, $itemAntigo, $itemNovo, $contrato, $user, $acessoriosSelecionados);
+    $respInsAcess = insereAcessorios($pdo, $itemRetirado, $contrato, $user, $acessoriosSelecionados);
     error_log('[subsitemcontrato] resp insereTabSubs = ' . $respInsAcess);
     //echo ' | RESP_SUBS=' . $respInsAcess;  // temporário pra você ver no alert/resposta
 

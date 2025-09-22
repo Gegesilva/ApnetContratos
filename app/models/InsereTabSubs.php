@@ -115,7 +115,7 @@ function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user, $tipo, $a
 }
 
 
-function insereAcessorios($pdo, $itemAntigo, $itemNovo, $contrato, $user, $acessoriosSelecionados)
+function insereAcessorios($pdo, $itemAntigo, $contrato, $user, $acessoriosSelecionados)
 {
     try {
 

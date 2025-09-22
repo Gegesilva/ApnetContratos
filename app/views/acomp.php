@@ -80,8 +80,8 @@ include '../../config/database.php';
                         echo "<td>{$row['STATUS_COMPRA']}</td>";
                         echo "<td>{$row['OPCAD']}</td>";
                         echo "<td>{$row['COD_CONTRATO']}</td>";
-                        echo "<td>{$row['TIPO_OP']}</td>";
                         echo "<td>{$row['CONCLUIDO_S_N']}</td>";
+                        echo "<td>{$row['TIPO_OP']}</td>";
                         echo "<td>{$row['ACESSORIOS_S_N']}</td>";
 
                         if ($row['CONCLUIDO_S_N'] == 'NÃO' /* && $row['TB02002_CODPRE'] != NULL */) {
