@@ -6,7 +6,7 @@ include 'insereTabSubs.php';
 $contrato = $_POST['contrato'] ?? '';
 $itemRetirado = $_POST['itemRetirado'] ?? '';
 $itemAdicionado = $_POST['itemAdicionado'] ?? '';
-$acessoriosSelecionados = $_POST['acessorios'] ?? '';
+$acessoriosSelecionados = $_POST['acessoriosSelecionados'] ?? '';
 
 /* Recebendo vazio durante a fase de testes, pq a SP pode receber assim. Revisar depois  */
 $acessorios = $_POST['acessorios'] ?? '';
@@ -58,7 +58,7 @@ try {
 
 
     // depois (APENAS debug, sem mudar regras):
-    $respIns = insereTabSubs($pdo, $itemRetirado, $itemAdicionado, $contrato, $user, 'S','S');
+    $respIns = insereTabSubs($pdo, $itemRetirado, $itemAdicionado, $contrato, $user, 'S', $acessorios);
     error_log('[subsitemcontrato] resp insereTabSubs = ' . $respIns);
     //echo ' | RESP_SUBS=' . $respIns;  // temporário pra você ver no alert/resposta
 
