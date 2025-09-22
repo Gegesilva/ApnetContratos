@@ -9,6 +9,7 @@ $contrato = $_POST['contrato'] ?? '';
 $itemRetirado = $_POST['itemRetirado'] ?? '';
 $itemAdicionado = $_POST['itemAdicionado'] ?? '';
 $acessorios = $_POST['acessorios'] ?? '';
+$acessoriosSelecionados = $_POST['acessoriosSelecionados'] ?? '';
 
 if (!$contrato || !$itemRetirado || !$itemAdicionado || $user == '') {
     echo "Dados incompletos.";
@@ -91,6 +92,10 @@ try {
     $respIns = insereTabSubs($pdo, $itemRetirado, $itemAdicionado, $contrato, $user, 'E', $acessorios);
     error_log('[subsitemcontrato] resp insereTabSubs = ' . $respIns);
    // echo ' | RESP_SUBS=' . $respIns;  // temporário pra você ver no alert/resposta
+
+   $respInsAcess = insereAcessorios($pdo, $itemRetirado, $itemAdicionado,$contrato, $user, $acessoriosSelecionados);
+    error_log('[subsitemcontrato] resp insereTabSubs = ' . $respInsAcess);
+    //echo ' | RESP_SUBS=' . $respInsAcess;  // temporário pra você ver no alert/resposta
 
     $pdo->commit();
 

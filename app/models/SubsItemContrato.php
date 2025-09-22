@@ -8,8 +8,13 @@ $itemRetirado = $_POST['itemRetirado'] ?? '';
 $itemAdicionado = $_POST['itemAdicionado'] ?? '';
 $acessoriosSelecionados = $_POST['acessoriosSelecionados'] ?? '';
 
-/* Recebendo vazio durante a fase de testes, pq a SP pode receber assim. Revisar depois  */
-$acessorios = $_POST['acessorios'] ?? '';
+/* define e flag se possui acessrios */
+if(isset($acessoriosSelecionados)) {
+    $acessorios = 'S';
+} else {
+    $acessorios = 'N';
+}
+
 
 if (!$contrato || !$itemRetirado || !$itemAdicionado || $user == '') {
     echo "Dados incompletos.";
@@ -40,7 +45,7 @@ $verificaStmt->execute([
 $total = (INT) $verificaStmt->fetchColumn();
 
 if ($total === 0) {
-    echo "Dados incorretos. Confira se os dados informados estão corretos.". $contrato." - ". $itemRetirado." - ". $itemAdicionado.' - '.$total; 
+    echo "Dados incorretos. Confira se os dados informados estão corretos." . $contrato . " - " . $itemRetirado . " - " . $itemAdicionado . ' - ' . $total;
     exit;
 }
 
@@ -61,12 +66,13 @@ try {
     $respIns = insereTabSubs($pdo, $itemRetirado, $itemAdicionado, $contrato, $user, 'S', $acessorios);
     error_log('[subsitemcontrato] resp insereTabSubs = ' . $respIns);
     //echo ' | RESP_SUBS=' . $respIns;  // temporário pra você ver no alert/resposta
+    if (isset($acessoriosSelecionados)) {
 
-    $respInsAcess = insereAcessorios($pdo, $itemRetirado, $contrato, $user, $acessoriosSelecionados);
-    error_log('[subsitemcontrato] resp insereTabSubs = ' . $respInsAcess);
-    //echo ' | RESP_SUBS=' . $respInsAcess;  // temporário pra você ver no alert/resposta
+        $respInsAcess = insereAcessorios($pdo, $itemRetirado,$itemAdicionado ,$contrato, $user, $acessoriosSelecionados);
+        error_log('[subsitemcontrato] resp insereTabSubs = ' . $respInsAcess);
+        //echo ' | RESP_SUBS=' . $respInsAcess;  // temporário pra você ver no alert/resposta
 
-
+    }
 
     if ($stmt->rowCount()) {
         echo "Alteração feita com sucesso! ";

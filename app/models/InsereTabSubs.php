@@ -115,7 +115,7 @@ function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user, $tipo, $a
 }
 
 
-function insereAcessorios($pdo, $itemAntigo, $contrato, $user, $acessoriosSelecionados)
+function insereAcessorios($pdo, $itemAntigo, $itemNovo, $contrato, $user, $acessoriosSelecionados)
 {
     try {
 
@@ -136,23 +136,25 @@ function insereAcessorios($pdo, $itemAntigo, $contrato, $user, $acessoriosSeleci
                                         '$user',	--[OPCAD]
                                         NULL,	--[DTALT]
                                         NULL,	--[OPALT]
-                                        TB02114_CODIGO,	--[CONTRATO]
-                                        TB02054_PRODUTO,	--[PRODUTO]
-                                        TB02114_NUMSERIE,	--[NUMSERIE]
+                                        :contrato,	--[CONTRATO]
+                                        Nov.TB02054_PRODUTO,	--[PRODUTO]
+                                        Nov.TB02054_NUMSERIE,	--[NUMSERIE]
                                         TB02114_ACESSORIO,	--[CODACESSORIO]
                                         TB02114_QTPROD,	--[QTPROD]
                                         'App Subs Contrato',	--[OBS]
                                         TB02114_NUMSERIEACESSORIO	--[NUMSERIEACESSORIO]
                                     FROM TB02114
-                                    LEFT JOIN TB01010 ON TB01010_CODIGO = TB02114_ACESSORIO
-                                    LEFT JOIN TB02054 ON TB02054_NUMSERIE = TB02114_NUMSERIE
-                                    WHERE TB02114_ACESSORIO IN ($acessoriosSelecionados)
-									AND TB02054_PAT = :itemAntigo
-                                    AND TB02114_CODIGO = :contrato
+                                    LEFT JOIN TB02054 Ant ON Ant.TB02054_PAT = :itemAntigo
+                                    LEFT JOIN TB02054 Nov ON Nov.TB02054_PAT = :itemNovo 
+                                    WHERE TB02114_ACESSORIO IN ($acessoriosSelecionados) AND
+                                     TB02114_CODIGO = :contrato2
+
 ");
         $stmt->execute([
             ':itemAntigo' => $itemAntigo,
+            'itemNovo' => $itemNovo,
             ':contrato' => $contrato,
+            ':contrato2' => $contrato,
         ]);
 
         if ($stmt->rowCount()) {

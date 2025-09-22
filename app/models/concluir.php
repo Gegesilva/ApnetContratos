@@ -32,8 +32,8 @@ try {
                         @Contrato = :contrato 
                         ,@ItemRetirado = :itemRetirado
                         ,@ItemAdicionado = :itemAdicionado
-                        ,@User = '$user'
-                        ,@Acessorios = $acessorios;
+                        ,@User = :user
+                        ,@Acessorios = :acessorios;
                         
             UPDATE SUBS_CONTRATO
             SET CONCLUIDO_S_N = 'S'
@@ -46,7 +46,8 @@ try {
         ':itemRetirado'   => $itemRetirado,
         ':itemRetiradoUp'   => $itemRetirado,
         ':contrato'   => $contrato,
-        
+        ':user'   => $user,
+        ':acessorios'   => $acessorios 
     ]);
 
     echo "Substituição concluída com sucesso!";

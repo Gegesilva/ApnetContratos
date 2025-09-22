@@ -18,8 +18,6 @@ function atualizarEstado() {
   btnAlterar.disabled = !todosPreenchidos;
 }
 
-let acessorios = 'N';
-// Função para decidir qual modal abrir
 // Função para decidir qual modal abrir
 function abrirModalVerificacao() {
   const check = document.getElementById("chkOpcao").checked;
@@ -30,7 +28,6 @@ function abrirModalVerificacao() {
   } else if (check2) {
     // chama somente quando o segundo checkbox está marcado
     selecaoAcessorios();
-    acessorios = 'S';
   } else {
     abrirModal("modalConfirmacao");
   }
@@ -66,9 +63,7 @@ function confirmarAlteracao() {
     .then(data => {
       fecharModal();
       alert(data);
-      document.getElementById("contrato").value = "";
-      document.getElementById("itemRetirado").value = "";
-      document.getElementById("itemAdicionado").value = "";
+      window.location.href = "subsMaq.php"; // recarrega a página
       atualizarEstado();
     })
     .catch(error => {
@@ -82,21 +77,20 @@ function confirmarAlteracaoAlternativa() {
   const contrato = document.getElementById("contrato").value;
   const itemRetirado = document.getElementById("itemRetirado").value;
   const itemAdicionado = document.getElementById("itemAdicionado").value;
+  const acessoriosSelecionados = document.getElementById("acessoriosSelecionados").value;
 
   fetch("../models/extravio.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
       },
-      body: `contrato=${encodeURIComponent(contrato)}&itemRetirado=${encodeURIComponent(itemRetirado)}&itemAdicionado=${encodeURIComponent(itemAdicionado)}`
+      body: `contrato=${encodeURIComponent(contrato)}&itemRetirado=${encodeURIComponent(itemRetirado)}&itemAdicionado=${encodeURIComponent(itemAdicionado)}&acessoriosSelecionados=${encodeURIComponent(acessoriosSelecionados)}`
     })
     .then(response => response.text())
     .then(data => {
       fecharModal();
       alert(data);
-      document.getElementById("contrato").value = "";
-      document.getElementById("itemRetirado").value = "";
-      document.getElementById("itemAdicionado").value = "";
+      window.location.href = "subsMaq.php"; // recarrega a página
       atualizarEstado();
     })
     .catch(error => {
