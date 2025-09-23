@@ -8,8 +8,14 @@ $user = $_SESSION['usuario'];
 $contrato = $_POST['contrato'] ?? '';
 $itemRetirado = $_POST['itemRetirado'] ?? '';
 $itemAdicionado = $_POST['itemAdicionado'] ?? '';
-$acessorios = $_POST['acessorios'] ?? '';
 $acessoriosSelecionados = $_POST['acessoriosSelecionados'] ?? '';
+
+/* define e flag se possui acessrios */
+if(isset($acessoriosSelecionados)) {
+    $acessorios = 'S';
+} else {
+    $acessorios = 'N';
+}
 
 if (!$contrato || !$itemRetirado || !$itemAdicionado || $user == '') {
     echo "Dados incompletos.";
