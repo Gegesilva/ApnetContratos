@@ -74,7 +74,7 @@ if (isset($patrimonioAcessorios)) {
       <!-- Checkbox -->
       <div class="check-container">
         <input type="checkbox" class="check" id="chkOpcao">
-        <label for="chkOpcao">Extravio?</label>
+        <label for="chkOpcao" id="lbExtravio">Extravio?</label>
         <input type="<?=$check?>" class="check" id="chkOpcao2">
         <?=$labelAcessorios?>
       </div>

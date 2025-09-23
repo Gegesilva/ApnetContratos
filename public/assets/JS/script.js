@@ -18,6 +18,32 @@ function atualizarEstado() {
   btnAlterar.disabled = !todosPreenchidos;
 }
 
+ //alternancia entre os checkboxes
+ const chkOpcao = document.getElementById("chkOpcao");
+ const chkOpcao2 = document.getElementById("chkOpcao2");
+ const labelOpcao = document.getElementById("lbExtravio");
+
+ chkOpcao.addEventListener("change", () => {
+    if (chkOpcao.checked) {
+      chkOpcao2.checked = false;
+    }
+ });
+
+  chkOpcao2.addEventListener("change", () => {
+    if (chkOpcao2.checked) {
+      chkOpcao.checked = false;
+      chkOpcao.disabled = true;
+      labelOpcao.textContent = "Selecione na proxima etapa.";
+      labelOpcao.style.color = "red";
+      labelOpcao.style.fontSize = "10px";
+    } else {
+      chkOpcao.disabled = false;
+      labelOpcao.textContent = "Extravio?";
+      labelOpcao.style.color = "black";
+      labelOpcao.style.fontSize = "14px";
+    }
+  })
+
 // Função para decidir qual modal abrir
 function abrirModalVerificacao() {
   const check = document.getElementById("chkOpcao").checked;
