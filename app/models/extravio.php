@@ -58,18 +58,22 @@ try {
     // Primeira execução (CRIA_ORC_SAIDA)
     $stmt = $pdo->prepare("
         EXEC CRIA_ORC_SAIDA
-            @Pat = :itemAntigo,
+            @PatAnt = :itemAntigo,
             @Contrato = :Contrato,
             @User = :user,
             @Operacao = '71',
-            @Status = 'A8';
+            @Status = 'A8',
+            @PatAdd = :PatAdd,
+            @Acessorios = :Acessorios;
     ");
 
     if (
         !$stmt->execute([
             ':itemAntigo' => $itemRetirado,
             ':Contrato' => $contrato,
-            ':user' => $user
+            ':user' => $user,
+            ':PatAdd' => $itemAdicionado,
+            ':Acessorios' => $acessorios
         ])
     ) {
         throw new Exception("Erro na execução da primeira consulta.");
@@ -105,7 +109,7 @@ try {
 
     $pdo->commit();
 
-    echo "Alteração feita com sucesso!";
+    echo "Alteração feita com sucesso!". $itemAdicionado. ' | ' . $itemRetirado. ' | ' . $contrato . ' | ' . $acessorios;
 } catch (Exception $e) {
     $pdo->rollBack();
     echo "Erro ao alterar: " . $e->getMessage();
