@@ -109,7 +109,7 @@ try {
 
     $pdo->commit();
 
-    echo "Alteração feita com sucesso!". $itemAdicionado. ' | ' . $itemRetirado. ' | ' . $contrato . ' | ' . $acessorios;
+    echo "Alteração feita com sucesso!"/* . $itemAdicionado. ' | ' . $itemRetirado. ' | ' . $contrato . ' | ' . $acessorios */;
 } catch (Exception $e) {
     $pdo->rollBack();
     echo "Erro ao alterar: " . $e->getMessage();
