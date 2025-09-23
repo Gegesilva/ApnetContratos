@@ -33,7 +33,7 @@ function atualizarEstado() {
     if (chkOpcao2.checked) {
       chkOpcao.checked = false;
       chkOpcao.disabled = true;
-      labelOpcao.textContent = "Selecione na proxima etapa.";
+      labelOpcao.textContent = "Selecione na última etapa.";
       labelOpcao.style.color = "red";
       labelOpcao.style.fontSize = "10px";
     } else {
