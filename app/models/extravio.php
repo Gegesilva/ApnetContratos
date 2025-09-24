@@ -22,6 +22,7 @@ if (!$contrato || !$itemRetirado || !$itemAdicionado || $user == '') {
     exit;
 }
 
+
 // Verifica se o PAT de saida pertence ao contrato, se o PAT de entrada existe e se essa substituição ja foi iniciada.
 $verificaSql = "SELECT COUNT(*) AS total
                 FROM TB02112
@@ -49,6 +50,15 @@ if ($total === 0) {
     echo "Dados incorretos. Confira se os dados informados estão corretos.";
     exit;
 }
+
+// depois (APENAS debug, sem mudar regras):
+$respIns = insereTabSubs($pdo, $itemRetirado, $itemAdicionado, $contrato, $user, 'E', $acessorios);
+error_log('[subsitemcontrato] resp insereTabSubs = ' . $respIns);
+// echo ' | RESP_SUBS=' . $respIns;  // temporário pra você ver no alert/resposta
+
+$respInsAcess = insereAcessorios($pdo, $itemRetirado, $itemAdicionado,$contrato, $user, $acessoriosSelecionados);
+error_log('[subsitemcontrato] resp insereTabSubs = ' . $respInsAcess);
+//echo ' | RESP_SUBS=' . $respInsAcess;  // temporário pra você ver no alert/resposta
 
 // Cria orçamento
 try {
@@ -96,16 +106,6 @@ try {
     ) {
         throw new Exception("Erro na execução da segunda consulta.");
     }
-
-
-    // depois (APENAS debug, sem mudar regras):
-    $respIns = insereTabSubs($pdo, $itemRetirado, $itemAdicionado, $contrato, $user, 'E', $acessorios);
-    error_log('[subsitemcontrato] resp insereTabSubs = ' . $respIns);
-   // echo ' | RESP_SUBS=' . $respIns;  // temporário pra você ver no alert/resposta
-
-   $respInsAcess = insereAcessorios($pdo, $itemRetirado, $itemAdicionado,$contrato, $user, $acessoriosSelecionados);
-    error_log('[subsitemcontrato] resp insereTabSubs = ' . $respInsAcess);
-    //echo ' | RESP_SUBS=' . $respInsAcess;  // temporário pra você ver no alert/resposta
 
     $pdo->commit();
 
