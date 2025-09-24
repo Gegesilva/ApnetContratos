@@ -1,5 +1,6 @@
 <?php
 session_start();
+include '../../config/database.php';
 header('Content-type: text/html; charset=ISO-8895-1');
 ini_set('max_input_vars', 3000);
 error_reporting(0);
@@ -26,11 +27,23 @@ $itemAdicionado = isset($_POST['itemAdicionado']) ? $_POST['itemAdicionado'] : $
 $itemRetirado = isset($_POST['itemRetirado']) ? $_POST['itemRetirado'] : $_SESSION['itemRetirado'];
 $contrato = isset($_POST['contrato']) ? $_POST['contrato'] : $_SESSION['contrato'];
 
+
+
 if (isset($patrimonioAcessorios)) {
+  /* pega nome dos acessorios */
+  $sqlNome = "SELECT 
+              STRING_AGG(TB01010_NOME, ', ') Nome
+              FROM TB01010
+              WHERE TB01010_CODIGO IN ($patrimonioAcessorios)";
+  $stmtNome = $pdo->query($sqlNome);
+  $nomesAcessorios = $stmtNome->fetchAll(PDO::FETCH_ASSOC)[0]['Nome'];
+
+
   $valueItemAdd = "value = '$itemAdicionado' ";
   $valueItemRet = "value = '$itemRetirado' ";
   $valueContrato = "value = '$contrato' ";
-  $textareaAcessorios = "<textarea name='acessoriosSelecionados' id='acessoriosSelecionados' disabled>$patrimonioAcessorios</textarea>";
+  $textareaAcessorios = "<textarea style='display: none;' name='acessoriosSelecionados' id='acessoriosSelecionados' disabled>$patrimonioAcessorios</textarea>";
+  $textareaAcessoriosNome = "<textarea disabled>$nomesAcessorios</textarea>";
   $check = "hidden";
   $labelAcessorios = " ";
   $dissabled = "disabled";
@@ -62,27 +75,28 @@ if (isset($patrimonioAcessorios)) {
     <h2>Substituição de Item no Contrato</h2>
     <div class="form-group">
       <input type="text" id="contrato" placeholder="Número do Contrato" oninput="atualizarEstado()" required
-        <?= $valueContrato ?> <?=$dissabled?>/>
+        <?= $valueContrato ?> <?= $dissabled ?> />
 
       <div class="row">
         <input type="text" id="itemRetirado" placeholder="Item Retirado" disabled oninput="atualizarEstado()" required
-          <?= $valueItemRet ?> <?=$dissabled?>/>
+          <?= $valueItemRet ?> <?= $dissabled ?> />
         <input type="text" id="itemAdicionado" placeholder="Item Adicionado" disabled oninput="atualizarEstado()"
-          required <?= $valueItemAdd ?> <?=$dissabled?>/>
+          required <?= $valueItemAdd ?> <?= $dissabled ?> />
       </div>
 
       <!-- Checkbox -->
       <div class="check-container">
         <input type="checkbox" class="check" id="chkOpcao">
         <label for="chkOpcao" id="lbExtravio">Extravio?</label>
-        <input type="<?=$check?>" class="check" id="chkOpcao2">
-        <?=$labelAcessorios?>
+        <input type="<?= $check ?>" class="check" id="chkOpcao2">
+        <?= $labelAcessorios ?>
       </div>
       <!-- Textarea para mostrar os patrimonios selecionados -->
       <div class='form-group'>
         <?= $textareaAcessorios ?>
+        <?= $textareaAcessoriosNome ?>
       </div>
-      <button id="btnAlterar"  onclick="abrirModalVerificacao()">Alterar</button>
+      <button id="btnAlterar" onclick="abrirModalVerificacao()">Alterar</button>
       <button onclick="window.location='menu.php'">Voltar</button>
     </div>
   </div>
