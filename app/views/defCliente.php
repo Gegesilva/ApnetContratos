@@ -89,7 +89,7 @@ $patJson = htmlspecialchars(json_encode($patArray), ENT_QUOTES, 'UTF-8');
             <input type="hidden" name="contrato" id="contratoHidden" />
             <input type="hidden" name="contratoAnt" id="contratoAntHidden" />
             <input type="hidden" name="cliente" id="clienteHidden" />
-            <input type="hidden" name="vaiAcessorios" id="vaiAcessorios" />
+            <input type="hidden" name="Acessorios" id="vaiAcessorios" />
 
             <!-- Botão chama a função JS -->
             <button onclick="confirmarAlteracao()">Confirmar</button>

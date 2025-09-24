@@ -1,6 +1,12 @@
 <?php
 session_start();
 
+/* echo "<pre>";
+print_r($_POST);
+echo "</pre>";
+exit;
+ */
+
 if (!isset($_SESSION['usuario'])) {
     header("Location: ../../public/login.php");
     exit;
@@ -27,6 +33,7 @@ include '../../config/database.php';
 $ContratoAnt = $_POST['contratoAnt'];
 $ContratoNov = $_POST['contrato'];
 $CodCli = $_POST['cliente'];
+$vaiAcessorios = $_POST['Acessorios'];
 
 
 
@@ -96,8 +103,8 @@ try {
 
     //echo "Substituição realizada com sucesso.";
 } catch (PDOException $e) {
-    echo "Erro ao alterar: " . $e->getMessage();
+    echo "Erro ao alterar: " . $e->getMessage() . "vai acessorios: ".$vaiAcessorios;
 }
 
-echo "<script>alert('Dados alterados com sucesso.'); window.location.href = '../views/selecEquips.php';</script>";
+echo "<script>alert('Dados alterados com sucesso. Acess: $vaiAcessorios'); window.location.href = '../views/selecEquips.php';</script>";
 exit;

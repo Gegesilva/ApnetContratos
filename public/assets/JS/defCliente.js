@@ -4,22 +4,16 @@ function confirmarAlteracao() {
   const cliente = document.getElementById("clienteInp").value;
   const pats = document.getElementById("patArray").value;
 
-  //check
-  let vaiAcessorios = 'N';
-  const check = document.getElementById('chkAcess');
-  const inputAcessorios = document.getElementById('vaiAcessorios');
-  check.addEventListener('change', function () {
-    if (this.checked) {
-      vaiAcessorios = 'S';
-    } else {}
-  });
+  // pega o estado do checkbox
+  const check = document.getElementById("chkAcess");
+  const vaiAcessorios = check.checked ? "S" : "N";
 
   // Preencher os inputs ocultos dentro do modal
-  document.getElementById("contratoHidden").value = contrato;
+ /*  document.getElementById("contratoHidden").value = contrato;
   document.getElementById("contratoAntHidden").value = contratoAnt;
   document.getElementById("clienteHidden").value = cliente;
   document.getElementById("patsHidden").value = pats;
-  document.getElementById("vaiAcessorios").value = vaiAcessorios;
+  document.getElementById("vaiAcessorios").value = vaiAcessorios; */
 
   // Criar um formulário e enviá-lo por POST
   const form = document.createElement("form");
@@ -38,10 +32,12 @@ function confirmarAlteracao() {
   addHidden("contratoAnt", contratoAnt);
   addHidden("cliente", cliente);
   addHidden("patArray", pats);
+  addHidden("Acessorios", vaiAcessorios); 
 
   document.body.appendChild(form);
   form.submit();
 }
+
 
 
 // Abrir e fechar modal
