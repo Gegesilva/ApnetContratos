@@ -69,6 +69,11 @@ $patJson = htmlspecialchars(json_encode($patArray), ENT_QUOTES, 'UTF-8');
                 oninput="atualizarEstado()" required />
             <input type="hidden" name="contratoAnt" id="contratoAnt" value="<?= $ContratoAnt ?>">
         </div>
+        <!-- Checkbox -->
+      <div class="check-container">
+        <input type="checkbox" class="check" id="chkAcess">
+        <label for="chkAcess">Incluir acessorios?</label>
+      </div>
         <button id="btnAlterar" disabled onclick="abrirModal()">Alterar</button>
         <button id="btnVoltar" type="button" onclick="window.location.href= 'selecEquips.php'">Voltar</button>
     </div>
@@ -84,6 +89,7 @@ $patJson = htmlspecialchars(json_encode($patArray), ENT_QUOTES, 'UTF-8');
             <input type="hidden" name="contrato" id="contratoHidden" />
             <input type="hidden" name="contratoAnt" id="contratoAntHidden" />
             <input type="hidden" name="cliente" id="clienteHidden" />
+            <input type="hidden" name="vaiAcessorios" id="vaiAcessorios" />
 
             <!-- Botão chama a função JS -->
             <button onclick="confirmarAlteracao()">Confirmar</button>

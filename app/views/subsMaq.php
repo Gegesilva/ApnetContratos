@@ -32,7 +32,7 @@ $contrato = isset($_POST['contrato']) ? $_POST['contrato'] : $_SESSION['contrato
 if (isset($patrimonioAcessorios)) {
   /* pega nome dos acessorios */
   $sqlNome = "SELECT 
-              STRING_AGG(TB01010_NOME, ', ') Nome
+              STRING_AGG(TB01010_NOME, CHAR(13) + CHAR(10)) Nome
               FROM TB01010
               WHERE TB01010_CODIGO IN ($patrimonioAcessorios)";
   $stmtNome = $pdo->query($sqlNome);

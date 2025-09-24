@@ -4,11 +4,22 @@ function confirmarAlteracao() {
   const cliente = document.getElementById("clienteInp").value;
   const pats = document.getElementById("patArray").value;
 
+  //check
+  let vaiAcessorios = 'N';
+  const check = document.getElementById('chkAcess');
+  const inputAcessorios = document.getElementById('vaiAcessorios');
+  check.addEventListener('change', function () {
+    if (this.checked) {
+      vaiAcessorios = 'S';
+    } else {}
+  });
+
   // Preencher os inputs ocultos dentro do modal
   document.getElementById("contratoHidden").value = contrato;
   document.getElementById("contratoAntHidden").value = contratoAnt;
   document.getElementById("clienteHidden").value = cliente;
   document.getElementById("patsHidden").value = pats;
+  document.getElementById("vaiAcessorios").value = vaiAcessorios;
 
   // Criar um formulário e enviá-lo por POST
   const form = document.createElement("form");
@@ -33,10 +44,7 @@ function confirmarAlteracao() {
 }
 
 
-
-
-
-
+// Abrir e fechar modal
 function abrirModal() {
   const modal = document.getElementById('modalConfirmacao');
   modal.style.display = 'flex';
@@ -62,6 +70,7 @@ function atualizarEstado() {
 
 //selecionar todos os checkboxes
 let todosSelecionados = false;
+
 function selecionarTodos() {
   const checkboxes = document.querySelectorAll('.chk-item');
   todosSelecionados = !todosSelecionados;
@@ -70,8 +79,8 @@ function selecionarTodos() {
 
 
 
- // Ordenação das Colunas
- function ordenarTabela(colIndex) {
+// Ordenação das Colunas
+function ordenarTabela(colIndex) {
   const table = document.querySelector("table");
   const tbody = table.tBodies[0];
   const rows = Array.from(tbody.querySelectorAll("tr"));
