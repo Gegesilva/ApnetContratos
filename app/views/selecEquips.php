@@ -44,7 +44,7 @@ $nome = $stmtNome->fetchColumn();
 <div class="container">
     <form action="defCliente.php" method="POST">
         <div class="header">
-            <h2 class="titulo"><?=$nome?></h2>
+            <h2 class="titulo"><?=$nome?>: <?=$contrato?></h2>
             <div>
                 <button type="submit" class="btn-selec">SELECIONAR</button>
                 <button type="button" onclick="window.location.href= 'subsRazSocial.php'" class="btn-sair">← Voltar</button>
