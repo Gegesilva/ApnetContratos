@@ -55,7 +55,7 @@ include '../../config/database.php';
                                 ,[PAT_SAIDA]
                                 ,[PEDIDO_COMPRA]
                                 ,[ORCAMENTO]
-                                ,[STATUS_COMPRA]
+                                ,TB01039_NOME STATUS_COMPRA
                                 ,[OPCAD]
                                 ,[COD_CONTRATO]
                                 ,CASE WHEN [CONCLUIDO_S_N] = 'S' THEN 'SIM' ELSE 'NÃO' END AS CONCLUIDO_S_N
@@ -67,6 +67,7 @@ include '../../config/database.php';
                             FROM [dbo].[SUBS_CONTRATO]
                             LEFT JOIN TB02002 ON TB02002_CODPRE = PEDIDO_COMPRA
                             LEFT JOIN TB02030 ON TB02030_CODIGO = PEDIDO_COMPRA
+                            LEFT JOIN TB01039 ON TB01039_CODIGO = TB02030_STATUS
                             WHERE CONCLUIDO_S_N = 'N'";
                     $stmt = $pdo->query($sql);
 
