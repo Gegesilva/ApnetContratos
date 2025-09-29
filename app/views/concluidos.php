@@ -54,6 +54,7 @@ include '../../config/database.php';
                                 ,[PAT_SAIDA]
                                 ,[PEDIDO_COMPRA]
                                 ,[ORCAMENTO]
+                                ,TB01039_NOME STATUS_COMPRA
                                 ,[STATUS_COMPRA]
                                 ,[OPCAD]
                                 ,[COD_CONTRATO]
@@ -66,6 +67,7 @@ include '../../config/database.php';
                             FROM [dbo].[SUBS_CONTRATO]
                             LEFT JOIN TB02002 ON TB02002_CODPRE = PEDIDO_COMPRA
                             LEFT JOIN TB02030 ON TB02030_CODIGO = PEDIDO_COMPRA
+                            LEFT JOIN TB01039 ON TB01039_CODIGO = TB02030_STATUS
                             WHERE CONCLUIDO_S_N = 'S'";
                     $stmt = $pdo->query($sql);
 
