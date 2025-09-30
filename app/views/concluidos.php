@@ -55,7 +55,6 @@ include '../../config/database.php';
                                 ,[PEDIDO_COMPRA]
                                 ,[ORCAMENTO]
                                 ,TB01039_NOME STATUS_COMPRA
-                                ,[STATUS_COMPRA]
                                 ,[OPCAD]
                                 ,[COD_CONTRATO]
                                 ,CASE WHEN [CONCLUIDO_S_N] = 'S' THEN 'SIM' ELSE 'NÃO' END AS CONCLUIDO_S_N
