@@ -9,7 +9,7 @@ $itemAdicionado = $_POST['itemAdicionado'] ?? '';
 $acessoriosSelecionados = $_POST['acessoriosSelecionados'] ?? '';
 
 /* define e flag se possui acessrios */
-if(isset($acessoriosSelecionados)) {
+if(isset($acessoriosSelecionados)  && $acessoriosSelecionados != '') {
     $acessorios = 'S';
 } else {
     $acessorios = 'N';
