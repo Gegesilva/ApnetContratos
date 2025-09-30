@@ -102,7 +102,8 @@ function confirmarAlteracaoAlternativa() {
   const contrato = document.getElementById("contrato").value;
   const itemRetirado = document.getElementById("itemRetirado").value;
   const itemAdicionado = document.getElementById("itemAdicionado").value;
-  const acessoriosSelecionados = document.getElementById("acessoriosSelecionados").value;
+  const elemento = document.getElementById("acessoriosSelecionados");
+  const acessoriosSelecionados = elemento ? elemento.value : "";
 
   fetch("../models/extravio.php", {
       method: "POST",
