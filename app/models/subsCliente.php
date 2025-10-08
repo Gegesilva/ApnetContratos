@@ -48,12 +48,14 @@ $sqlCheck = "SELECT COUNT(*) FROM TB02111 WHERE TB02111_CODIGO = :ContratoNov";
 $stmtCheck = $pdo->prepare($sqlCheck);
 $stmtCheck->execute([':ContratoNov' => $ContratoNov]);
 $count = $stmtCheck->fetchColumn();
-    if ($count > 0) {
-        echo "<script>alert('Contrato novo já existe.');</script>";
-        header("Location: ../views/selecEquips.php");
-        exit; 
-    }
-    
+if ($count > 0) {
+    echo "<script>
+        alert('Contrato novo já existe.');
+        window.location.href = '../views/subsRazSocial.php';
+    </script>";
+    exit;
+}
+
 try {
     $sql = "EXEC [dbo].[SUBS_CILENTE_CONTRATO]
                 @ContratoAnt = :ContratoAnt,
@@ -76,15 +78,13 @@ try {
     $stmt2 = $pdo->prepare("
         EXEC CriarPedidoCompra
         @CodigosPat = $patFormatado,
-        @User = :user,
+        @User = $user,
         @Operacao = '00',
         @Status = '00';
     ");
+    $stmt2->execute();
+        
 
-    if (!$stmt2->execute([
-        ':user'       => $user
-    ]));
-    
     //cria orçamento
     $sql = "EXEC [dbo].[CRIA_ORC_SUB_CLI]
                 @ContratoAnt = :ContratoAnt,
@@ -98,14 +98,13 @@ try {
         ':ContratoAnt' => $ContratoAnt,
         ':ContratoNov' => $ContratoNov,
         ':CodCli' => $CodCli,
-        //':Pats' => $patFormatado,
         ':user' => $user
     ]);
 
     //echo "Substituição realizada com sucesso.";
 } catch (PDOException $e) {
-    echo "Erro ao alterar: " . $e->getMessage() . "vai acessorios: ".$vaiAcessorios;
+    echo "Erro ao alterar: " . $e->getMessage() . "vai acessorios: " . $patFormatado;
 }
 
-echo "<script>alert('Dados alterados com sucesso.'); window.location.href = '../views/selecEquips.php';</script>";
+echo "<script>alert('Dados alterados com sucesso.'); window.location.href = '../views/subsRazSocial.php';</script>";
 exit;
