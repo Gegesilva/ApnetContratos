@@ -85,7 +85,7 @@ include '../../config/database.php';
                         echo "<td>{$row['TIPO_OP']}</td>";
                         echo "<td>{$row['ACESSORIOS_S_N']}</td>";
 
-                        if ($row['CONCLUIDO_S_N'] == 'NÃO' /* && $row['TB02002_CODPRE'] != NULL &&  TB02030_STATUS = '33'*/) {
+                        if ($row['CONCLUIDO_S_N'] == 'NÃO' /* && $row['TB02002_CODPRE'] != NULL &&  $row['TB02030_STATUS'] = '33'*/) {
                             echo "<td>
                                 <form method='POST' action='../models/concluir.php'>
                                     <input type='hidden' name='PAT_SAIDA' value='{$row['PAT_SAIDA']}'>
