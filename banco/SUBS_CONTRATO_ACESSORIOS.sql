@@ -1,3 +1,4 @@
+
 CREATE TABLE [dbo].[SUBS_CONTRATO_ACESSORIOS](
 	[DTCAD] [smalldatetime] NULL,
 	[OPCAD] [varchar](20) NULL,

@@ -1,3 +1,5 @@
+
+
 CREATE TABLE [dbo].[SUBS_CONTRATO](
 	[PAT_ENTRADA] [varchar](20) NULL,
 	[PAT_SAIDA] [varchar](20) NULL,
