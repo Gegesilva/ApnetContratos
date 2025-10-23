@@ -1,5 +1,6 @@
 <?php
 session_start();
+include 'InsereTabSubs.php';
 
 /* echo "<pre>";
 print_r($_POST);
@@ -83,7 +84,7 @@ try {
         @Status = '42';
     ");
     $stmt2->execute();
-        
+
 
     //cria orçamento
     $sql = "EXEC [dbo].[CRIA_ORC_SUB_CLI]
@@ -97,16 +98,28 @@ try {
 
     $stmt = $pdo->prepare($sql);
     $stmt->execute([
-        ':ContratoAnt' => $ContratoAnt,
+        ':ContratoAnt' => $ContratoAnt,//
         ':ContratoNov' => $ContratoNov,
         ':CodCli' => $CodCli,
         ':user' => $user
     ]);
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $novoOrcamento = $result[0]['NovoOrcamento'] ?? null;
+
 
     //echo "Substituição realizada com sucesso.";
 } catch (PDOException $e) {
-    echo "Erro ao alterar: " . $e->getMessage() . "vai acessorios: " . $patFormatado;
+    echo "Erro ao alterar: " . $e->getMessage();
 }
 
+$respIns = insereTabSubs($pdo, NULL, NULL, $ContratoNov, $user, 'S', $acessorios, $patFormatado, $ContratoAnt, $CodCli);
+error_log('[subsitemcontrato] resp insereTabSubs = ' . $respIns);
+echo ' | RESP_SUBS=' . $respIns;  // temporário pra você ver no alert/resposta
+
+//echo "<script>alert('Dados alterados com sucesso.". $patFormatado . "');</script>";
 echo "<script>alert('Dados alterados com sucesso.'); window.location.href = '../views/subsRazSocial.php';</script>";
 exit;
+
+
+
+//echo 'ContratoNov: ' . $ContratoNov, 'ContratoAnt: ' . $ContratoAnt, 'CodCli: ' . $CodCli, 'Pats: ' . $patFormatado, 'User: ' . $user;

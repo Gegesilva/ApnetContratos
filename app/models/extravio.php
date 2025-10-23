@@ -52,7 +52,7 @@ if ($total === 0) {
 }
 
 // depois (APENAS debug, sem mudar regras):
-$respIns = insereTabSubs($pdo, $itemRetirado, $itemAdicionado, $contrato, $user, 'E', $acessorios);
+$respIns = insereTabSubs($pdo, $itemRetirado, $itemAdicionado, $contrato, $user, 'E', $acessorios, NULL, NULL, NULL);
 error_log('[subsitemcontrato] resp insereTabSubs = ' . $respIns);
 // echo ' | RESP_SUBS=' . $respIns;  // temporário pra você ver no alert/resposta
 

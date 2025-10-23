@@ -12,10 +12,10 @@ $user = $_SESSION['usuario'];
 
 //echo "<script>console.log('Debug Objects: " . $patrimonioAcessorios . "' );</script>";
 
-function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user, $tipo, $acessorios)
+function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user, $tipo, $acessorios, $patsRaz, $contratoAnt, $codCli) 
 {
     try {
-
+       $tipoInsert = isset($contratoAnt) ? 'SubsRazSocial' : 'SubsItemContrato';
         if ($tipo == 'S') {
             $stmt = $pdo->prepare("INSERT INTO [dbo].[SUBS_CONTRATO]
                                         ([PAT_ENTRADA]
@@ -28,7 +28,10 @@ function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user, $tipo, $a
                                         ,[CONCLUIDO_S_N]
                                         ,[TIPO_OP]
                                         ,[ACESSORIOS_S_N]
-                                        ,[DTCAD])
+                                        ,[DTCAD]
+                                        ,PATS_RAZ
+                                        ,COD_CONTRATO_ANT
+                                        ,CODCLI)
                                     VALUES
                                         (:itemNovo
                                         ,:itemAntigo
@@ -41,10 +44,14 @@ function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user, $tipo, $a
                                         ,:user
                                         ,:contrato
                                         ,'N'
-                                        ,'SubsItemContrato'
+                                        ,:tipoInsert
                                         ,:acessorios
-                                        ,GETDATE())");
+                                        ,GETDATE()
+                                        ,:patsRaz
+                                        ,:contratoAnt
+                                        ,:codcli)");
             $stmt->execute([
+                ':tipoInsert' => $tipoInsert,
                 ':itemAntigo' => $itemAntigo,
                 ':itemAntigo2' => $itemAntigo,
                 ':itemNovo' => $itemNovo,
@@ -52,7 +59,10 @@ function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user, $tipo, $a
                 ':contrato2' => $contrato,
                 ':contrato3' => $contrato,
                 ':user' => $user,
-                ':acessorios' => $acessorios
+                ':acessorios' => $acessorios,
+                ':patsRaz' => $patsRaz,
+                ':contratoAnt' => $contratoAnt,
+                ':codcli' => $codCli
             ]);
         } else {
             $stmt = $pdo->prepare("INSERT INTO [dbo].[SUBS_CONTRATO]
@@ -158,9 +168,9 @@ function insereAcessorios($pdo, $itemAntigo, $itemNovo, $contrato, $user, $acess
         ]);
 
         if ($stmt->rowCount()) {
-            return "Alteração feita com sucesso! na função";
+           // return "Alteração feita com sucesso! na função";
         } else {
-            return "Nenhum item foi alterado.";
+            //return "Nenhum item foi alterado.";
         }
 
     } catch (PDOException $e) {

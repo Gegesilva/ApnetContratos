@@ -63,9 +63,10 @@ try {
 
 
     // depois (APENAS debug, sem mudar regras):
-    $respIns = insereTabSubs($pdo, $itemRetirado, $itemAdicionado, $contrato, $user, 'S', $acessorios);
+    $respIns = insereTabSubs($pdo, $itemRetirado, $itemAdicionado, $contrato, $user, 'S', $acessorios, NULL, NULL, NULL);
     error_log('[subsitemcontrato] resp insereTabSubs = ' . $respIns);
     //echo ' | RESP_SUBS=' . $respIns;  // temporário pra você ver no alert/resposta
+
     if (isset($acessoriosSelecionados)) {
 
         $respInsAcess = insereAcessorios($pdo, $itemRetirado,$itemAdicionado ,$contrato, $user, $acessoriosSelecionados);
