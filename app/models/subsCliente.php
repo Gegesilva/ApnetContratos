@@ -79,8 +79,8 @@ try {
         EXEC CriarPedidoCompra
         @CodigosPat = $patFormatado,
         @User = $user,
-        @Operacao = '00',
-        @Status = '00';
+        @Operacao = '67',
+        @Status = '42';
     ");
     $stmt2->execute();
         
@@ -91,7 +91,9 @@ try {
                 @ContratoNov = :ContratoNov,
                 @CodCli  = :CodCli,
                 @Pats = $patFormatado,
-                @User = :user;";
+                @User = :user,
+                @Operacao = '63',
+                @Status = 'B2';";
 
     $stmt = $pdo->prepare($sql);
     $stmt->execute([
