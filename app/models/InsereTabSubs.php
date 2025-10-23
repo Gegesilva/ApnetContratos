@@ -12,7 +12,7 @@ $user = $_SESSION['usuario'];
 
 //echo "<script>console.log('Debug Objects: " . $patrimonioAcessorios . "' );</script>";
 
-function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user, $tipo, $acessorios, $patsRaz, $contratoAnt, $codCli) 
+function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user, $tipo, $acessorios, $patsRaz, $contratoAnt, $codCli, $Orcamento) 
 {
     try {
        $tipoInsert = isset($contratoAnt) ? 'SubsRazSocial' : 'SubsItemContrato';
@@ -39,7 +39,7 @@ function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user, $tipo, $a
                                                 TB02030_CODIGO FROM TB02030 
                                             WHERE TB02030_CONTRATO = :contrato2
                                             AND EXISTS(SELECT * FROM TB02112 WHERE TB02112_CODIGO = :contrato3 AND TB02112_PAT = :itemAntigo2) ORDER BY TB02030_DTCAD DESC)
-                                        ,NULL
+                                        ,:Orcamento
                                         ,NULL
                                         ,:user
                                         ,:contrato
@@ -62,7 +62,8 @@ function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user, $tipo, $a
                 ':acessorios' => $acessorios,
                 ':patsRaz' => $patsRaz,
                 ':contratoAnt' => $contratoAnt,
-                ':codcli' => $codCli
+                ':codcli' => $codCli,
+                ':Orcamento' => $Orcamento
             ]);
         } else {
             $stmt = $pdo->prepare("INSERT INTO [dbo].[SUBS_CONTRATO]

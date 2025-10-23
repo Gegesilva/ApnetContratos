@@ -1,5 +1,4 @@
 
-
 CREATE TABLE [dbo].[SUBS_CONTRATO](
 	[PAT_ENTRADA] [varchar](20) NULL,
 	[PAT_SAIDA] [varchar](20) NULL,
@@ -11,8 +10,11 @@ CREATE TABLE [dbo].[SUBS_CONTRATO](
 	[CONCLUIDO_S_N] [char](1) NULL,
 	[TIPO_OP] [varchar](30) NULL,
 	[ACESSORIOS_S_N] [char](1) NULL,
-	[DTCAD] [datetime] NULL
-) ON [PRIMARY]
+	[DTCAD] [datetime] NULL,
+	[PATS_RAZ] [text] NULL,
+	[COD_CONTRATO_ANT] [varchar](12) NULL,
+	[CODCLI] [varchar](8) NULL
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
 

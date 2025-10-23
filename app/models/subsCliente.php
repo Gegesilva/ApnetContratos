@@ -83,7 +83,8 @@ try {
         @Operacao = '67',
         @Status = '42';
     ");
-    $stmt2->execute();
+    $result1 = $stmt2->execute();
+    $NovOrc = $result1[0]['NovOrc'] ?? null;
 
 
     //cria orçamento
@@ -112,9 +113,9 @@ try {
     echo "Erro ao alterar: " . $e->getMessage();
 }
 
-$respIns = insereTabSubs($pdo, NULL, NULL, $ContratoNov, $user, 'S', $acessorios, $patFormatado, $ContratoAnt, $CodCli);
+$respIns = insereTabSubs($pdo, NULL, NULL, $ContratoNov, $user, 'S', $acessorios, $patFormatado, $ContratoAnt, $CodCli, $novoOrcamento);
 error_log('[subsitemcontrato] resp insereTabSubs = ' . $respIns);
-echo ' | RESP_SUBS=' . $respIns;  // temporário pra você ver no alert/resposta
+//echo ' | RESP_SUBS=' . $respIns;  // temporário pra você ver no alert/resposta
 
 //echo "<script>alert('Dados alterados com sucesso.". $patFormatado . "');</script>";
 echo "<script>alert('Dados alterados com sucesso.'); window.location.href = '../views/subsRazSocial.php';</script>";
