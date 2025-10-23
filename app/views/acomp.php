@@ -63,6 +63,7 @@ include '../../config/database.php';
                                 ,[TIPO_OP]
                                 ,[TB02002_CODPRE]
                                 ,TB02030_ORCAMENTO OrcPed
+                                ,[COD_CONTRATO_ANT]
 
                             FROM [dbo].[SUBS_CONTRATO]
                             LEFT JOIN TB02002 ON TB02002_CODPRE = PEDIDO_COMPRA
@@ -98,6 +99,7 @@ include '../../config/database.php';
                                     <input type='hidden' name='CONCLUIDO_S_N' value='{$row['CONCLUIDO_S_N']}'>
                                     <input type='hidden' name='TIPO_OP' value='{$row['TIPO_OP']}'>
                                     <input type='hidden' name='ACESSORIOS_S_N' value='{$row['ACESSORIOS_S_N']}'>
+                                    <input type='hidden' name='COD_CONTRATO_ANT' value='{$row['COD_CONTRATO_ANT']}'>
                                     <button type='submit' class='btn-nova'>Concluir</button>
                                 </form>
                               </td>";

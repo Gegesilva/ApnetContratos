@@ -16,19 +16,28 @@ include '../../config/database.php';
 $itemAdicionado = $_POST['PAT_ENTRADA'];
 $itemRetirado   = $_POST['PAT_SAIDA'];
 $contrato  = $_POST['COD_CONTRATO'];
+$ContratoAnt = $_POST['COD_CONTRATO_ANT'];
 $acessorios  = strtoupper($_POST['ACESSORIOS_S_N']);
 
-if (!$itemAdicionado || !$itemRetirado || !$contrato) {
+
+/* if (!$itemAdicionado || !$itemRetirado || !$contrato) {
     echo "Dados incompletos.";
     exit;
-}
+} */
 
 try {
-    /* $sql = "UPDATE SUBS_CONTRATO
-            SET CONCLUIDO_S_N = 'S'
-            WHERE PAT_ENTRADA = :entrada AND PAT_SAIDA = :saida"; */
+    if ($ContratoAnt != '' && $ContratoAnt != null) {
+        // Atualiza o contrato antigo para concluído
+        $sql = "UPDATE SUBS_CONTRATO
+                SET CONCLUIDO_S_N = 'S'
+                WHERE COD_CONTRATO_ANT = :contratoAnt ";
 
-    $sql = "EXEC [dbo].[TROCAR_ITEM_CONTRATO] 
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            ':contratoAnt' => $ContratoAnt
+        ]);
+    } else {
+        $sql = "EXEC [dbo].[TROCAR_ITEM_CONTRATO] 
                         @Contrato = :contrato 
                         ,@ItemRetirado = :itemRetirado
                         ,@ItemAdicionado = :itemAdicionado
@@ -49,6 +58,10 @@ try {
         ':user'   => $user,
         ':acessorios'   => $acessorios 
     ]);
+    }
+
+    
+    
 
     echo "Substituição concluída com sucesso!";
 } catch (PDOException $e) {
