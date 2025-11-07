@@ -3,10 +3,18 @@
 include '../../config/database.php';
 include 'insereTabSubs.php';
 
-$contrato = $_POST['contrato'] ?? '';
+
 $itemRetirado = $_POST['itemRetirado'] ?? '';
 $itemAdicionado = $_POST['itemAdicionado'] ?? '';
 $acessoriosSelecionados = $_POST['acessoriosSelecionados'] ?? '';
+
+$sqlContrato = "SELECT TOP 1 TB02112_CODIGO FROM TB02112 WHERE TB02112_SITUACAO = 'A' AND TB02112_PAT = :patSaida";
+$stmtContrato = $pdo->prepare($sqlContrato);
+$stmtContrato->execute([
+    ':patSaida' => $itemRetirado,
+]);
+
+$contrato = $stmtContrato->fetchColumn();
 
 /* define e flag se possui acessrios */
 if(isset($acessoriosSelecionados)  && $acessoriosSelecionados != '') {

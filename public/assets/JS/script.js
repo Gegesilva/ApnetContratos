@@ -1,18 +1,15 @@
 function atualizarEstado() {
-  const contrato = document.getElementById("contrato");
   const itemRetirado = document.getElementById("itemRetirado");
   const itemAdicionado = document.getElementById("itemAdicionado");
   const btnAlterar = document.getElementById("btnAlterar");
 
-  const contratoOK = contrato.value.trim().length >= 3;
+  const itemRetiradoOK = itemRetirado.value.trim().length >= 3;
 
   // Habilita/desabilita campos de item
-  itemRetirado.disabled = !contratoOK;
-  itemAdicionado.disabled = !contratoOK;
+  itemAdicionado.disabled = !itemRetiradoOK;
 
   // Habilita botão Alterar somente se todos estiverem preenchidos
-  const todosPreenchidos = contratoOK &&
-    itemRetirado.value.trim().length > 0 &&
+  const todosPreenchidos = itemRetiradoOK &&
     itemAdicionado.value.trim().length > 0;
 
   btnAlterar.disabled = !todosPreenchidos;
@@ -72,7 +69,7 @@ function fecharModal() {
 
 // Confirmação normal (processo original)
 function confirmarAlteracao() {
-  const contrato = document.getElementById("contrato").value;
+  //const contrato = document.getElementById("contrato").value;
   const itemRetirado = document.getElementById("itemRetirado").value;
   const itemAdicionado = document.getElementById("itemAdicionado").value;
   const elemento = document.getElementById("acessoriosSelecionados");
@@ -83,7 +80,7 @@ function confirmarAlteracao() {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
       },
-      body: `contrato=${encodeURIComponent(contrato)}&itemRetirado=${encodeURIComponent(itemRetirado)}&itemAdicionado=${encodeURIComponent(itemAdicionado)}&acessoriosSelecionados=${encodeURIComponent(acessoriosSelecionados)}`
+      body: `itemRetirado=${encodeURIComponent(itemRetirado)}&itemAdicionado=${encodeURIComponent(itemAdicionado)}&acessoriosSelecionados=${encodeURIComponent(acessoriosSelecionados)}`
     })
     .then(response => response.text())
     .then(data => {
@@ -100,7 +97,7 @@ function confirmarAlteracao() {
 
 // Confirmação alternativa (quando checkbox marcado)
 function confirmarAlteracaoAlternativa() {
-  const contrato = document.getElementById("contrato").value;
+  //const contrato = document.getElementById("contrato").value;
   const itemRetirado = document.getElementById("itemRetirado").value;
   const itemAdicionado = document.getElementById("itemAdicionado").value;
   const elemento = document.getElementById("acessoriosSelecionados");
@@ -111,7 +108,7 @@ function confirmarAlteracaoAlternativa() {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
       },
-      body: `contrato=${encodeURIComponent(contrato)}&itemRetirado=${encodeURIComponent(itemRetirado)}&itemAdicionado=${encodeURIComponent(itemAdicionado)}&acessoriosSelecionados=${encodeURIComponent(acessoriosSelecionados)}`
+      body: `itemRetirado=${encodeURIComponent(itemRetirado)}&itemAdicionado=${encodeURIComponent(itemAdicionado)}&acessoriosSelecionados=${encodeURIComponent(acessoriosSelecionados)}`
     })
     .then(response => response.text())
     .then(data => {
@@ -128,7 +125,7 @@ function confirmarAlteracaoAlternativa() {
 
 // Check inclui acessorios marcado
 function selecaoAcessorios() {
-  const contrato = document.getElementById("contrato").value;
+  //const contrato = document.getElementById("contrato").value;
   const itemRetirado = document.getElementById("itemRetirado").value;
   const itemAdicionado = document.getElementById("itemAdicionado").value;
 
@@ -146,7 +143,7 @@ function selecaoAcessorios() {
     form.appendChild(input);
   };
 
-  addField("contrato", contrato);
+  //addField("contrato", contrato);
   addField("itemRetirado", itemRetirado);
   addField("itemAdicionado", itemAdicionado);
 

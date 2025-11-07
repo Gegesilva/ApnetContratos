@@ -5,13 +5,20 @@ include 'insereTabSubs.php';
 
 $user = $_SESSION['usuario'];
 
-$contrato = $_POST['contrato'] ?? '';
 $itemRetirado = $_POST['itemRetirado'] ?? '';
 $itemAdicionado = $_POST['itemAdicionado'] ?? '';
 $acessoriosSelecionados = $_POST['acessoriosSelecionados'] ?? '';
 
+$sqlContrato = "SELECT TOP 1 TB02112_CODIGO FROM TB02112 WHERE TB02112_SITUACAO = 'A' AND TB02112_PAT = :patSaida";
+$stmtContrato = $pdo->prepare($sqlContrato);
+$stmtContrato->execute([
+    ':patSaida' => $itemRetirado,
+]);
+
+$contrato = $stmtContrato->fetchColumn();
+
 /* define e flag se possui acessrios */
-if(isset($acessoriosSelecionados) && $acessoriosSelecionados != '') {
+if (isset($acessoriosSelecionados) && $acessoriosSelecionados != '') {
     $acessorios = 'S';
 } else {
     $acessorios = 'N';
@@ -56,7 +63,7 @@ $respIns = insereTabSubs($pdo, $itemRetirado, $itemAdicionado, $contrato, $user,
 error_log('[subsitemcontrato] resp insereTabSubs = ' . $respIns);
 // echo ' | RESP_SUBS=' . $respIns;  // temporário pra você ver no alert/resposta
 
-$respInsAcess = insereAcessorios($pdo, $itemRetirado, $itemAdicionado,$contrato, $user, $acessoriosSelecionados);
+$respInsAcess = insereAcessorios($pdo, $itemRetirado, $itemAdicionado, $contrato, $user, $acessoriosSelecionados);
 error_log('[subsitemcontrato] resp insereTabSubs = ' . $respInsAcess);
 //echo ' | RESP_SUBS=' . $respInsAcess;  // temporário pra você ver no alert/resposta
 
@@ -109,7 +116,7 @@ try {
 
     $pdo->commit();
 
-    echo "Alteração feita com sucesso!"/* . $itemAdicionado. ' | ' . $itemRetirado. ' | ' . $contrato . ' | ' . $acessorios */;
+    echo "Alteração feita com sucesso!"/* . $itemAdicionado. ' | ' . $itemRetirado. ' | ' . $contrato . ' | ' . $acessorios */ ;
 } catch (Exception $e) {
     $pdo->rollBack();
     echo "Erro ao alterar: " . $e->getMessage();

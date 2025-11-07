@@ -14,13 +14,20 @@ $user = $_SESSION['usuario'];
 header('Content-type: text/html; charset=ISO-8895-1');
 include '../../config/database.php';
 
+$itemRetirado = isset($_POST['itemRetirado']) ? $_POST['itemRetirado'] : $_SESSION['itemRetirado'];
+$itemAdicionado = isset($_POST['itemAdicionado']) ? $_POST['itemAdicionado'] : $_SESSION['itemAdicionado'];
 
-$contrato = isset($_POST['contrato']) ? $_POST['contrato'] : $_SESSION['contrato'];
+$sqlContrato = "SELECT TOP 1 TB02112_CODIGO FROM TB02112 WHERE TB02112_SITUACAO = 'A' AND TB02112_PAT = :patSaida";
+$stmtContrato = $pdo->prepare($sqlContrato);
+$stmtContrato->execute([
+    ':patSaida' => $itemRetirado,
+]);
+
+$contrato = $stmtContrato->fetchColumn();
 
 $_SESSION['contrato'] = $contrato;
 
-$itemRetirado = isset($_POST['itemRetirado']) ? $_POST['itemRetirado'] : $_SESSION['itemRetirado'];
-$itemAdicionado = isset($_POST['itemAdicionado']) ? $_POST['itemAdicionado'] : $_SESSION['itemAdicionado'];
+
 
 /* Veirifica se os itens  */
 // Verifica se o PAT de saida pertence ao contrato, se o PAT de entrada existe e se essa substituição ja foi iniciada.

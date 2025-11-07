@@ -36,14 +36,15 @@ include '../../config/database.php';
                     <th class="titulo-col-tab" onclick="ordenarTabela(1)">PAT Entrada <i class="fa fa-sort" aria-hidden="true"></i></th>
                     <th class="titulo-col-tab" onclick="ordenarTabela(2)">Pedido Compra <i class="fa fa-sort" aria-hidden="true"></i></th>
                     <th class="titulo-col-tab" onclick="ordenarTabela(3)">Orçamento Ext <i class="fa fa-sort" aria-hidden="true"></i></th>
-                    <th class="titulo-col-tab" onclick="ordenarTabela(4)">Orçamento Subs<i class="fa fa-sort" aria-hidden="true"></i></th>
-                    <th class="titulo-col-tab" onclick="ordenarTabela(5)">Status Compra <i class="fa fa-sort" aria-hidden="true"></i></th>
-                    <th class="titulo-col-tab" onclick="ordenarTabela(6)">Operador <i class="fa fa-sort" aria-hidden="true"></i></th>
-                    <th class="titulo-col-tab" onclick="ordenarTabela(7)">Contrato <i class="fa fa-sort" aria-hidden="true"></i></th>
-                    <th class="titulo-col-tab" onclick="ordenarTabela(8)">Concluído? <i class="fa fa-sort" aria-hidden="true"></i></th>
-                    <th class="titulo-col-tab" onclick="ordenarTabela(9)">Tipo <i class="fa fa-sort" aria-hidden="true"></i></th>
-                    <th class="titulo-col-tab" onclick="ordenarTabela(10)">Acessorios? <i class="fa fa-sort" aria-hidden="true"></i></th>
-                    <th class="titulo-col-tab" onclick="ordenarTabela(11)">Ação <i class="fa fa-sort" aria-hidden="true"></i></th>
+                    <th class="titulo-col-tab" onclick="ordenarTabela(4)">Status Orc <i class="fa fa-sort" aria-hidden="true"></i></th>
+                    <th class="titulo-col-tab" onclick="ordenarTabela(5)">Orçamento Subs<i class="fa fa-sort" aria-hidden="true"></i></th>
+                    <th class="titulo-col-tab" onclick="ordenarTabela(6)">Status Compra <i class="fa fa-sort" aria-hidden="true"></i></th>
+                    <th class="titulo-col-tab" onclick="ordenarTabela(7)">Operador <i class="fa fa-sort" aria-hidden="true"></i></th>
+                    <th class="titulo-col-tab" onclick="ordenarTabela(8)">Contrato <i class="fa fa-sort" aria-hidden="true"></i></th>
+                    <th class="titulo-col-tab" onclick="ordenarTabela(9)">Concluído? <i class="fa fa-sort" aria-hidden="true"></i></th>
+                    <th class="titulo-col-tab" onclick="ordenarTabela(10)">Tipo <i class="fa fa-sort" aria-hidden="true"></i></th>
+                    <th class="titulo-col-tab" onclick="ordenarTabela(11)">Acessorios? <i class="fa fa-sort" aria-hidden="true"></i></th>
+                    <th class="titulo-col-tab" onclick="ordenarTabela(12)">Ação <i class="fa fa-sort" aria-hidden="true"></i></th>
                 </tr>
             </thead>
             <tbody>
@@ -64,11 +65,15 @@ include '../../config/database.php';
                                 ,[TB02002_CODPRE]
                                 ,TB02030_ORCAMENTO OrcPed
                                 ,[COD_CONTRATO_ANT]
+                                ,[TB01021_NOME]
 
                             FROM [dbo].[SUBS_CONTRATO]
                             LEFT JOIN TB02002 ON TB02002_CODPRE = PEDIDO_COMPRA
                             LEFT JOIN TB02030 ON TB02030_CODIGO = PEDIDO_COMPRA
                             LEFT JOIN TB01039 ON TB01039_CODIGO = TB02030_STATUS
+                            LEFT JOIN TB02018 ON TB02018_CODIGO = ISNULL(ORCAMENTO, TB02030_ORCAMENTO)
+                            LEFT JOIN TB01021 ON TB01021_CODIGO = TB02018_STATUS
+
                             WHERE CONCLUIDO_S_N = 'N'";
                     $stmt = $pdo->query($sql);
 
@@ -78,6 +83,7 @@ include '../../config/database.php';
                         echo "<td>{$row['PAT_ENTRADA']}</td>";
                         echo "<td>{$row['PEDIDO_COMPRA']}</td>";
                         echo "<td>{$row['ORCAMENTO']}</td>";
+                        echo "<td>{$row['TB01021_NOME']}</td>";
                         echo "<td>{$row['OrcPed']}</td>";
                         echo "<td>{$row['STATUS_COMPRA']}</td>";
                         echo "<td>{$row['OPCAD']}</td>";

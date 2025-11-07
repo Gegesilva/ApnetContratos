@@ -74,11 +74,11 @@ if (isset($patrimonioAcessorios)) {
   <div class="container">
     <h2>Substituição de Item no Contrato</h2>
     <div class="form-group">
-      <input type="text" id="contrato" placeholder="Número do Contrato" oninput="atualizarEstado()" required
-        <?= $valueContrato ?> <?= $dissabled ?> />
+      <!-- <input type="text" id="contrato" placeholder="Número do Contrato" oninput="atualizarEstado()" required
+        <?= $valueContrato ?> <?= $dissabled ?> /> -->
 
       <div class="row">
-        <input type="text" id="itemRetirado" placeholder="Item Retirado" disabled oninput="atualizarEstado()" required
+        <input type="text" id="itemRetirado" placeholder="Item Retirado" oninput="atualizarEstado()" required
           <?= $valueItemRet ?> <?= $dissabled ?> />
         <input type="text" id="itemAdicionado" placeholder="Item Adicionado" disabled oninput="atualizarEstado()"
           required <?= $valueItemAdd ?> <?= $dissabled ?> />
