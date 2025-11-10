@@ -57,6 +57,7 @@ if ($count > 0) {
     exit;
 }
 
+
 try {
     $sql = "EXEC [dbo].[SUBS_CILENTE_CONTRATO]
                 @ContratoAnt = :ContratoAnt,
