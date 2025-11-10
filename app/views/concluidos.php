@@ -56,8 +56,6 @@ include '../../config/database.php';
                             aria-hidden="true"></i></th>
                     <th class="titulo-col-tab" onclick="ordenarTabela(11)">Acessorios? <i class="fa fa-sort"
                             aria-hidden="true"></i></th>
-                    <th class="titulo-col-tab" onclick="ordenarTabela(12)">Ação <i class="fa fa-sort"
-                            aria-hidden="true"></i></th>
                 </tr>
             </thead>
             <tbody>

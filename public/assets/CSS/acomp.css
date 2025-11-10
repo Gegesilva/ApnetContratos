@@ -135,4 +135,8 @@
     }
   }
 
-  .titulo-col-tab, .fa {cursor: pointer;}
+  .titulo-col-tab, .fa {
+    cursor: pointer;
+    font-size: 12px;
+    white-space: nowrap;
+  }
