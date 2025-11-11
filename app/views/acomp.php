@@ -32,19 +32,37 @@ include '../../config/database.php';
         <table id="substituicoes">
             <thead>
                 <tr>
-                    <th class="titulo-col-tab" onclick="ordenarTabela(0)">PAT Saída <i class="fa fa-sort" aria-hidden="true"></i></th>
-                    <th class="titulo-col-tab" onclick="ordenarTabela(1)">PAT Entrada <i class="fa fa-sort" aria-hidden="true"></i></th>
-                    <th class="titulo-col-tab" onclick="ordenarTabela(2)">Pedido Compra <i class="fa fa-sort" aria-hidden="true"></i></th>
-                    <th class="titulo-col-tab" onclick="ordenarTabela(3)">Orçamento Ext <i class="fa fa-sort" aria-hidden="true"></i></th>
-                    <th class="titulo-col-tab" onclick="ordenarTabela(4)">Status Orc <i class="fa fa-sort" aria-hidden="true"></i></th>
-                    <th class="titulo-col-tab" onclick="ordenarTabela(5)">Orçamento Subs<i class="fa fa-sort" aria-hidden="true"></i></th>
-                    <th class="titulo-col-tab" onclick="ordenarTabela(6)">Status Compra <i class="fa fa-sort" aria-hidden="true"></i></th>
-                    <th class="titulo-col-tab" onclick="ordenarTabela(7)">Operador <i class="fa fa-sort" aria-hidden="true"></i></th>
-                    <th class="titulo-col-tab" onclick="ordenarTabela(8)">Contrato <i class="fa fa-sort" aria-hidden="true"></i></th>
-                    <th class="titulo-col-tab" onclick="ordenarTabela(9)">Concluído? <i class="fa fa-sort" aria-hidden="true"></i></th>
-                    <th class="titulo-col-tab" onclick="ordenarTabela(10)">Tipo <i class="fa fa-sort" aria-hidden="true"></i></th>
-                    <th class="titulo-col-tab" onclick="ordenarTabela(11)">Acessorios? <i class="fa fa-sort" aria-hidden="true"></i></th>
-                    <th class="titulo-col-tab" onclick="ordenarTabela(12)">Ação <i class="fa fa-sort" aria-hidden="true"></i></th>
+                    <th class="titulo-col-tab" onclick="ordenarTabela(0)">Cliente <i class="fa fa-sort"
+                            aria-hidden="true"></i></th>
+                    <th class="titulo-col-tab" onclick="ordenarTabela(1)">Contrato <i class="fa fa-sort"
+                            aria-hidden="true"></i></th>
+                    <th class="titulo-col-tab" onclick="ordenarTabela(2)">Tipo <i class="fa fa-sort"
+                            aria-hidden="true"></i></th>
+                    <th class="titulo-col-tab" onclick="ordenarTabela(3)">PAT Saída <i class="fa fa-sort"
+                            aria-hidden="true"></i></th>
+                    <th class="titulo-col-tab" onclick="ordenarTabela(4)">PAT Entrada <i class="fa fa-sort"
+                            aria-hidden="true"></i></th>
+                    <th class="titulo-col-tab" onclick="ordenarTabela(5)">Data Pedido <i class="fa fa-sort"
+                            aria-hidden="true"></i></th>
+                    <th class="titulo-col-tab" onclick="ordenarTabela(6)">Pedido Compra <i class="fa fa-sort"
+                            aria-hidden="true"></i></th>
+                    <th class="titulo-col-tab" onclick="ordenarTabela(7)">Status Compra <i class="fa fa-sort"
+                            aria-hidden="true"></i></th>
+                    <th class="titulo-col-tab" onclick="ordenarTabela(8)">Orçamento Subs <i class="fa fa-sort"
+                            aria-hidden="true"></i></th>
+                    <th class="titulo-col-tab" onclick="ordenarTabela(9)">Orçamento Ext <i class="fa fa-sort"
+                            aria-hidden="true"></i></th>
+                    <th class="titulo-col-tab" onclick="ordenarTabela(10)">Status Orc <i class="fa fa-sort"
+                            aria-hidden="true"></i></th>
+                    <th class="titulo-col-tab" onclick="ordenarTabela(11)">Operador <i class="fa fa-sort"
+                            aria-hidden="true"></i></th>
+                    <th class="titulo-col-tab" onclick="ordenarTabela(12)">Concluído? <i class="fa fa-sort"
+                            aria-hidden="true"></i></th>
+                    <th class="titulo-col-tab" onclick="ordenarTabela(13)">Acessórios? <i class="fa fa-sort"
+                            aria-hidden="true"></i></th>
+                    <th class="titulo-col-tab" onclick="ordenarTabela(14)">Ação <i class="fa fa-sort"
+                            aria-hidden="true"></i></th>
+
                 </tr>
             </thead>
             <tbody>
@@ -52,7 +70,9 @@ include '../../config/database.php';
                 try {
                     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-                    $sql = "SELECT [PAT_ENTRADA]
+                    $sql = "SELECT 
+                                TB01008_NOME NOME
+                                ,[PAT_ENTRADA]
                                 ,[PAT_SAIDA]
                                 ,[PEDIDO_COMPRA]
                                 ,[ORCAMENTO]
@@ -66,6 +86,10 @@ include '../../config/database.php';
                                 ,TB02030_ORCAMENTO OrcPed
                                 ,[COD_CONTRATO_ANT]
                                 ,[TB01021_NOME]
+                                ,TB02030_NTFISC NOTAPEDIDO
+                                ,TB02018_NTFISC NOTAORCAMENTO
+                                ,FORMAT(TB02030_DTCAD, 'dd/MM/yyyy') DATAPEDIDO
+
 
                             FROM [dbo].[SUBS_CONTRATO]
                             LEFT JOIN TB02002 ON TB02002_CODPRE = PEDIDO_COMPRA
@@ -73,24 +97,28 @@ include '../../config/database.php';
                             LEFT JOIN TB01039 ON TB01039_CODIGO = TB02030_STATUS
                             LEFT JOIN TB02018 ON TB02018_CODIGO = ISNULL(ORCAMENTO, TB02030_ORCAMENTO)
                             LEFT JOIN TB01021 ON TB01021_CODIGO = TB02018_STATUS
+                            LEFT JOIN TB02111 ON TB02111_CODIGO = COD_CONTRATO
+                            LEFT JOIN TB01008 ON TB01008_CODIGO = TB02111_CODCLI
 
                             WHERE CONCLUIDO_S_N = 'N'";
                     $stmt = $pdo->query($sql);
 
                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                         echo "<tr>";
-                        echo "<td>{$row['PAT_SAIDA']}</td>";
-                        echo "<td>{$row['PAT_ENTRADA']}</td>";
-                        echo "<td>{$row['PEDIDO_COMPRA']}</td>";
-                        echo "<td>{$row['ORCAMENTO']}</td>";
-                        echo "<td>{$row['TB01021_NOME']}</td>";
-                        echo "<td>{$row['OrcPed']}</td>";
-                        echo "<td>{$row['STATUS_COMPRA']}</td>";
-                        echo "<td>{$row['OPCAD']}</td>";
-                        echo "<td>{$row['COD_CONTRATO']}</td>";
-                        echo "<td>{$row['CONCLUIDO_S_N']}</td>";
-                        echo "<td>{$row['TIPO_OP']}</td>";
-                        echo "<td>{$row['ACESSORIOS_S_N']}</td>";
+                        echo "<td>{$row['NOME']}</td>"; // Cliente
+                        echo "<td>{$row['COD_CONTRATO']}</td>"; // Contrato
+                        echo "<td>{$row['TIPO_OP']}</td>"; // Tipo
+                        echo "<td>{$row['PAT_SAIDA']}</td>"; // PAT Saída
+                        echo "<td>{$row['PAT_ENTRADA']}</td>"; // PAT Entrada
+                        echo "<td>{$row['DATAPEDIDO']}</td>"; // Data Pedido
+                        echo "<td>{$row['PEDIDO_COMPRA']}</td>"; // Pedido Compra
+                        echo "<td>{$row['STATUS_COMPRA']}</td>"; // Status Compra
+                        echo "<td>{$row['OrcPed']}</td>"; // Orçamento Subs
+                        echo "<td>{$row['ORCAMENTO']}</td>"; // Orçamento Ext
+                        echo "<td>{$row['TB01021_NOME']}</td>"; // Status Orc
+                        echo "<td>{$row['OPCAD']}</td>"; // Operador
+                        echo "<td>{$row['CONCLUIDO_S_N']}</td>"; // Concluído?
+                        echo "<td>{$row['ACESSORIOS_S_N']}</td>"; // Acessórios?
 
                         if ($row['CONCLUIDO_S_N'] == 'NÃO' /* && $row['TB02002_CODPRE'] != NULL &&  $row['TB02030_STATUS'] = '33'*/) {
                             echo "<td>
