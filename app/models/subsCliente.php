@@ -57,22 +57,7 @@ if ($count > 0) {
 
 
 try {
-    $sql = "EXEC [dbo].[SUBS_CILENTE_CONTRATO]
-                @ContratoAnt = :ContratoAnt,
-                @ContratoNov = :ContratoNov,
-                @CodCli  = :CodCli,
-                @Pats = $patFormatado,
-                @User = :user,
-                @Acessorios = :Acessorios;";
-
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([
-        ':ContratoAnt' => $ContratoAnt,
-        ':ContratoNov' => $ContratoNov,
-        ':CodCli' => $CodCli,
-        ':Acessorios' => $vaiAcessorios,
-        ':user' => $user
-    ]);
+    
 
     //cria pedido para cliente anterior
     $stmt2 = $pdo->prepare("
@@ -110,12 +95,30 @@ try {
     $novoOrcamento = $result[0]['NovoOrcamento'] ?? null;
 
 
+    $sql = "EXEC [dbo].[SUBS_CILENTE_CONTRATO]
+                @ContratoAnt = :ContratoAnt,
+                @ContratoNov = :ContratoNov,
+                @CodCli  = :CodCli,
+                @Pats = $patFormatado,
+                @User = :user,
+                @Acessorios = :Acessorios;";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        ':ContratoAnt' => $ContratoAnt,
+        ':ContratoNov' => $ContratoNov,
+        ':CodCli' => $CodCli,
+        ':Acessorios' => $vaiAcessorios,
+        ':user' => $user
+    ]);
+
+
     //echo "Substituição realizada com sucesso.";
 } catch (PDOException $e) {
     echo "Erro ao alterar: " . $e->getMessage();
 }
 
-$respIns = insereTabSubs($pdo, NULL, NULL, $ContratoNov, $user, 'S', $acessorios, $patFormatado, $ContratoAnt, $CodCli, $novoOrcamento, $NovPed);
+$respIns = insereTabSubs($pdo, NULL, NULL, $ContratoNov, $user, 'S', $acessorios, $patFormatado, $ContratoAnt, $CodCli, null, $NovPed);
 error_log('[subsitemcontrato] resp insereTabSubs = ' . $respIns);
 //echo ' | RESP_SUBS=' . $respIns;  // temporário pra você ver no alert/resposta
 

@@ -46,21 +46,25 @@ include '../../config/database.php';
                             aria-hidden="true"></i></th>
                     <th class="titulo-col-tab" onclick="ordenarTabela(6)">Pedido Compra <i class="fa fa-sort"
                             aria-hidden="true"></i></th>
-                    <th class="titulo-col-tab" onclick="ordenarTabela(7)">Status Compra <i class="fa fa-sort"
+                    <th class="titulo-col-tab" onclick="ordenarTabela(7)">Nota do pedido <i class="fa fa-sort"
                             aria-hidden="true"></i></th>
-                    <th class="titulo-col-tab" onclick="ordenarTabela(8)">Orçamento Subs <i class="fa fa-sort"
+                    <th class="titulo-col-tab" onclick="ordenarTabela(8)">Status Compra <i class="fa fa-sort"
                             aria-hidden="true"></i></th>
-                    <th class="titulo-col-tab" onclick="ordenarTabela(9)">Orçamento Ext <i class="fa fa-sort"
+                    <th class="titulo-col-tab" onclick="ordenarTabela(9)">Orçamento Subs <i class="fa fa-sort"
                             aria-hidden="true"></i></th>
-                    <th class="titulo-col-tab" onclick="ordenarTabela(10)">Status Orc <i class="fa fa-sort"
+                    <th class="titulo-col-tab" onclick="ordenarTabela(10)">Orçamento Ext <i class="fa fa-sort"
                             aria-hidden="true"></i></th>
-                    <th class="titulo-col-tab" onclick="ordenarTabela(11)">Operador <i class="fa fa-sort"
+                    <th class="titulo-col-tab" onclick="ordenarTabela(11)">Status Orc <i class="fa fa-sort"
                             aria-hidden="true"></i></th>
-                    <th class="titulo-col-tab" onclick="ordenarTabela(12)">Concluído? <i class="fa fa-sort"
+                    <th class="titulo-col-tab" onclick="ordenarTabela(12)">Nota do Orc <i class="fa fa-sort"
                             aria-hidden="true"></i></th>
-                    <th class="titulo-col-tab" onclick="ordenarTabela(13)">Acessórios? <i class="fa fa-sort"
+                    <th class="titulo-col-tab" onclick="ordenarTabela(13)">Operador <i class="fa fa-sort"
                             aria-hidden="true"></i></th>
-                    <th class="titulo-col-tab" onclick="ordenarTabela(14)">Ação <i class="fa fa-sort"
+                    <th class="titulo-col-tab" onclick="ordenarTabela(14)">Concluído? <i class="fa fa-sort"
+                            aria-hidden="true"></i></th>
+                    <th class="titulo-col-tab" onclick="ordenarTabela(15)">Acessórios? <i class="fa fa-sort"
+                            aria-hidden="true"></i></th>
+                    <th class="titulo-col-tab" onclick="ordenarTabela(16)">Ação <i class="fa fa-sort"
                             aria-hidden="true"></i></th>
 
                 </tr>
@@ -112,10 +116,12 @@ include '../../config/database.php';
                         echo "<td>{$row['PAT_ENTRADA']}</td>"; // PAT Entrada
                         echo "<td>{$row['DATAPEDIDO']}</td>"; // Data Pedido
                         echo "<td>{$row['PEDIDO_COMPRA']}</td>"; // Pedido Compra
+                        echo "<td>{$row['NOTAPEDIDO']}</td>"; // Nota Compra
                         echo "<td>{$row['STATUS_COMPRA']}</td>"; // Status Compra
-                        echo "<td>{$row['ORCAMENTO']}</td>"; // Orçamento subs
-                        echo "<td>{$row['OrcPed']}</td>"; // Orçamento ext
+                        echo "<td>{$row['OrcPed']}</td>"; // Orçamento subs
+                        echo "<td>{$row['ORCAMENTO']}</td>"; // Orçamento extravio
                         echo "<td>{$row['TB01021_NOME']}</td>"; // Status Orc
+                        echo "<td>{$row['NOTAORCAMENTO']}</td>"; // Nota Orçamento 
                         echo "<td>{$row['OPCAD']}</td>"; // Operador
                         echo "<td>{$row['CONCLUIDO_S_N']}</td>"; // Concluído?
                         echo "<td>{$row['ACESSORIOS_S_N']}</td>"; // Acessórios?
