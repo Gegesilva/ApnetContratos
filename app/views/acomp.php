@@ -113,8 +113,8 @@ include '../../config/database.php';
                         echo "<td>{$row['DATAPEDIDO']}</td>"; // Data Pedido
                         echo "<td>{$row['PEDIDO_COMPRA']}</td>"; // Pedido Compra
                         echo "<td>{$row['STATUS_COMPRA']}</td>"; // Status Compra
-                        echo "<td>{$row['OrcPed']}</td>"; // Orçamento Subs
-                        echo "<td>{$row['ORCAMENTO']}</td>"; // Orçamento Ext
+                        echo "<td>{$row['ORCAMENTO']}</td>"; // Orçamento subs
+                        echo "<td>{$row['OrcPed']}</td>"; // Orçamento ext
                         echo "<td>{$row['TB01021_NOME']}</td>"; // Status Orc
                         echo "<td>{$row['OPCAD']}</td>"; // Operador
                         echo "<td>{$row['CONCLUIDO_S_N']}</td>"; // Concluído?
