@@ -58,14 +58,7 @@ if ($total === 0) {
     exit;
 }
 
-// depois (APENAS debug, sem mudar regras):
-$respIns = insereTabSubs($pdo, $itemRetirado, $itemAdicionado, $contrato, $user, 'E', $acessorios, NULL, NULL, NULL, NULL);
-error_log('[subsitemcontrato] resp insereTabSubs = ' . $respIns);
-// echo ' | RESP_SUBS=' . $respIns;  // temporário pra você ver no alert/resposta
 
-$respInsAcess = insereAcessorios($pdo, $itemRetirado, $itemAdicionado, $contrato, $user, $acessoriosSelecionados);
-error_log('[subsitemcontrato] resp insereTabSubs = ' . $respInsAcess);
-//echo ' | RESP_SUBS=' . $respInsAcess;  // temporário pra você ver no alert/resposta
 
 // Cria orçamento
 try {
@@ -110,9 +103,16 @@ try {
             ':itemAntigo' => $itemRetirado,
             ':user' => $user
         ])
+
     ) {
         throw new Exception("Erro na execução da segunda consulta.");
     }
+
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    $NovOrc = $result['NovOrc'] ?? null;
+
+    $result2 = $stmt2->fetch(PDO::FETCH_ASSOC);
+    $NovPed = $result2['NovPed'] ?? null;
 
     $pdo->commit();
 
@@ -122,4 +122,12 @@ try {
     echo "Erro ao alterar: " . $e->getMessage();
 }
 
+// depois (APENAS debug, sem mudar regras):
+$respIns = insereTabSubs($pdo, $itemRetirado, $itemAdicionado, $contrato, $user, 'E', $acessorios, NULL, NULL, NULL, $NovOrc, $NovPed);
+error_log('[subsitemcontrato] resp insereTabSubs = ' . $respIns);
+// echo ' | RESP_SUBS=' . $respIns;  // temporário pra você ver no alert/resposta
+
+$respInsAcess = insereAcessorios($pdo, $itemRetirado, $itemAdicionado, $contrato, $user, $acessoriosSelecionados);
+error_log('[subsitemcontrato] resp insereTabSubs = ' . $respInsAcess);
+//echo ' | RESP_SUBS=' . $respInsAcess;  // temporário pra você ver no alert/resposta
 

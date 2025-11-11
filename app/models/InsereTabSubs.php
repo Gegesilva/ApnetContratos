@@ -12,7 +12,7 @@ $user = $_SESSION['usuario'];
 
 //echo "<script>console.log('Debug Objects: " . $patrimonioAcessorios . "' );</script>";
 
-function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user, $tipo, $acessorios, $patsRaz, $contratoAnt, $codCli, $Orcamento) 
+function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user, $tipo, $acessorios, $patsRaz, $contratoAnt, $codCli, $Orcamento, $novPed) 
 {
     try {
        $tipoInsert = isset($contratoAnt) ? 'SubsRazSocial' : 'SubsItemContrato';
@@ -35,10 +35,7 @@ function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user, $tipo, $a
                                     VALUES
                                         (:itemNovo
                                         ,:itemAntigo
-                                        ,(SELECT TOP 1 
-                                                TB02030_CODIGO FROM TB02030 
-                                            WHERE TB02030_CONTRATO = :contrato2
-                                            AND EXISTS(SELECT * FROM TB02112 WHERE TB02112_CODIGO = :contrato3 AND TB02112_PAT = :itemAntigo2) ORDER BY TB02030_DTCAD DESC)
+                                        ,:Pedido
                                         ,:Orcamento
                                         ,NULL
                                         ,:user
@@ -53,17 +50,15 @@ function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user, $tipo, $a
             $stmt->execute([
                 ':tipoInsert' => $tipoInsert,
                 ':itemAntigo' => $itemAntigo,
-                ':itemAntigo2' => $itemAntigo,
                 ':itemNovo' => $itemNovo,
                 ':contrato' => $contrato,
-                ':contrato2' => $contrato,
-                ':contrato3' => $contrato,
                 ':user' => $user,
                 ':acessorios' => $acessorios,
                 ':patsRaz' => $patsRaz,
                 ':contratoAnt' => $contratoAnt,
                 ':codcli' => $codCli,
-                ':Orcamento' => $Orcamento
+                ':Orcamento' => $Orcamento,
+                ':Pedido' => $novPed
             ]);
         } else {
             $stmt = $pdo->prepare("INSERT INTO [dbo].[SUBS_CONTRATO]
@@ -81,17 +76,8 @@ function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user, $tipo, $a
                                     VALUES
                                         (:itemNovo
                                         ,:itemAntigo
-                                        ,(SELECT TOP 1 
-                                                TB02030_CODIGO FROM TB02030 
-                                            WHERE TB02030_CONTRATO = :contrato2
-                                            AND EXISTS(SELECT * FROM TB02112 WHERE TB02112_CODIGO = :contrato3 AND TB02112_PAT = :itemAntigo2) ORDER BY TB02030_DTCAD DESC)
-                                        ,(SELECT TOP 1
-                                                TB02019_CODIGO
-                                            FROM TB02019 
-                                            LEFT JOIN TB02018 ON TB02018_CODIGO = TB02019_CODIGO
-                                            LEFT JOIN TB02054 ON TB02054_NUMSERIE = TB02019_NUMSERIE
-                                            WHERE TB02018_CONTRATO = :contrato4 AND TB02054_PAT = :itemAntigo3
-                                            ORDER BY TB02019_DTCAD DESC)
+                                        ,:Pedido
+                                        ,:Orcamento
                                         ,NULL
                                         ,:user
                                         ,:contrato
@@ -101,15 +87,12 @@ function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user, $tipo, $a
                                         ,GETDATE())");
             $stmt->execute([
                 ':itemAntigo' => $itemAntigo,
-                ':itemAntigo2' => $itemAntigo,
-                ':itemAntigo3' => $itemAntigo,
                 ':itemNovo' => $itemNovo,
                 ':contrato' => $contrato,
-                ':contrato2' => $contrato,
-                ':contrato3' => $contrato,
-                ':contrato4' => $contrato,
                 ':user' => $user,
-                ':acessorios' => $acessorios
+                ':acessorios' => $acessorios,
+                ':Pedido' => $novPed,
+                ':Orcamento' => $Orcamento
             ]);
 
         }

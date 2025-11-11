@@ -68,10 +68,11 @@ try {
         ':itemRetirado' => $itemRetirado,
         ':user' => $user
     ]);
-
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    $NovPed = $result['NovPed'] ?? null;
 
     // depois (APENAS debug, sem mudar regras):
-    $respIns = insereTabSubs($pdo, $itemRetirado, $itemAdicionado, $contrato, $user, 'S', $acessorios, NULL, NULL, NULL, NULL);
+    $respIns = insereTabSubs($pdo, $itemRetirado, $itemAdicionado, $contrato, $user, 'S', $acessorios, NULL, NULL, NULL, NULL, $NovPed);
     error_log('[subsitemcontrato] resp insereTabSubs = ' . $respIns);
     //echo ' | RESP_SUBS=' . $respIns;  // temporário pra você ver no alert/resposta
 

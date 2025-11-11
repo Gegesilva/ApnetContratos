@@ -2,11 +2,9 @@
 session_start();
 include 'InsereTabSubs.php';
 
-/* echo "<pre>";
-print_r($_POST);
-echo "</pre>";
-exit;
- */
+ini_set('max_input_vars', 3000);
+error_reporting(0);
+ini_set('display_errors', '0');
 
 if (!isset($_SESSION['usuario'])) {
     header("Location: ../../public/login.php");
@@ -84,9 +82,12 @@ try {
         @Operacao = '67',
         @Status = '42';
     ");
-    $result1 = $stmt2->execute();
-    $NovOrc = $result1[0]['NovOrc'] ?? null;
+    $stmt2->execute();
+    $result = $stmt2->fetch(PDO::FETCH_ASSOC);
+    $NovPed = $result['NovPed'] ?? null;
 
+
+    echo 'NovPed: ' . $NovPed;
 
     //cria orçamento
     $sql = "EXEC [dbo].[CRIA_ORC_SUB_CLI]
@@ -114,7 +115,7 @@ try {
     echo "Erro ao alterar: " . $e->getMessage();
 }
 
-$respIns = insereTabSubs($pdo, NULL, NULL, $ContratoNov, $user, 'S', $acessorios, $patFormatado, $ContratoAnt, $CodCli, $novoOrcamento);
+$respIns = insereTabSubs($pdo, NULL, NULL, $ContratoNov, $user, 'S', $acessorios, $patFormatado, $ContratoAnt, $CodCli, $novoOrcamento, $NovPed);
 error_log('[subsitemcontrato] resp insereTabSubs = ' . $respIns);
 //echo ' | RESP_SUBS=' . $respIns;  // temporário pra você ver no alert/resposta
 
