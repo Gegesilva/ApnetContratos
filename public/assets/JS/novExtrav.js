@@ -1,0 +1,83 @@
+document.addEventListener('DOMContentLoaded', () => {
+  // localiza elementos
+  const itemRetirado = document.getElementById('itemRetirado');
+  const btnAlterar = document.getElementById('btnAlterar');
+
+
+  // habilita/desabilita o botão Alterar
+  function validarRetirado() {
+    const preenchido = itemRetirado.value.trim().length > 2;
+    btnAlterar.disabled = !preenchido;
+  }
+
+  // Atualiza ao digitar
+  itemRetirado.addEventListener('input', validarRetirado);
+
+  // Atualiza ao carregar a página
+  validarRetirado();
+});
+
+
+
+
+// Abre modal pelo ID
+function abrirModal(idModal) {
+  document.querySelectorAll(".modal").forEach(m => m.style.display = "none");
+  document.getElementById(idModal).style.display = "flex";
+}
+
+// Fecha todos os modais
+function fecharModal() {
+  document.querySelectorAll(".modal").forEach(m => m.style.display = "none");
+}
+
+// Confirmação
+function confirmarAlteracao() {
+  //const contrato = document.getElementById("contrato").value;
+  const itemRetirado = document.getElementById("itemRetirado").value;
+  const itemAdicionado = document.getElementById("itemAdicionado").value;
+  const elemento = document.getElementById("acessoriosSelecionados");
+  const acessoriosSelecionados = elemento ? elemento.value : "";
+
+  fetch("../models/SubsItemContrato.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: `itemRetirado=${encodeURIComponent(itemRetirado)}&itemAdicionado=${encodeURIComponent(itemAdicionado)}&acessoriosSelecionados=${encodeURIComponent(acessoriosSelecionados)}`
+    })
+    .then(response => response.text())
+    .then(data => {
+      fecharModal();
+      alert(data);
+      window.location.href = "subsMaq.php"; // recarrega a página
+      atualizarEstado();
+    })
+    .catch(error => {
+      alert("Erro ao enviar os dados!");
+      console.error("Erro:", error);
+    });
+}
+
+
+function enviarEAtualizar(form) {
+  const formData = new FormData(form);
+
+  fetch(form.action, {
+      method: "POST",
+      body: formData
+    })
+    .then(response => {
+      if (!response.ok) throw new Error("Erro na requisição");
+      return response.text();
+    })
+    .then(() => {
+      window.location.reload();
+    })
+    .catch(error => {
+      console.log("Erro ao concluir: " + error.message);
+    });
+
+  return false;
+}
+

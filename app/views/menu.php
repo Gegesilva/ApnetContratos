@@ -32,9 +32,9 @@ header('Content-type: text/html; charset=ISO-8895-1');
         <div class="buttons-grid">
             <a class="acomp-button" href="acomp.php">ACOMPANHAMENTO</a>
             <a class="conc-button" href="concluidos.php">CONCLUÍDOS</a>
-            <a class="menu-button" href="subsMaq.php">SUBS ITEM</a>
-            <a class="menu-button" href="subsRazSocial.php">SUBS RAZÃO SOCIAL</a>
-            <a class="menu-button" href="novExtrav.php">SUBS EXTRAVIO</a>
+            <a class="menu-button" href="novExtrav.php">EXTRAVIO </br> (Retidada do equipamento)</a>
+            <a class="menu-button" href="subsMaq.php">SUBS ITEM </br> (Extravio/Substituição)</a>
+            <a class="menu-button" href="subsRazSocial.php">SUBS </br> RAZÃO SOCIAL</a>
             <!--<a class="menu-button" href="saldocredforn/public/index.php">SALDO CRÉDITOS FORNECEDORES</a>
             <a class="menu-button" href="beneficios/public/index.php">SALDO BENEFÍCIOS</a> -->
             <!-- <a class="menu-button" href="">SALDO ESTOQUE</a> -->

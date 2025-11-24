@@ -11,51 +11,6 @@ if (!isset($_SESSION['usuario'])) {
   exit;
 }
 
-/* pega os patrimonios selecionados */
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  // Verifica se alguma célula foi selecionada
-  if (isset($_POST['selecionados']) && is_array($_POST['selecionados'])) {
-    // Recupera os valores das células selecionadas
-    $selecionados = $_POST['selecionados'];
-
-    // Coloca os valores dentro de aspas simples e os separa por vírgula
-    $patrimonioAcessorios = "'" . implode("','", array_map('htmlspecialchars', $selecionados)) . "'";
-  }
-}
-
-$itemAdicionado = isset($_POST['itemAdicionado']) ? $_POST['itemAdicionado'] : $_SESSION['itemAdicionado'];
-$itemRetirado = isset($_POST['itemRetirado']) ? $_POST['itemRetirado'] : $_SESSION['itemRetirado'];
-$contrato = isset($_POST['contrato']) ? $_POST['contrato'] : $_SESSION['contrato'];
-
-
-
-if (isset($patrimonioAcessorios)) {
-  /* pega nome dos acessorios */
-  $sqlNome = "SELECT 
-              STRING_AGG(TB01010_NOME, CHAR(13) + CHAR(10)) Nome
-              FROM TB01010
-              WHERE TB01010_CODIGO IN ($patrimonioAcessorios)";
-  $stmtNome = $pdo->query($sqlNome);
-  $nomesAcessorios = $stmtNome->fetchAll(PDO::FETCH_ASSOC)[0]['Nome'];
-
-
-  $valueItemAdd = "value = '$itemAdicionado' ";
-  $valueItemRet = "value = '$itemRetirado' ";
-  $valueContrato = "value = '$contrato' ";
-  $textareaAcessorios = "<textarea style='display: none;' name='acessoriosSelecionados' id='acessoriosSelecionados' disabled>$patrimonioAcessorios</textarea>";
-  $textareaAcessoriosNome = "<textarea disabled>$nomesAcessorios</textarea>";
-  $check = "hidden";
-  $labelAcessorios = " ";
-  $dissabled = "disabled";
-} else {
-  $valueItemAdd = "";
-  $valueItemRet = "";
-  $valueContrato = "";
-  $textareaAcessorios = "";
-  $check = "checkbox";
-  $labelAcessorios = "<label for='chkOpcao2'>Incluir acessorios?</label>";
-  $dissabled = "";
-}
 
 ?>
 
@@ -72,7 +27,7 @@ if (isset($patrimonioAcessorios)) {
 <body>
 
   <div class="container">
-    <h2>Extravio</h2>
+    <h2>Extravio (saída do equipamento)</h2>
     <div class="form-group">
       <!-- <input type="text" id="contrato" placeholder="Número do Contrato" oninput="atualizarEstado()" required
         <?= $valueContrato ?> <?= $dissabled ?> /> -->
@@ -80,21 +35,10 @@ if (isset($patrimonioAcessorios)) {
       <div class="row">
         <input type="text" id="itemRetirado" placeholder="Item Retirado" oninput="atualizarEstado()" required
           <?= $valueItemRet ?> <?= $dissabled ?> />
-        <input type="text" id="itemAdicionado" placeholder="Item Adicionado" disabled oninput="atualizarEstado()"
-          required <?= $valueItemAdd ?> <?= $dissabled ?> />
-      </div>
 
-      <!-- Checkbox -->
-      <div class="check-container">
-        <input type="checkbox" class="check" id="chkOpcao">
-        <label for="chkOpcao" id="lbExtravio">Extravio?</label>
-        <input type="<?= $check ?>" class="check" id="chkOpcao2">
-        <?= $labelAcessorios ?>
-      </div>
-      <!-- Textarea para mostrar os patrimonios selecionados -->
-      <div class='form-group'>
-        <?= $textareaAcessorios ?>
-        <?= $textareaAcessoriosNome ?>
+
+        <!-- <input type="text" id="itemAdicionado" placeholder="Item Adicionado" disabled oninput="atualizarEstado()"
+          required <?= $valueItemAdd ?> <?= $dissabled ?> /> -->
       </div>
       <button id="btnAlterar" onclick="abrirModalVerificacao()">Alterar</button>
       <button onclick="window.location='menu.php'">Voltar</button>
@@ -111,18 +55,7 @@ if (isset($patrimonioAcessorios)) {
       </div>
     </div>
   </div>
-
-  <!-- Novo modal (quando checkbox marcado) -->
-  <div class="modal" id="modalAlternativo">
-    <div class="modal-content">
-      <p>Deseja realmente trocar os itens extraviados?</p>
-      <div class="buttons">
-        <button onclick="confirmarAlteracaoAlternativa()">Confirmar</button>
-        <button onclick="fecharModal()">Cancelar</button>
-      </div>
-    </div>
-  </div>
-  <script src="../../public/assets/JS/script.js"></script>
+  <script src="../../public/assets/JS/novExtrav.js"></script>
 </body>
 
 </html>
