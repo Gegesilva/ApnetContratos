@@ -60,10 +60,16 @@ if (isset($patrimonioAcessorios)) {
   $dissabled = "";
 }
 
+/* alterações para patrimonio vindo do acomp */
+$checkExt = "checkbox";
+$styleLabelExt = "";
 if ($itemRetiradoAcomp) {
   $valueItemRet = "value = '$itemRetiradoAcomp'";
+  $checkExt = "hidden";
+  $styleLabelExt = "style='display: none;'";
 }
 
+echo 'itemRetiradoAcomp: '.$itemRetiradoAcomp;
 ?>
 
 <!DOCTYPE html>
@@ -90,12 +96,14 @@ if ($itemRetiradoAcomp) {
           <?= $valueItemRet ?> <?= $dissabled ?> />
         <input type="text" id="itemAdicionado" placeholder="Item Adicionado" disabled oninput="atualizarEstado()"
           required <?= $valueItemAdd ?> <?= $dissabled ?> />
+
+         <input type="hidden" id="patsaida" value="<?= $itemRetiradoAcomp ?>">
       </div>
 
       <!-- Checkbox -->
       <div class="check-container">
-        <input type="checkbox" class="check" id="chkOpcao">
-        <label for="chkOpcao" id="lbExtravio">Extravio?</label>
+        <input type="<?= $checkExt ?>" class="check" id="chkOpcao">
+        <label for="chkOpcao" id="lbExtravio" <?= $styleLabelExt ?>>Extravio?</label>
         <input type="<?= $check ?>" class="check" id="chkOpcao2">
         <?= $labelAcessorios ?>
       </div>
