@@ -73,6 +73,7 @@ if ($itemRetiradoAcomp) {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="../../public/assets/CSS/style.css">
+
   <title>DATABIT</title>
 </head>
 
@@ -130,6 +131,10 @@ if ($itemRetiradoAcomp) {
     </div>
   </div>
   <script src="../../public/assets/JS/script.js"></script>
+  <script>
+    atualizarEstado();
+  </script>
+
 </body>
 
 </html>
