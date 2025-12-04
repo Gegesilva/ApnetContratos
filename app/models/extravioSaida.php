@@ -31,7 +31,7 @@ while($row = $stmtValida->fetch(PDO::FETCH_ASSOC)) {
     $teste = (int) $row['teste'];
 }
 
-
+/* tratamneto de erro */
 if ($teste !== 1 || !$itemRetirado) {
     echo "Dados incorretos e/ou já existentes.";
     exit;
