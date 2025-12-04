@@ -143,6 +143,13 @@ include '../../config/database.php';
                                     <button type='submit' class='btn-nova'>Concluir</button>
                                 </form>
                               </td>";
+                        } elseif($row['TIPO_OP'] === 'Extravio (saída)') {
+                                echo "<td>
+                                <form method='POST' action='subsMaq.php'>
+                                    <input type='hidden' name='PAT_SAIDA' value='{$row['PAT_SAIDA']}'>
+                                    <button type='submit' class='btn-nova'>Saida</button>
+                                </form>
+                              </td>";
                         } else {
                             echo "<td></td>";
                         }

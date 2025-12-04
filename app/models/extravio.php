@@ -89,25 +89,6 @@ try {
         throw new Exception("Erro na execução da primeira consulta.");
     }
 
-    // Segunda execução (CriarPedidoCompra)
-    $stmt2 = $pdo->prepare("
-        EXEC CriarPedidoCompra
-        @CodigosPat = :itemAntigo,
-        @User = :user,
-        @Operacao = '67',
-        @Status = '42';
-    ");
-
-    if (
-        !$stmt2->execute([
-            ':itemAntigo' => $itemRetirado,
-            ':user' => $user
-        ])
-
-    ) {
-        throw new Exception("Erro na execução da segunda consulta.");
-    }
-
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     $NovOrc = $result['NovOrc'] ?? null;
 

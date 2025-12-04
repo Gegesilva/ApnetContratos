@@ -23,6 +23,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 }
 
+$itemRetiradoAcomp = $_POST['PAT_SAIDA'];
+
+
 $itemAdicionado = isset($_POST['itemAdicionado']) ? $_POST['itemAdicionado'] : $_SESSION['itemAdicionado'];
 $itemRetirado = isset($_POST['itemRetirado']) ? $_POST['itemRetirado'] : $_SESSION['itemRetirado'];
 $contrato = isset($_POST['contrato']) ? $_POST['contrato'] : $_SESSION['contrato'];
@@ -55,6 +58,10 @@ if (isset($patrimonioAcessorios)) {
   $check = "checkbox";
   $labelAcessorios = "<label for='chkOpcao2'>Incluir acessorios?</label>";
   $dissabled = "";
+}
+
+if ($itemRetiradoAcomp) {
+  $valueItemRet = "value = '$itemRetiradoAcomp'";
 }
 
 ?>
