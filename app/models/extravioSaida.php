@@ -14,6 +14,30 @@ $itemAdicionado = $_POST['itemAdicionado'] ?? ''; // definido para evitar undefi
 $NovOrc = null;
 $NovPed = null;
 
+//valida patrimonio
+$sqlValida = "SELECT
+                    COUNT(*) teste
+                FROM TB02112 
+                WHERE TB02112_SITUACAO = 'A' 
+                    AND TB02112_PAT = :itemRetirado
+                    AND NOT EXISTS (SELECT * FROM SUBS_CONTRATO WHERE PAT_SAIDA = :itemRetirado2)";
+$stmtValida = $pdo->prepare($sqlValida);
+$stmtValida->execute([
+    ':itemRetirado' => $itemRetirado,
+    ':itemRetirado2' => $itemRetirado,
+]);
+
+while($row = $stmtValida->fetch(PDO::FETCH_ASSOC)) {
+    $teste = (int) $row['teste'];
+}
+
+
+if ($teste !== 1 || !$itemRetirado) {
+    echo "Dados incorretos e/ou já existentes.";
+    exit;
+}
+
+/* Pega contrato */
 $sqlContrato = "SELECT TOP 1 TB02112_CODIGO FROM TB02112 WHERE TB02112_SITUACAO = 'A' AND TB02112_PAT = :patSaida";
 $stmtContrato = $pdo->prepare($sqlContrato);
 $stmtContrato->execute([
@@ -21,11 +45,6 @@ $stmtContrato->execute([
 ]);
 
 $contrato = $stmtContrato->fetchColumn();
-
-if (!$contrato || !$itemRetirado) {
-    echo "Dados incompletos.";
-    exit;
-}
 
 // Verifica se o PAT de saida pertence ao contrato, se o PAT de entrada existe e se essa substituição ja foi iniciada.
 $verificaSql = "SELECT COUNT(*) AS total
@@ -100,7 +119,12 @@ try {
 
     $pdo->commit();
 
-    echo "Alteração feita com sucesso!";
+    // insere tab de acompanhamento (chamada feita mesmo que NovOrc/NovPed sejam null)
+    $respIns = insereTabSubs($pdo, $itemRetirado, $itemAdicionado, $contrato, $user, 'ES', '', NULL, NULL, NULL, $NovOrc, $NovPed);
+    error_log('[subsitemcontrato] resp insereTabSubs = ' . $respIns);
+    // echo ' | RESP_SUBS=' . $respIns;  // temporário pra você ver no alert/resposta
+
+    echo "Alteração feita com sucesso! " . $itemRetirado;
 } catch (Exception $e) {
     // tenta rollback se possível
     if ($pdo->inTransaction()) {
@@ -109,7 +133,4 @@ try {
     echo "Erro ao alterar: " . $e->getMessage();
 }
 
-// insere tab de acompanhamento (chamada feita mesmo que NovOrc/NovPed sejam null)
-$respIns = insereTabSubs($pdo, $itemRetirado, $itemAdicionado, $contrato, $user, 'ES', '', NULL, NULL, NULL, $NovOrc, $NovPed);
-error_log('[subsitemcontrato] resp insereTabSubs = ' . $respIns);
-// echo ' | RESP_SUBS=' . $respIns;  // temporário pra você ver no alert/resposta
+

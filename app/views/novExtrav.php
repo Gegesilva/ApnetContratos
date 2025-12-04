@@ -43,7 +43,7 @@ if (!isset($_SESSION['usuario'])) {
   <!-- Modal original -->
   <div class="modal" id="modalConfirmacao">
     <div class="modal-content">
-      <p>Deseja realmente trocar os itens?</p>
+      <p>Deseja realmente registrar essa saída?</p>
       <div class="buttons">
         <button onclick="confirmarAlteracao()">Confirmar</button>
         <button onclick="fecharModal()">Cancelar</button>
