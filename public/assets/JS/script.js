@@ -128,6 +128,7 @@ function selecaoAcessorios() {
   //const contrato = document.getElementById("contrato").value;
   const itemRetirado = document.getElementById("itemRetirado").value;
   const itemAdicionado = document.getElementById("itemAdicionado").value;
+  const patsaida = document.getElementById("patsaida").value;
 
   // cria um form temporário para enviar por POST e abrir a tela
   const form = document.createElement("form");
@@ -146,6 +147,7 @@ function selecaoAcessorios() {
   //addField("contrato", contrato);
   addField("itemRetirado", itemRetirado);
   addField("itemAdicionado", itemAdicionado);
+  addField("patsaida", patsaida);
 
   document.body.appendChild(form);
   form.submit(); // navega para a tela de acessórios com os parâmetros

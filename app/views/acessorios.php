@@ -16,6 +16,9 @@ include '../../config/database.php';
 
 $itemRetirado = isset($_POST['itemRetirado']) ? $_POST['itemRetirado'] : $_SESSION['itemRetirado'];
 $itemAdicionado = isset($_POST['itemAdicionado']) ? $_POST['itemAdicionado'] : $_SESSION['itemAdicionado'];
+$patsaida =  $_POST['patsaida'];
+
+echo $patsaida;
 
 $sqlContrato = "SELECT TOP 1 TB02112_CODIGO FROM TB02112 WHERE TB02112_SITUACAO = 'A' AND TB02112_PAT = :patSaida";
 $stmtContrato = $pdo->prepare($sqlContrato);
@@ -100,6 +103,7 @@ $nome = $stmtNome->fetchColumn();
              <input type="hidden" value="<?=$itemAdicionado?>" name="itemAdicionado" class="itemAdicionado">
              <input type="hidden" value="<?=$itemRetirado?>" name="itemRetirado" class="itemRetirado">
              <input type="hidden" value="<?=$contrato?>" name="contrato" class="contrato">
+             <input type="hidden" value="<?=$patsaida?>" name="PAT_SAIDA" class="patsaida">
 
             <table id="substituicoes">
                 <thead>
