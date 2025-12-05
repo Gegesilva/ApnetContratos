@@ -17,7 +17,7 @@ $stmtContrato->execute([
 $contrato = $stmtContrato->fetchColumn();
 
 /* define e flag se possui acessrios */
-if(isset($acessoriosSelecionados)  && $acessoriosSelecionados != '') {
+if (isset($acessoriosSelecionados) && $acessoriosSelecionados != '') {
     $acessorios = 'S';
 } else {
     $acessorios = 'N';
@@ -76,9 +76,13 @@ try {
     error_log('[subsitemcontrato] resp insereTabSubs = ' . $respIns);
     //echo ' | RESP_SUBS=' . $respIns;  // temporário pra você ver no alert/resposta
 
+    $respUpd = atualizaEvento($pdo, $itemRetirado);
+    error_log('[UptConcluido]  = ' . $respUpd);
+    //echo ' | RESP_SUBS=' . $respInsAcess;  // temporário pra você ver no alert/resposta
+
     if (isset($acessoriosSelecionados)) {
 
-        $respInsAcess = insereAcessorios($pdo, $itemRetirado,$itemAdicionado ,$contrato, $user, $acessoriosSelecionados);
+        $respInsAcess = insereAcessorios($pdo, $itemRetirado, $itemAdicionado, $contrato, $user, $acessoriosSelecionados);
         error_log('[subsitemcontrato] resp insereTabSubs = ' . $respInsAcess);
         //echo ' | RESP_SUBS=' . $respInsAcess;  // temporário pra você ver no alert/resposta
 

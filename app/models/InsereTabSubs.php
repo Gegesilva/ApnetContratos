@@ -196,3 +196,28 @@ function insereAcessorios($pdo, $itemAntigo, $itemNovo, $contrato, $user, $acess
     }
 }
 
+
+
+function atualizaEvento($pdo, $itemAntigo)
+{
+    try {
+
+        $stmt = $pdo->prepare("UPDATE SUBS_CONTRATO 
+                                SET CONCLUIDO_S_N = 'S'
+                                WHERE PAT_SAIDA = :itemAntigo
+                                    AND PAT_ENTRADA = '-'");
+        $stmt->execute([
+            ':itemAntigo' => $itemAntigo
+        ]);
+
+        if ($stmt->rowCount()) {
+            // return "Alteração feita com sucesso! na função";
+        } else {
+            //return "Nenhum item foi alterado.";
+        }
+
+    } catch (PDOException $e) {
+        return "Erro ao alterar: " . $e->getMessage();
+    }
+}
+

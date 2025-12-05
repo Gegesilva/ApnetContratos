@@ -69,7 +69,6 @@ if ($itemRetiradoAcomp) {
   $styleLabelExt = "style='display: none;'";
 }
 
-echo 'itemRetiradoAcomp: '.$itemRetiradoAcomp;
 ?>
 
 <!DOCTYPE html>

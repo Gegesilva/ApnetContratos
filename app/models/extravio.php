@@ -112,3 +112,7 @@ $respInsAcess = insereAcessorios($pdo, $itemRetirado, $itemAdicionado, $contrato
 error_log('[subsitemcontrato] resp insereTabSubs = ' . $respInsAcess);
 //echo ' | RESP_SUBS=' . $respInsAcess;  // temporário pra você ver no alert/resposta
 
+
+$respUpd = atualizaEvento($pdo, $itemRetirado);
+error_log('[UptConcluido]  = ' . $respUpd);
+//echo ' | RESP_SUBS=' . $respInsAcess;  // temporário pra você ver no alert/resposta
