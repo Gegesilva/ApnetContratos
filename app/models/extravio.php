@@ -3,6 +3,9 @@
 include '../../config/database.php';
 include 'insereTabSubs.php';
 
+$NovPed = '-';
+$NovOrc = '-';
+
 $user = $_SESSION['usuario'];
 
 $itemRetirado = $_POST['itemRetirado'] ?? '';
@@ -93,6 +96,7 @@ try {
         throw new Exception("Erro na execução da primeira consulta.");
     }
 
+    /* teste se e extravio direto ou feito saida antes */
     if (!$patsaida || $patsaida == '') {
         // Segunda execução (CriarPedidoCompra)
         $stmt2 = $pdo->prepare("
