@@ -94,7 +94,7 @@ $nome = $stmtNome->fetchColumn();
                 <h2 class="titulo">Acessorios <?= $itemRetirado ?></h2>
                 <div>
                     <button type="submit" class="btn-selec">SELECIONAR</button>
-                    <button type="button" onclick="window.location.href= 'subsMaq.php'" class="btn-sair">←
+                    <button type="button" onclick="window.location.href= 'subsMaq.php'" class="btn-sair2">←
                         Voltar</button>
 
                 </div>

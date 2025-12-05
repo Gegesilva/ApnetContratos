@@ -117,7 +117,7 @@ function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user, $tipo, $a
                                         ,:user
                                         ,:contrato
                                         ,'N'
-                                        ,'Extravio (Entrada)'
+                                        ,'Extravio'
                                         ,:acessorios
                                         ,GETDATE())");
             $stmt->execute([
