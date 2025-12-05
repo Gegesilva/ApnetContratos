@@ -100,6 +100,7 @@ function confirmarAlteracaoAlternativa() {
   //const contrato = document.getElementById("contrato").value;
   const itemRetirado = document.getElementById("itemRetirado").value;
   const itemAdicionado = document.getElementById("itemAdicionado").value;
+  const patsaida = document.getElementById("patsaida").value;
   const elemento = document.getElementById("acessoriosSelecionados");
   const acessoriosSelecionados = elemento ? elemento.value : "";
 
@@ -108,7 +109,7 @@ function confirmarAlteracaoAlternativa() {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
       },
-      body: `itemRetirado=${encodeURIComponent(itemRetirado)}&itemAdicionado=${encodeURIComponent(itemAdicionado)}&acessoriosSelecionados=${encodeURIComponent(acessoriosSelecionados)}`
+      body: `patsaida=${encodeURIComponent(patsaida)}&itemRetirado=${encodeURIComponent(itemRetirado)}&itemAdicionado=${encodeURIComponent(itemAdicionado)}&acessoriosSelecionados=${encodeURIComponent(acessoriosSelecionados)}`
     })
     .then(response => response.text())
     .then(data => {

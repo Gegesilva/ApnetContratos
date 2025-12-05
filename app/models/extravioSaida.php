@@ -76,6 +76,8 @@ try {
     $stmt = $pdo->prepare("
         EXEC CRIA_ORC_SAIDA
             @PatAnt = :itemAntigo,
+            @PatAdd = '',
+            @Acessorios = 'N',
             @Contrato = :Contrato,
             @User = :user,
             @Operacao = '71',

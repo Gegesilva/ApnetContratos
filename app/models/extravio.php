@@ -9,6 +9,8 @@ $itemRetirado = $_POST['itemRetirado'] ?? '';
 $itemAdicionado = $_POST['itemAdicionado'] ?? '';
 $acessoriosSelecionados = $_POST['acessoriosSelecionados'] ?? '';
 
+$patsaida = $_POST['patsaida'] ?? '';
+
 $sqlContrato = "SELECT TOP 1 TB02112_CODIGO FROM TB02112 WHERE TB02112_SITUACAO = 'A' AND TB02112_PAT = :patSaida";
 $stmtContrato = $pdo->prepare($sqlContrato);
 $stmtContrato->execute([
@@ -28,6 +30,8 @@ if (!$contrato || !$itemRetirado || !$itemAdicionado || $user == '') {
     echo "Dados incompletos.";
     exit;
 }
+
+
 
 
 // Verifica se o PAT de saida pertence ao contrato, se o PAT de entrada existe e se essa substituição ja foi iniciada.
@@ -89,11 +93,35 @@ try {
         throw new Exception("Erro na execução da primeira consulta.");
     }
 
+    if (!$patsaida || $patsaida == '') {
+        // Segunda execução (CriarPedidoCompra)
+        $stmt2 = $pdo->prepare("
+        EXEC CriarPedidoCompra
+        @CodigosPat = :itemAntigo,
+        @User = :user,
+        @Operacao = '67',
+        @Status = '42';
+    ");
+
+        if (
+            !$stmt2->execute([
+                ':itemAntigo' => $itemRetirado,
+                ':user' => $user
+            ])
+
+        ) {
+            throw new Exception("Erro na execução da segunda consulta.");
+        }
+
+        $result2 = $stmt2->fetch(PDO::FETCH_ASSOC);
+        $NovPed = $result2['NovPed'] ?? null;
+    }
+
+
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     $NovOrc = $result['NovOrc'] ?? null;
 
-    $result2 = $stmt2->fetch(PDO::FETCH_ASSOC);
-    $NovPed = $result2['NovPed'] ?? null;
+
 
     $pdo->commit();
 
