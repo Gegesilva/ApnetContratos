@@ -131,7 +131,7 @@ include '../../config/database.php';
             </tbody>
         </table>
     </div>
-    <script src="../../public/assets/JS/script.js"></script>
+    <script src="../../public/assets/JS/acomp.js"></script>
 </body>
 
 </html>

@@ -102,7 +102,7 @@
 
   .btn-nova{
     text-align: center;
-    display: inline-block;
+    /* display: inline-block; */
     width: auto;
     box-sizing: border-box;
     border: none;
