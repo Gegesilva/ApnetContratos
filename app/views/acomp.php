@@ -148,7 +148,7 @@ include '../../config/database.php';
                                                         echo "<td>
                                                                 <form method='POST' action='subsMaq.php'>
                                                                 <input type='hidden' name='PAT_SAIDA' value='{$row['PAT_SAIDA']}'>
-                                                                <button type='submit' class='btn-nova'>Saida</button>
+                                                                <button type='submit' class='btn-nova'>Entrada</button>
                                                                 </form>
                                                              </td>";
                                                 } else {
