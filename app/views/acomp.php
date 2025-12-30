@@ -43,7 +43,7 @@ include '../../config/database.php';
                                                         class="fa fa-sort" aria-hidden="true"></i></th>
                                         <th class="titulo-col-tab" onclick="ordenarTabela(4)">PAT Entrada <i
                                                         class="fa fa-sort" aria-hidden="true"></i></th>
-                                        <th class="titulo-col-tab" onclick="ordenarTabela(5)">Data Pedido <i
+                                        <th class="titulo-col-tab" onclick="ordenarTabela(5)">Data <i
                                                         class="fa fa-sort" aria-hidden="true"></i></th>
                                         <th class="titulo-col-tab" onclick="ordenarTabela(6)">Pedido Compra <i
                                                         class="fa fa-sort" aria-hidden="true"></i></th>
@@ -76,36 +76,36 @@ include '../../config/database.php';
                                         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
                                         $sql = "SELECT 
-                                                TB01008_NOME NOME
-                                                ,[PAT_ENTRADA]
-                                                ,[PAT_SAIDA]
-                                                ,[PEDIDO_COMPRA]
-                                                ,[ORCAMENTO]
-                                                ,TB01039_NOME STATUS_COMPRA
-                                                ,[OPCAD]
-                                                ,[COD_CONTRATO]
-                                                ,CASE WHEN [CONCLUIDO_S_N] = 'S' THEN 'SIM' ELSE 'NÃO' END AS CONCLUIDO_S_N
-                                                ,CASE WHEN [ACESSORIOS_S_N] = 'S' THEN 'SIM' ELSE 'NÃO' END AS ACESSORIOS_S_N
-                                                ,[TIPO_OP]
-                                                ,[TB02002_CODPRE]
-                                                ,TB02030_ORCAMENTO OrcPed
-                                                ,[COD_CONTRATO_ANT]
-                                                ,[TB01021_NOME]
-                                                ,TB02030_NTFISC NOTAPEDIDO
-                                                ,TB02018_NTFISC NOTAORCAMENTO
-                                                ,FORMAT(TB02030_DTCAD, 'dd/MM/yyyy') DATAPEDIDO
+                                                        TB01008_NOME NOME
+                                                        ,[PAT_ENTRADA]
+                                                        ,[PAT_SAIDA]
+                                                        ,[PEDIDO_COMPRA]
+                                                        ,[ORCAMENTO]
+                                                        ,TB01039_NOME STATUS_COMPRA
+                                                        ,[OPCAD]
+                                                        ,[COD_CONTRATO]
+                                                        ,CASE WHEN [CONCLUIDO_S_N] = 'S' THEN 'SIM' ELSE 'NÃO' END AS CONCLUIDO_S_N
+                                                        ,CASE WHEN [ACESSORIOS_S_N] = 'S' THEN 'SIM' ELSE 'NÃO' END AS ACESSORIOS_S_N
+                                                        ,[TIPO_OP]
+                                                        ,[TB02002_CODPRE]
+                                                        ,TB02030_ORCAMENTO OrcPed
+                                                        ,[COD_CONTRATO_ANT]
+                                                        ,[TB01021_NOME]
+                                                        ,TB02030_NTFISC NOTAPEDIDO
+                                                        ,TB02018_NTFISC NOTAORCAMENTO
+                                                        ,FORMAT(ISNULL(TB02030_DTCAD, TB02018_DTCAD), 'dd/MM/yyyy hh:mm') DATAPEDIDO
 
+                                                FROM [dbo].[SUBS_CONTRATO]
+                                                LEFT JOIN TB02002 ON TB02002_CODPRE = PEDIDO_COMPRA
+                                                LEFT JOIN TB02030 ON TB02030_CODIGO = PEDIDO_COMPRA
+                                                LEFT JOIN TB02018 ON TB02018_CODIGO = ISNULL(ORCAMENTO, TB02030_ORCAMENTO)
+                                                LEFT JOIN TB02021 ON TB02021_NUMORC = COALESCE(ORCAMENTO, TB02030_ORCAMENTO, TB02018_CODIGO)
+                                                LEFT JOIN TB01021 ON TB01021_CODIGO = TB02021_STATUS
+                                                LEFT JOIN TB01039 ON TB01039_CODIGO = TB02030_STATUS
+                                                LEFT JOIN TB02111 ON TB02111_CODIGO = COD_CONTRATO
+                                                LEFT JOIN TB01008 ON TB01008_CODIGO = TB02111_CODCLI
 
-                                        FROM [dbo].[SUBS_CONTRATO]
-                                        LEFT JOIN TB02002 ON TB02002_CODPRE = PEDIDO_COMPRA
-                                        LEFT JOIN TB02030 ON TB02030_CODIGO = PEDIDO_COMPRA
-                                        LEFT JOIN TB01039 ON TB01039_CODIGO = TB02030_STATUS
-                                        LEFT JOIN TB02018 ON TB02018_CODIGO = ISNULL(ORCAMENTO, TB02030_ORCAMENTO)
-                                        LEFT JOIN TB01021 ON TB01021_CODIGO = TB02018_STATUS
-                                        LEFT JOIN TB02111 ON TB02111_CODIGO = COD_CONTRATO
-                                        LEFT JOIN TB01008 ON TB01008_CODIGO = TB02111_CODCLI
-
-                                        WHERE CONCLUIDO_S_N = 'N'";
+                                                WHERE CONCLUIDO_S_N = 'N'";
                                         $stmt = $pdo->query($sql);
 
                                         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {

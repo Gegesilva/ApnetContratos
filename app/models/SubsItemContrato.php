@@ -3,6 +3,10 @@
 include '../../config/database.php';
 include 'insereTabSubs.php';
 
+ini_set('max_input_vars', 3000);
+error_reporting(0);
+ini_set('display_errors', '0');
+
 
 $itemRetirado = $_POST['itemRetirado'] ?? '';
 $itemAdicionado = $_POST['itemAdicionado'] ?? '';

@@ -2,4 +2,4 @@
 $server = 'localhost';
 $base = 'APNET';
 $usuarioBanco = 'sa';
-$SenhaBanco = '13012020';
+$SenhaBanco = 'databit@2023';

@@ -47,7 +47,7 @@ $nome = $stmtNome->fetchColumn();
             <h2 class="titulo"><?=$nome?>: <?=$contrato?></h2>
             <div>
                 <button type="submit" class="btn-selec">SELECIONAR</button>
-                <button type="button" onclick="window.location.href= 'subsRazSocial.php'" class="btn-sair">← Voltar</button>
+                <button type="button" onclick="window.location.href= 'subsRazSocial.php'" class="btn-sair2">← Voltar</button>
                 
             </div>
         </div>
