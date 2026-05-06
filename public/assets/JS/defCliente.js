@@ -127,7 +127,7 @@ function atualizarCampos() {
 
   if (chkAcessContExist.checked) {
     clienteInp.style.display = 'none';
-    clienteInp.value = "";
+    clienteInp.value = "N";
   } else {
     clienteInp.style.display = 'block';
   }

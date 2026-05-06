@@ -57,6 +57,12 @@ if ($ContratoExistente === "N") {
         exit;
     }
 
+} else if ($ContratoExistente === "S") {
+    // Pega o cliente do contrato novo para usar na substituição
+    $sqlCheck = "SELECT TB02111_CODCLI Cliente FROM TB02111 WHERE TB02111_CODIGO = :ContratoNov";
+    $stmtCheck = $pdo->prepare($sqlCheck);
+    $stmtCheck->execute([':ContratoNov' => $ContratoNov]);
+    $CodCli = $stmtCheck->fetch(PDO::FETCH_ASSOC);
 }
 
 try {
