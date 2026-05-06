@@ -119,3 +119,18 @@ function ordenarTabela(colIndex) {
   tbody.innerHTML = "";
   rows.forEach(row => tbody.appendChild(row));
 }
+
+/* desailitar campo codigo no novo cliente quando o contrato existente for selecionado */
+function atualizarCampos() {
+  const chkAcessContExist = document.getElementById("chkAcessContExist");
+  const clienteInp = document.getElementById("clienteInp");
+
+  if (chkAcessContExist.checked) {
+    clienteInp.style.display = 'none';
+    clienteInp.value = "";
+  } else {
+    clienteInp.style.display = 'block';
+  }
+  
+
+}

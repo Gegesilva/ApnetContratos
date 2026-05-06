@@ -77,7 +77,7 @@ $patJson = htmlspecialchars(json_encode($patArray), ENT_QUOTES, 'UTF-8');
         <input type="checkbox" class="check" id="chkAcessPar">
         <label for="chkAcessPar">Parcial?</label>
 
-        <input type="checkbox" class="check" id="chkAcessContExist">
+        <input type="checkbox" class="check" id="chkAcessContExist" onchange="atualizarCampos()">
         <label for="chkAcessContExist">Contrato existente?</label>
       </div>
         <button id="btnAlterar" disabled onclick="abrirModal()">Alterar</button>

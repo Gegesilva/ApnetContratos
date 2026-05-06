@@ -43,22 +43,24 @@ if (empty($ContratoAnt) || empty($ContratoNov) || empty($CodCli) || empty($patFo
     exit;
 }
 
-// Verifica se o contrato novo já existe
-$sqlCheck = "SELECT COUNT(*) FROM TB02111 WHERE TB02111_CODIGO = :ContratoNov";
-$stmtCheck = $pdo->prepare($sqlCheck);
-$stmtCheck->execute([':ContratoNov' => $ContratoNov]);
-$count = $stmtCheck->fetchColumn();
-if ($count > 0) {
-    echo "<script>
+if ($ContratoExistente === "N") {
+    // Verifica se o contrato novo já existe
+    $sqlCheck = "SELECT COUNT(*) FROM TB02111 WHERE TB02111_CODIGO = :ContratoNov";
+    $stmtCheck = $pdo->prepare($sqlCheck);
+    $stmtCheck->execute([':ContratoNov' => $ContratoNov]);
+    $count = $stmtCheck->fetchColumn();
+    if ($count > 0) {
+        echo "<script>
         alert('Contrato novo já existe.');
         window.location.href = '../views/subsRazSocial.php';
     </script>";
-    exit;
+        exit;
+    }
+
 }
 
-
 try {
-    
+
 
     //cria pedido para cliente anterior
     $stmt2 = $pdo->prepare("
@@ -103,7 +105,8 @@ try {
                 @Pats = $patFormatado,
                 @User = :user,
                 @Acessorios = :Acessorios,
-                @SituacaoContratoAnt = :SituacaoContratoAnt;";
+                @SituacaoContratoAnt = :SituacaoContratoAnt,
+                @ContratoExistente = :ContratoExistente;";
 
     $stmt = $pdo->prepare($sql);
     $stmt->execute([
@@ -112,7 +115,8 @@ try {
         ':CodCli' => $CodCli,
         ':Acessorios' => $vaiAcessorios,
         ':user' => $user,
-        ':SituacaoContratoAnt' => $SituacaoContratoAnt
+        ':SituacaoContratoAnt' => $SituacaoContratoAnt,
+        ':ContratoExistente' => $ContratoExistente
     ]);
 
 
