@@ -73,6 +73,12 @@ $patJson = htmlspecialchars(json_encode($patArray), ENT_QUOTES, 'UTF-8');
       <div class="check-container">
         <input type="checkbox" class="check" id="chkAcess">
         <label for="chkAcess">Incluir acessorios?</label>
+
+        <input type="checkbox" class="check" id="chkAcessPar">
+        <label for="chkAcessPar">Parcial?</label>
+
+        <input type="checkbox" class="check" id="chkAcessContExist">
+        <label for="chkAcessContExist">Contrato existente?</label>
       </div>
         <button id="btnAlterar" disabled onclick="abrirModal()">Alterar</button>
         <button id="btnVoltar" type="button" onclick="window.location.href= 'selecEquips.php'">Voltar</button>
@@ -85,11 +91,12 @@ $patJson = htmlspecialchars(json_encode($patArray), ENT_QUOTES, 'UTF-8');
         <p>Deseja realmente substituir o cliente?</p>
         <div class="buttons">
             <!-- Inputs ocultos para envio via JS -->
-            <input type="hidden" name="pats" id="patsHidden" />
+            <!-- <input type="hidden" name="pats" id="patsHidden" />
             <input type="hidden" name="contrato" id="contratoHidden" />
             <input type="hidden" name="contratoAnt" id="contratoAntHidden" />
             <input type="hidden" name="cliente" id="clienteHidden" />
-            <input type="hidden" name="Acessorios" id="vaiAcessorios" />
+            <input type="hidden" name="Acessorios" id="vaiAcessorios" /> -->
+            <!-- <input type="hidden" name="SituacaoContratoAnt" id="vaiSituacaoContratoAnt" /> -->
 
             <!-- Botão chama a função JS -->
             <button onclick="confirmarAlteracao()">Confirmar</button>

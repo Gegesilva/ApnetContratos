@@ -6,7 +6,11 @@ function confirmarAlteracao() {
 
   // pega o estado do checkbox
   const check = document.getElementById("chkAcess");
+  const checkPar = document.getElementById("chkAcessPar");
+  const checkContExist = document.getElementById("chkAcessContExist");
   const vaiAcessorios = check.checked ? "S" : "N";
+  const vaiSituacaoContratoAnt = checkPar.checked ? "A" : "I";
+  const vaiContratoExistente = checkContExist.checked ? "S" : "N";
 
   // Preencher os inputs ocultos dentro do modal
  /*  document.getElementById("contratoHidden").value = contrato;
@@ -33,6 +37,12 @@ function confirmarAlteracao() {
   addHidden("cliente", cliente);
   addHidden("patArray", pats);
   addHidden("Acessorios", vaiAcessorios); 
+  addHidden("SituacaoContratoAnt", vaiSituacaoContratoAnt);
+  addHidden("ContratoExistente", vaiContratoExistente);
+
+ /*  console.log("Dados a enviar:", {
+    vaiSituacaoContratoAnt
+  }); */
 
   document.body.appendChild(form);
   form.submit();

@@ -2,9 +2,9 @@
 session_start();
 include 'InsereTabSubs.php';
 
-ini_set('max_input_vars', 3000);
+/* ini_set('max_input_vars', 3000);
 error_reporting(0);
-ini_set('display_errors', '0');
+ini_set('display_errors', '0'); */
 
 if (!isset($_SESSION['usuario'])) {
     header("Location: ../../public/login.php");
@@ -33,7 +33,8 @@ $ContratoAnt = $_POST['contratoAnt'];
 $ContratoNov = $_POST['contrato'];
 $CodCli = $_POST['cliente'];
 $vaiAcessorios = $_POST['Acessorios'];
-
+$SituacaoContratoAnt = $_POST['SituacaoContratoAnt'];
+$ContratoExistente = $_POST['ContratoExistente'];
 
 
 if (empty($ContratoAnt) || empty($ContratoNov) || empty($CodCli) || empty($patFormatado) || empty($user)) {
@@ -63,7 +64,7 @@ try {
     $stmt2 = $pdo->prepare("
         EXEC CriarPedidoCompra
         @CodigosPat = $patFormatado,
-        @User = $user,
+        @User = '$user',
         @Operacao = '67',
         @Status = '42';
     ");
@@ -101,7 +102,8 @@ try {
                 @CodCli  = :CodCli,
                 @Pats = $patFormatado,
                 @User = :user,
-                @Acessorios = :Acessorios;";
+                @Acessorios = :Acessorios,
+                @SituacaoContratoAnt = :SituacaoContratoAnt;";
 
     $stmt = $pdo->prepare($sql);
     $stmt->execute([
@@ -109,7 +111,8 @@ try {
         ':ContratoNov' => $ContratoNov,
         ':CodCli' => $CodCli,
         ':Acessorios' => $vaiAcessorios,
-        ':user' => $user
+        ':user' => $user,
+        ':SituacaoContratoAnt' => $SituacaoContratoAnt
     ]);
 
 
@@ -118,9 +121,9 @@ try {
     echo "Erro ao alterar: " . $e->getMessage();
 }
 
-$respIns = insereTabSubs($pdo, NULL, NULL, $ContratoNov, $user, 'S', $acessorios, $patFormatado, $ContratoAnt, $CodCli, null, $NovPed);
+$respIns = insereTabSubs($pdo, NULL, NULL, $ContratoNov, $user, 'S', $vaiAcessorios, $patFormatado, $ContratoAnt, $CodCli, null, $NovPed);
 error_log('[subsitemcontrato] resp insereTabSubs = ' . $respIns);
-//echo ' | RESP_SUBS=' . $respIns;  // temporário pra você ver no alert/resposta
+echo ' | RESP_SUBS=' . $respIns;  // temporário pra você ver no alert/resposta
 
 //echo "<script>alert('Dados alterados com sucesso.". $patFormatado . "');</script>";
 echo "<script>alert('Dados alterados com sucesso.'); window.location.href = '../views/subsRazSocial.php';</script>";
