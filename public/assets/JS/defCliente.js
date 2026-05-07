@@ -63,13 +63,28 @@ function fecharModal() {
 
 function atualizarEstado() {
   const contrato = document.getElementById("contrato");
-  const cliente = document.getElementById("clienteInp");
   const btnAlterar = document.getElementById("btnAlterar");
+  const chkAcessContExist = document.getElementById("chkAcessContExist");
+
+  const clienteInp = document.getElementById("clienteInp");
+  const contratoNov = document.getElementById("contrato");
+
+  if (chkAcessContExist.checked) {
+    clienteInp.style.display = 'none';
+    clienteInp.value = "";
+    btnAlterar.disabled = false; 
+  } else {
+    clienteInp.style.display = 'block';
+  }
+  
+  if (contratoNov.value.trim().length >= 3) {
+    btnAlterar.disabled = false;
+  }
 
   const contratoOK = contrato.value.trim().length >= 3;
-  const clienteOK = cliente.value.trim().length == 8;
+  const clienteOK = clienteInp.value.trim().length == 8;
 
-  btnAlterar.disabled = !(contratoOK && clienteOK);
+  btnAlterar.disabled = !(contratoOK && (clienteOK || chkAcessContExist.checked));
 
 }
 
@@ -121,16 +136,23 @@ function ordenarTabela(colIndex) {
 }
 
 /* desailitar campo codigo no novo cliente quando o contrato existente for selecionado */
-function atualizarCampos() {
+/* function atualizarCampos() {
   const chkAcessContExist = document.getElementById("chkAcessContExist");
   const clienteInp = document.getElementById("clienteInp");
+  const btnAlterar = document.getElementById("btnAlterar");
+  const contratoNov = document.getElementById("contrato");
 
   if (chkAcessContExist.checked) {
     clienteInp.style.display = 'none';
     clienteInp.value = "N";
+    btnAlterar.disabled = false; 
   } else {
     clienteInp.style.display = 'block';
+    clienteInp.value = "";
   }
   
+  if (contratoNov.value.trim().length >= 3) {
+    btnAlterar.disabled = false;
+  }
 
-}
+} */

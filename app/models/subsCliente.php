@@ -1,10 +1,10 @@
 <?php
-session_start();
+//session_start();
 include 'InsereTabSubs.php';
 
-/* ini_set('max_input_vars', 3000);
+ini_set('max_input_vars', 3000);
 error_reporting(0);
-ini_set('display_errors', '0'); */
+ini_set('display_errors', '0');
 
 if (!isset($_SESSION['usuario'])) {
     header("Location: ../../public/login.php");
@@ -37,11 +37,6 @@ $SituacaoContratoAnt = $_POST['SituacaoContratoAnt'];
 $ContratoExistente = $_POST['ContratoExistente'];
 
 
-if (empty($ContratoAnt) || empty($ContratoNov) || empty($CodCli) || empty($patFormatado) || empty($user)) {
-    echo "DEBUG => ContratoAnt: '$ContratoAnt', ContratoNov: '$ContratoNov', CodCli: '$CodCli', Pats: $patFormatado, User: '$user'\n";
-    echo "Dados incompletos.";
-    exit;
-}
 
 if ($ContratoExistente === "N") {
     // Verifica se o contrato novo já existe
@@ -62,7 +57,14 @@ if ($ContratoExistente === "N") {
     $sqlCheck = "SELECT TB02111_CODCLI Cliente FROM TB02111 WHERE TB02111_CODIGO = :ContratoNov";
     $stmtCheck = $pdo->prepare($sqlCheck);
     $stmtCheck->execute([':ContratoNov' => $ContratoNov]);
-    $CodCli = $stmtCheck->fetch(PDO::FETCH_ASSOC);
+    $result = $stmtCheck->fetch(PDO::FETCH_ASSOC);
+    $CodCli = $result['Cliente'];
+}
+
+if (empty($ContratoAnt) || empty($ContratoNov) || empty($CodCli) || empty($patFormatado) || empty($user)) {
+    echo "DEBUG => ContratoAnt: '$ContratoAnt', ContratoNov: '$ContratoNov', CodCli: '$CodCli', Pats: $patFormatado, User: '$user'\n";
+    echo "Dados incompletos.";
+    exit;
 }
 
 try {
@@ -133,7 +135,7 @@ try {
 
 $respIns = insereTabSubs($pdo, NULL, NULL, $ContratoNov, $user, 'S', $vaiAcessorios, $patFormatado, $ContratoAnt, $CodCli, null, $NovPed);
 error_log('[subsitemcontrato] resp insereTabSubs = ' . $respIns);
-echo ' | RESP_SUBS=' . $respIns;  // temporário pra você ver no alert/resposta
+//echo ' | RESP_SUBS=' . $respIns;  // temporário pra você ver no alert/resposta
 
 //echo "<script>alert('Dados alterados com sucesso.". $patFormatado . "');</script>";
 echo "<script>alert('Dados alterados com sucesso.'); window.location.href = '../views/subsRazSocial.php';</script>";
