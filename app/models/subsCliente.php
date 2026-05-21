@@ -2,9 +2,9 @@
 session_start();
 include 'InsereTabSubs.php';
 
-/* ini_set('max_input_vars', 3000);
+ini_set('max_input_vars', 3000);
 error_reporting(0);
-ini_set('display_errors', '0'); */
+ini_set('display_errors', '0');
 
 if (!isset($_SESSION['usuario'])) {
     header("Location: ../../public/login.php");
@@ -77,14 +77,16 @@ try {
         @CodigosPat = $patFormatado,
         @User = '$user',
         @Operacao = '67',
-        @Status = '42';
+        @Status = '42',
+        @Obs = '$obsPedido';
     ");
     $stmt2->execute();
     $result = $stmt2->fetch(PDO::FETCH_ASSOC);
     $NovPed = $result['NovPed'] ?? null;
 
 
-    echo 'NovPed: ' . $NovPed;
+   /*  echo 'NovPed: ' . $NovPed;
+    echo 'ObsPedido: ' . $obsPedido; */
 
     //cria orçamento
     $sql = "EXEC [dbo].[CRIA_ORC_SUB_CLI]
