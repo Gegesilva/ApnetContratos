@@ -3,6 +3,7 @@ function confirmarAlteracao() {
   const contratoAnt = document.getElementById("contratoAnt").value;
   const cliente = document.getElementById("clienteInp").value;
   const pats = document.getElementById("patArray").value;
+  const obsPedido = document.getElementById("obsPedido").value;
 
   // pega o estado do checkbox
   const check = document.getElementById("chkAcess");
@@ -36,6 +37,7 @@ function confirmarAlteracao() {
   addHidden("contratoAnt", contratoAnt);
   addHidden("cliente", cliente);
   addHidden("patArray", pats);
+  addHidden("obsPedido", obsPedido);
   addHidden("Acessorios", vaiAcessorios); 
   addHidden("SituacaoContratoAnt", vaiSituacaoContratoAnt);
   addHidden("ContratoExistente", vaiContratoExistente);

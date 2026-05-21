@@ -57,7 +57,10 @@ $patJson = htmlspecialchars(json_encode($patArray), ENT_QUOTES, 'UTF-8');
     <div class="form-group">
         <textarea name="patSelect" id="patSelec" rows="4" disabled
             style="resize: vertical; width: 100%; max-height: 120px; overflow-y: auto;" readonly
-            required><?= $patFormatado ?></textarea>
+            required><?= $patFormatado ?>
+        </textarea>
+        <textarea name="obsPedido" id="obsPedido" rows="4" placeholder="Obs do pedido"
+            style="resize: vertical; width: 100%; max-height: 120px; overflow-y: auto;"></textarea>
 
         <!-- Campo oculto com array original em JSON -->
         <input type="hidden" id="patArray" name="patArray" value="<?= $patJson ?>" />

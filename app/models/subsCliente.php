@@ -35,6 +35,7 @@ $CodCli = $_POST['cliente'];
 $vaiAcessorios = $_POST['Acessorios'];
 $SituacaoContratoAnt = $_POST['SituacaoContratoAnt'];
 $ContratoExistente = $_POST['ContratoExistente'];
+$obsPedido = $_POST['obsPedido'];
 
 
 
