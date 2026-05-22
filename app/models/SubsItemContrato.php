@@ -6,7 +6,9 @@ include 'insereTabSubs.php';
 
 $itemRetirado = $_POST['itemRetirado'] ?? '';
 $itemAdicionado = $_POST['itemAdicionado'] ?? '';
+$obsPedido = $_POST['obsPedido'] ?? '';
 $acessoriosSelecionados = $_POST['acessoriosSelecionados'] ?? '';
+
 
 $sqlContrato = "SELECT TOP 1 TB02112_CODIGO FROM TB02112 WHERE TB02112_SITUACAO = 'A' AND TB02112_PAT = :patSaida";
 $stmtContrato = $pdo->prepare($sqlContrato);
@@ -63,10 +65,14 @@ try {
                                         @CodigosPat = :itemRetirado,
                                         @User = :user,
                                         @Operacao = '65',
-	                                    @Status = '18';");
+	                                    @Status = '18',
+                                        @Obs = :obsPedido,
+                                        @Acessorios = '$acessorios'
+                                        ;");
     $stmt->execute([
         ':itemRetirado' => $itemRetirado,
-        ':user' => $user
+        ':user' => $user,
+        ':obsPedido' => $obsPedido
     ]);
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     $NovPed = $result['NovPed'] ?? null;

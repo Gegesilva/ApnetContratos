@@ -17,6 +17,9 @@ include '../../config/database.php';
 $itemRetirado = isset($_POST['itemRetirado']) ? $_POST['itemRetirado'] : $_SESSION['itemRetirado'];
 $itemAdicionado = isset($_POST['itemAdicionado']) ? $_POST['itemAdicionado'] : $_SESSION['itemAdicionado'];
 $patsaida =  $_POST['patsaida'];
+$obsPedido = isset($_POST['obsPedido']) ? $_POST['obsPedido'] : $_SESSION['obsPedido'];
+
+$_SESSION['obsPedido'] = $obsPedido;
 
 echo $patsaida;
 
@@ -104,6 +107,7 @@ $nome = $stmtNome->fetchColumn();
              <input type="hidden" value="<?=$itemRetirado?>" name="itemRetirado" class="itemRetirado">
              <input type="hidden" value="<?=$contrato?>" name="contrato" class="contrato">
              <input type="hidden" value="<?=$patsaida?>" name="PAT_SAIDA" class="patsaida">
+             <input type="hidden" value="<?=$obsPedido?>" name="obsPedido" class="obsPedido">
 
             <table id="substituicoes">
                 <thead>
@@ -156,7 +160,7 @@ $nome = $stmtNome->fetchColumn();
                 </tbody>
             </table>
             <input type="hidden" name="contrato" value="<?= htmlspecialchars($contrato) ?>">
-
+            <input type="hidden" name="obsPedido" value="<?= htmlspecialchars($obsPedido) ?>">
 
         </form>
     </div>

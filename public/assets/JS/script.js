@@ -1,6 +1,7 @@
 function atualizarEstado() {
   const itemRetirado = document.getElementById("itemRetirado");
   const itemAdicionado = document.getElementById("itemAdicionado");
+  const obsPedido = document.getElementById("obsPedido");
   const btnAlterar = document.getElementById("btnAlterar");
 
   const itemRetiradoOK = itemRetirado.value.trim().length >= 3;
@@ -72,6 +73,7 @@ function confirmarAlteracao() {
   //const contrato = document.getElementById("contrato").value;
   const itemRetirado = document.getElementById("itemRetirado").value;
   const itemAdicionado = document.getElementById("itemAdicionado").value;
+  const obsPedido = document.getElementById("obsPedido").value;
   const elemento = document.getElementById("acessoriosSelecionados");
   const acessoriosSelecionados = elemento ? elemento.value : "";
 
@@ -80,7 +82,7 @@ function confirmarAlteracao() {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
       },
-      body: `itemRetirado=${encodeURIComponent(itemRetirado)}&itemAdicionado=${encodeURIComponent(itemAdicionado)}&acessoriosSelecionados=${encodeURIComponent(acessoriosSelecionados)}`
+      body: `itemRetirado=${encodeURIComponent(itemRetirado)}&itemAdicionado=${encodeURIComponent(itemAdicionado)}&obsPedido=${encodeURIComponent(obsPedido)}&acessoriosSelecionados=${encodeURIComponent(acessoriosSelecionados)}`
     })
     .then(response => response.text())
     .then(data => {
@@ -100,6 +102,7 @@ function confirmarAlteracaoAlternativa() {
   //const contrato = document.getElementById("contrato").value;
   const itemRetirado = document.getElementById("itemRetirado").value;
   const itemAdicionado = document.getElementById("itemAdicionado").value;
+  const obsPedido = document.getElementById("obsPedido").value;
   const patsaida = document.getElementById("patsaida").value;
   const elemento = document.getElementById("acessoriosSelecionados");
   const acessoriosSelecionados = elemento ? elemento.value : "";
@@ -109,7 +112,7 @@ function confirmarAlteracaoAlternativa() {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
       },
-      body: `patsaida=${encodeURIComponent(patsaida)}&itemRetirado=${encodeURIComponent(itemRetirado)}&itemAdicionado=${encodeURIComponent(itemAdicionado)}&acessoriosSelecionados=${encodeURIComponent(acessoriosSelecionados)}`
+      body: `patsaida=${encodeURIComponent(patsaida)}&itemRetirado=${encodeURIComponent(itemRetirado)}&itemAdicionado=${encodeURIComponent(itemAdicionado)}&obsPedido=${encodeURIComponent(obsPedido)}&acessoriosSelecionados=${encodeURIComponent(acessoriosSelecionados)}`
     })
     .then(response => response.text())
     .then(data => {
@@ -130,6 +133,7 @@ function selecaoAcessorios() {
   const itemRetirado = document.getElementById("itemRetirado").value;
   const itemAdicionado = document.getElementById("itemAdicionado").value;
   const patsaida = document.getElementById("patsaida").value;
+  const obsPedido = document.getElementById("obsPedido").value;
 
   // cria um form temporário para enviar por POST e abrir a tela
   const form = document.createElement("form");
@@ -149,7 +153,7 @@ function selecaoAcessorios() {
   addField("itemRetirado", itemRetirado);
   addField("itemAdicionado", itemAdicionado);
   addField("patsaida", patsaida);
-
+  addField("obsPedido", obsPedido);
   document.body.appendChild(form);
   form.submit(); // navega para a tela de acessórios com os parâmetros
 }

@@ -29,7 +29,8 @@ $itemRetiradoAcomp = $_POST['PAT_SAIDA'];
 $itemAdicionado = isset($_POST['itemAdicionado']) ? $_POST['itemAdicionado'] : $_SESSION['itemAdicionado'];
 $itemRetirado = isset($_POST['itemRetirado']) ? $_POST['itemRetirado'] : $_SESSION['itemRetirado'];
 $contrato = isset($_POST['contrato']) ? $_POST['contrato'] : $_SESSION['contrato'];
-
+$obsPedido = $_POST['obsPedido'] ?? '';
+$acessoriosSelecionados = $_POST['acessoriosSelecionados'] ?? '';
 
 
 if (isset($patrimonioAcessorios)) {
@@ -51,7 +52,7 @@ if (isset($patrimonioAcessorios)) {
   $labelAcessorios = " ";
   $dissabled = "disabled";
 
-  if($itemRetiradoAcomp) {
+  if ($itemRetiradoAcomp) {
     $checkExt = "checked disabled";
   }
 
@@ -98,10 +99,16 @@ if ($itemRetiradoAcomp) {
       <div class="row">
         <input type="text" id="itemRetirado" placeholder="Item Retirado" oninput="atualizarEstado()" required
           <?= $valueItemRet ?> <?= $dissabled ?> />
+
         <input type="text" id="itemAdicionado" placeholder="Item Adicionado" disabled oninput="atualizarEstado()"
           required <?= $valueItemAdd ?> <?= $dissabled ?> />
+      </div>
 
-         <input type="hidden" id="patsaida" value="<?= $itemRetiradoAcomp ?>">
+      <div class="row">
+        <textarea name="obsPedido" id="obsPedido" rows="4" placeholder="Obs do pedido"
+          style="resize: vertical; width: 100%; max-height: 120px; overflow-y: auto;"><?= htmlspecialchars($obsPedido) ?></textarea>
+
+        <input type="hidden" id="patsaida" value="<?= $itemRetiradoAcomp ?>">
       </div>
 
       <!-- Checkbox -->

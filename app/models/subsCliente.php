@@ -2,9 +2,9 @@
 session_start();
 include 'InsereTabSubs.php';
 
-/* ini_set('max_input_vars', 3000);
+ini_set('max_input_vars', 3000);
 error_reporting(0);
-ini_set('display_errors', '0'); */
+ini_set('display_errors', '0');
 
 if (!isset($_SESSION['usuario'])) {
     header("Location: ../../public/login.php");
@@ -146,8 +146,8 @@ error_log('[subsitemcontrato] resp insereTabSubs = ' . $respIns);
 //echo ' | RESP_SUBS=' . $respIns;  // temporário pra você ver no alert/resposta
 
 //echo "<script>alert('Dados alterados com sucesso.". $patFormatado . "');</script>";
-/* echo "<script>alert('Dados alterados com sucesso.'); window.location.href = '../views/subsRazSocial.php';</script>";
-exit; */
+echo "<script>alert('Dados alterados com sucesso.'); window.location.href = '../views/subsRazSocial.php';</script>";
+exit;
 
 
 
