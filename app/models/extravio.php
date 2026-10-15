@@ -140,9 +140,11 @@ $respIns = insereTabSubs($pdo, $itemRetirado, $itemAdicionado, $contrato, $user,
 error_log('[subsitemcontrato] resp insereTabSubs = ' . $respIns);
 // echo ' | RESP_SUBS=' . $respIns;  // temporário pra você ver no alert/resposta
 
-$respInsAcess = insereAcessorios($pdo, $itemRetirado, $itemAdicionado, $contrato, $user, $acessoriosSelecionados);
-error_log('[subsitemcontrato] resp insereTabSubs = ' . $respInsAcess);
-//echo ' | RESP_SUBS=' . $respInsAcess;  // temporário pra você ver no alert/resposta
+if ($acessoriosSelecionados !== '') {
+    $respInsAcess = insereAcessorios($pdo, $itemRetirado, $itemAdicionado, $contrato, $user, $acessoriosSelecionados);
+    error_log('[subsitemcontrato] resp insereTabSubs = ' . $respInsAcess);
+    //echo ' | RESP_SUBS=' . $respInsAcess;  // temporário pra você ver no alert/resposta
+}
 
 
 $respUpd = atualizaEvento($pdo, $itemRetirado);

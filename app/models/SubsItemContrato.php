@@ -77,6 +77,10 @@ try {
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     $NovPed = $result['NovPed'] ?? null;
 
+    if (!$NovPed) {
+        throw new Exception('CriarPedidoCompra não retornou o número do pedido.');
+    }
+
     // depois (APENAS debug, sem mudar regras):
     $respIns = insereTabSubs($pdo, $itemRetirado, $itemAdicionado, $contrato, $user, 'S', $acessorios, NULL, NULL, NULL, NULL, $NovPed);
     error_log('[subsitemcontrato] resp insereTabSubs = ' . $respIns);
@@ -86,7 +90,7 @@ try {
     error_log('[UptConcluido]  = ' . $respUpd);
     //echo ' | RESP_SUBS=' . $respInsAcess;  // temporário pra você ver no alert/resposta
 
-    if (isset($acessoriosSelecionados)) {
+    if ($acessoriosSelecionados !== '') {
 
         $respInsAcess = insereAcessorios($pdo, $itemRetirado, $itemAdicionado, $contrato, $user, $acessoriosSelecionados);
         error_log('[subsitemcontrato] resp insereTabSubs = ' . $respInsAcess);
@@ -100,6 +104,6 @@ try {
         echo "Nenhum item foi alterado.";
     }
 
-} catch (PDOException $e) {
+} catch (Throwable $e) {
     echo "Erro ao alterar: " . $e->getMessage();
 }

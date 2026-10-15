@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-include_once "InsereTabSubs";
+include_once "InsereTabSubs.php";
 
 if (!isset($_SESSION['usuario'])) {
     header("Location: ../../public/login.php");
