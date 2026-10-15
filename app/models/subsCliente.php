@@ -64,9 +64,33 @@ if ($ContratoExistente === "N") {
     $stmtCheck->execute([':ContratoNov' => $ContratoNov]);
     $result = $stmtCheck->fetch(PDO::FETCH_ASSOC);
     $CodCli = $result['Cliente'];
+
+    if(empty($CodCli)) {
+        echo "<script>
+        alert('Contrato não encontrado.');
+        window.location.href = '../views/subsRazSocial.php';
+    </script>";
+        exit;
+    }
+
+} else if ($ContratoExistente === "S") {
+    // Pega o cliente do contrato novo para usar na substituição
+    $sqlCheck = "SELECT TB02111_CODCLI Cliente FROM TB02111 WHERE TB02111_CODIGO = :ContratoNov";
+    $stmtCheck = $pdo->prepare($sqlCheck);
+    $stmtCheck->execute([':ContratoNov' => $ContratoNov]);
+    $result = $stmtCheck->fetch(PDO::FETCH_ASSOC);
+    $CodCli = $result['Cliente'];
+
+    if(empty($CodCli)) {
+        echo "<script>
+        alert('Contrato novo não encontrado para obter cliente.');
+        window.location.href = '../views/subsRazSocial.php';
+    </script>";
+        exit;
+    }
 }
 
-if (empty($ContratoAnt) || empty($ContratoNov) || empty($CodCli) || empty($patFormatado) || empty($user)) {
+if (empty($ContratoAnt) || empty($ContratoNov) || empty($patFormatado) || empty($user)) {
     echo "DEBUG => ContratoAnt: '$ContratoAnt', ContratoNov: '$ContratoNov', CodCli: '$CodCli', Pats: $patFormatado, User: '$user'\n";
     echo "Dados incompletos.";
     exit;
