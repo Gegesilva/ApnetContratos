@@ -1,5 +1,5 @@
 <?php
-$server = 'AP-AZURE01';
-$base = 'DATACLASSIC';
+$server = 'localhost';
+$base = 'APNET';
 $usuarioBanco = 'sa';
-$SenhaBanco = 'aP#NeTwOrKs@2!0';
+$SenhaBanco = '13012020';

@@ -104,13 +104,16 @@ try {
         @CodigosPat = :itemAntigo,
         @User = :user,
         @Operacao = '67',
-        @Status = '42';
+        @Status = '42',
+        @Obs = 'Substituição de item por extravio. Gerado automaticamente pelo sistema.',
+        @Acessorios = :Acessorios;
     ");
 
         if (
             !$stmt2->execute([
                 ':itemAntigo' => $itemRetirado,
-                ':user' => $user
+                ':user' => $user,
+                ':Acessorios' => $acessorios
             ])
 
         ) {

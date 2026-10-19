@@ -102,6 +102,12 @@ function confirmarAlteracao() {
 
 // Confirmação alternativa (quando checkbox marcado)
 function confirmarAlteracaoAlternativa() {
+  if (window.alteracaoEmAndamento) return;
+  window.alteracaoEmAndamento = true;
+
+  const botoesConfirmacao = document.querySelectorAll("#modalAlternativo .buttons button");
+  botoesConfirmacao.forEach(botao => botao.disabled = true);
+
   //const contrato = document.getElementById("contrato").value;
   const itemRetirado = document.getElementById("itemRetirado").value;
   const itemAdicionado = document.getElementById("itemAdicionado").value;
@@ -125,6 +131,8 @@ function confirmarAlteracaoAlternativa() {
       atualizarEstado();
     })
     .catch(error => {
+      window.alteracaoEmAndamento = false;
+      botoesConfirmacao.forEach(botao => botao.disabled = false);
       alert("Erro ao enviar os dados!");
       console.error("Erro:", error);
     });
