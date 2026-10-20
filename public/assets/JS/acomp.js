@@ -39,6 +39,18 @@ function ordenarTabela(colIndex) {
     );
   };
 
+  const converterNumero = (valor) => {
+    const numeroBr = valor
+      .replace(/R\$\s?/g, "")
+      .replace(/\s/g, "");
+
+    if (!/^-?(?:\d{1,3}(?:\.\d{3})+|\d+)(?:,\d+)?$/.test(numeroBr)) {
+      return null;
+    }
+
+    return Number(numeroBr.replace(/\./g, "").replace(",", "."));
+  };
+
   const rows = Array.from(tbody.querySelectorAll("tr")).map((row, index) => ({ row, index }));
 
   rows.sort((itemA, itemB) => {
@@ -52,10 +64,14 @@ function ordenarTabela(colIndex) {
 
     const dataA = converterData(valorA);
     const dataB = converterData(valorB);
+    const numeroA = converterNumero(valorA);
+    const numeroB = converterNumero(valorB);
     let comparacao;
 
     if (dataA !== null && dataB !== null) {
       comparacao = dataA - dataB;
+    } else if (numeroA !== null && numeroB !== null) {
+      comparacao = numeroA - numeroB;
     } else {
       comparacao = collator.compare(valorA, valorB);
     }

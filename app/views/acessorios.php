@@ -113,12 +113,12 @@ $nome = $stmtNome->fetchColumn();
                 <thead>
                     <tr>
                         <th onclick="selecionarTodos()" style="cursor: pointer;">✔</th>
-                        <th class="titulo-col-tab" onclick="ordenarTabela(0)">Codigo <i class="fa fa-sort"></i></th>
-                        <th class="titulo-col-tab" onclick="ordenarTabela(1)">Nome <i class="fa fa-sort"></i>
+                        <th class="titulo-col-tab" onclick="ordenarTabela(1)">Codigo <i class="fa fa-sort"></i></th>
+                        <th class="titulo-col-tab" onclick="ordenarTabela(2)">Nome <i class="fa fa-sort"></i>
                         </th>
-                        <th class="titulo-col-tab" onclick="ordenarTabela(2)">Contrato <i class="fa fa-sort"></i></th>
-                        <th class="titulo-col-tab" onclick="ordenarTabela(3)">Série da Maquina <i class="fa fa-sort"></i></th>
-                        <th class="titulo-col-tab" onclick="ordenarTabela(4)">Quantidade <i class="fa fa-sort"></i></th>
+                        <th class="titulo-col-tab" onclick="ordenarTabela(3)">Contrato <i class="fa fa-sort"></i></th>
+                        <th class="titulo-col-tab" onclick="ordenarTabela(4)">Série da Maquina <i class="fa fa-sort"></i></th>
+                        <th class="titulo-col-tab" onclick="ordenarTabela(5)">Quantidade <i class="fa fa-sort"></i></th>
                     </tr>
                 </thead>
                 <tbody>

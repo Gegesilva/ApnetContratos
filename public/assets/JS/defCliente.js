@@ -102,39 +102,56 @@ function selecionarTodos() {
 
 
 
-// Ordenação das Colunas
+// Ordenação das colunas
 function ordenarTabela(colIndex) {
-  const table = document.querySelector("table");
-  const tbody = table.tBodies[0];
-  const rows = Array.from(tbody.querySelectorAll("tr"));
+  const table = document.getElementById("substituicoes");
+  const tbody = table?.tBodies[0];
 
-  const asc = !table.dataset.sortAsc || table.dataset.sortAsc === "false";
-  table.dataset.sortAsc = asc;
+  if (!tbody) return;
 
-  rows.sort((a, b) => {
-    const cellA = a.children[colIndex].innerText.trim();
-    const cellB = b.children[colIndex].innerText.trim();
+  const colunaAnterior = Number(table.dataset.sortColumn);
+  const asc = colunaAnterior !== colIndex || table.dataset.sortDirection !== "asc";
 
-    // Remove "R$", espaços e pontos dos milhares, substitui vírgula por ponto
-    const normalize = str =>
-      parseFloat(
-        str.replace(/R\$\s?/g, "") // remove R$ e espaço
-        .replace(/\./g, "") // remove pontos dos milhares
-        .replace(",", ".") // troca vírgula decimal por ponto
-      );
+  table.dataset.sortColumn = String(colIndex);
+  table.dataset.sortDirection = asc ? "asc" : "desc";
 
-    const numA = normalize(cellA);
-    const numB = normalize(cellB);
-
-    if (!isNaN(numA) && !isNaN(numB)) {
-      return asc ? numA - numB : numB - numA;
-    }
-
-    return asc ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
+  const collator = new Intl.Collator("pt-BR", {
+    numeric: true,
+    sensitivity: "base"
   });
 
-  tbody.innerHTML = "";
-  rows.forEach(row => tbody.appendChild(row));
+  const converterNumero = (valor) => {
+    const numeroBr = valor.replace(/R\$\s?/g, "").replace(/\s/g, "");
+
+    if (!/^-?(?:\d{1,3}(?:\.\d{3})+|\d+)(?:,\d+)?$/.test(numeroBr)) {
+      return null;
+    }
+
+    return Number(numeroBr.replace(/\./g, "").replace(",", "."));
+  };
+
+  const rows = Array.from(tbody.querySelectorAll("tr")).map((row, index) => ({ row, index }));
+
+  rows.sort((itemA, itemB) => {
+    const cellA = itemA.row.children[colIndex];
+    const cellB = itemB.row.children[colIndex];
+    const valorA = (cellA?.dataset.sortValue ?? cellA?.innerText ?? "").trim();
+    const valorB = (cellB?.dataset.sortValue ?? cellB?.innerText ?? "").trim();
+
+    if (valorA === "" && valorB === "") return itemA.index - itemB.index;
+    if (valorA === "") return 1;
+    if (valorB === "") return -1;
+
+    const numeroA = converterNumero(valorA);
+    const numeroB = converterNumero(valorB);
+    const comparacao = numeroA !== null && numeroB !== null
+      ? numeroA - numeroB
+      : collator.compare(valorA, valorB);
+
+    return comparacao === 0 ? itemA.index - itemB.index : (asc ? comparacao : -comparacao);
+  });
+
+  tbody.replaceChildren(...rows.map(({ row }) => row));
 }
 
 /* desailitar campo codigo no novo cliente quando o contrato existente for selecionado */

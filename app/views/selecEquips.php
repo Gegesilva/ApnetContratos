@@ -56,10 +56,10 @@ $nome = $stmtNome->fetchColumn();
             <thead>
                 <tr>
                     <th onclick="selecionarTodos()" style="cursor: pointer;">✔</th>
-                    <th class="titulo-col-tab" onclick="ordenarTabela(0)">Patrimônio <i class="fa fa-sort"></i></th>
-                    <th class="titulo-col-tab" onclick="ordenarTabela(1)">Cod Produto <i class="fa fa-sort"></i></th>
-                    <th class="titulo-col-tab" onclick="ordenarTabela(2)">Serie <i class="fa fa-sort"></i></th>
-                    <th class="titulo-col-tab" onclick="ordenarTabela(3)">Descrição <i class="fa fa-sort"></i></th>
+                    <th class="titulo-col-tab" onclick="ordenarTabela(1)">Patrimônio <i class="fa fa-sort"></i></th>
+                    <th class="titulo-col-tab" onclick="ordenarTabela(2)">Cod Produto <i class="fa fa-sort"></i></th>
+                    <th class="titulo-col-tab" onclick="ordenarTabela(3)">Serie <i class="fa fa-sort"></i></th>
+                    <th class="titulo-col-tab" onclick="ordenarTabela(4)">Descrição <i class="fa fa-sort"></i></th>
                 </tr>
             </thead>
             <tbody>
