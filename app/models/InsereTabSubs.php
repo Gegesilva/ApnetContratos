@@ -1,6 +1,8 @@
 <?php
-header('Content-type: text/html; charset=ISO-8895-1');
-session_start();
+header('Content-type: text/html; charset=ISO-8859-1');
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
 
 if (!isset($_SESSION['usuario'])) {
     header("Location: ../../public/login.php");
@@ -12,7 +14,7 @@ $user = $_SESSION['usuario'];
 
 //echo "<script>console.log('Debug Objects: " . $patrimonioAcessorios . "' );</script>";
 
-function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user, $tipo, $acessorios, $patsRaz, $contratoAnt, $codCli, $Orcamento, $novPed)
+function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user, $tipo, $acessorios, $patsRaz, $contratoAnt, $codCli, $Orcamento, $novPed, $lancarErro = false)
 {
     try {
         $tipoInsert = isset($contratoAnt) ? 'SubsRazSocial' : 'SubsItemContrato';
@@ -134,10 +136,16 @@ function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user, $tipo, $a
         if ($stmt->rowCount()) {
             return "Alteração feita com sucesso! na função";
         } else {
+            if ($lancarErro) {
+                throw new RuntimeException('Nenhum registro foi inserido em SUBS_CONTRATO.');
+            }
             return "Nenhum item foi alterado.";
         }
 
-    } catch (PDOException $e) {
+    } catch (Throwable $e) {
+        if ($lancarErro) {
+            throw $e;
+        }
         return "Erro ao alterar: " . $e->getMessage();
     }
 }

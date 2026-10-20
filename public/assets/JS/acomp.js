@@ -1,33 +1,71 @@
-// Ordenação de tabela (inalterada)
 function ordenarTabela(colIndex) {
-    const table = document.querySelector("table");
-    const tbody = table.tBodies[0];
-    const rows = Array.from(tbody.querySelectorAll("tr"));
-  
-    const asc = !table.dataset.sortAsc || table.dataset.sortAsc === "false";
-    table.dataset.sortAsc = asc;
-  
-    rows.sort((a, b) => {
-      const cellA = a.children[colIndex].innerText.trim();
-      const cellB = b.children[colIndex].innerText.trim();
-  
-      const normalize = str =>
-        parseFloat(
-          str.replace(/R\$\s?/g, "")
-          .replace(/\./g, "")
-          .replace(",", ".")
-        );
-  
-      const numA = normalize(cellA);
-      const numB = normalize(cellB);
-  
-      if (!isNaN(numA) && !isNaN(numB)) {
-        return asc ? numA - numB : numB - numA;
-      }
-  
-      return asc ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
-    });
-  
-    tbody.innerHTML = "";
-    rows.forEach(row => tbody.appendChild(row));
+  const table = document.getElementById("substituicoes");
+  const tbody = table?.tBodies[0];
+
+  if (!tbody) {
+    return;
   }
+
+  const colunaAnterior = Number(table.dataset.sortColumn);
+  const direcaoAnterior = table.dataset.sortDirection;
+  const asc = colunaAnterior !== colIndex || direcaoAnterior !== "asc";
+
+  table.dataset.sortColumn = String(colIndex);
+  table.dataset.sortDirection = asc ? "asc" : "desc";
+
+  const collator = new Intl.Collator("pt-BR", {
+    numeric: true,
+    sensitivity: "base"
+  });
+
+  const obterValor = (row) => {
+    const cell = row.children[colIndex];
+    return (cell?.dataset.sortValue ?? cell?.innerText ?? "").trim();
+  };
+
+  const converterData = (valor) => {
+    const partes = valor.match(/^(\d{2})\/(\d{2})\/(\d{4})(?:\s+(\d{2}):(\d{2}))?$/);
+
+    if (!partes) {
+      return null;
+    }
+
+    return Date.UTC(
+      Number(partes[3]),
+      Number(partes[2]) - 1,
+      Number(partes[1]),
+      Number(partes[4] || 0),
+      Number(partes[5] || 0)
+    );
+  };
+
+  const rows = Array.from(tbody.querySelectorAll("tr")).map((row, index) => ({ row, index }));
+
+  rows.sort((itemA, itemB) => {
+    const valorA = obterValor(itemA.row);
+    const valorB = obterValor(itemB.row);
+
+    // Células vazias permanecem no final nas duas direções.
+    if (valorA === "" && valorB === "") return itemA.index - itemB.index;
+    if (valorA === "") return 1;
+    if (valorB === "") return -1;
+
+    const dataA = converterData(valorA);
+    const dataB = converterData(valorB);
+    let comparacao;
+
+    if (dataA !== null && dataB !== null) {
+      comparacao = dataA - dataB;
+    } else {
+      comparacao = collator.compare(valorA, valorB);
+    }
+
+    if (comparacao === 0) {
+      return itemA.index - itemB.index;
+    }
+
+    return asc ? comparacao : -comparacao;
+  });
+
+  tbody.replaceChildren(...rows.map(({ row }) => row));
+}

@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
 include 'InsereTabSubs.php';
 
 ini_set('max_input_vars', 3000);
@@ -18,31 +20,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['patArray'])) {
 }
 
 // Recupera valores da sessão ou inicializa vazio
-$patArray = isset($_SESSION['pats_selecionados']) ? $_SESSION['pats_selecionados'] : [];
+$patArray = $_SESSION['pats_selecionados'] ?? [];
+$patArray = array_values(array_unique(array_filter(array_map(
+    static function ($pat) {
+        return is_scalar($pat) ? trim((string) $pat) : '';
+    },
+    is_array($patArray) ? $patArray : []
+))));
 
 // Formata como string para uso no SQL
-$patFormatado = '';
-if (!empty($patArray)) {
-    $patFormatado = "'" . implode(',', $patArray) . "'";
-}
+$patFormatado = implode(',', $patArray);
+$patsRazRegistro = $patFormatado === '' ? '' : "'{$patFormatado}'";
 
 header('Content-type: text/html; charset=ISO-8859-1');
 include '../../config/database.php';
 
-$ContratoAnt = $_POST['contratoAnt'];
-$ContratoNov = $_POST['contrato'];
-$CodCli = $_POST['cliente'];
-$vaiAcessorios = $_POST['Acessorios'];
-$SituacaoContratoAnt = $_POST['SituacaoContratoAnt'];
-$ContratoExistente = $_POST['ContratoExistente'];
-if($_POST['obsPedido'] === '') {
+$ContratoAnt = trim((string) ($_POST['contratoAnt'] ?? ''));
+$ContratoNov = trim((string) ($_POST['contrato'] ?? ''));
+$CodCli = trim((string) ($_POST['cliente'] ?? ''));
+$vaiAcessorios = trim((string) ($_POST['Acessorios'] ?? 'N'));
+$SituacaoContratoAnt = trim((string) ($_POST['SituacaoContratoAnt'] ?? ''));
+$ContratoExistente = trim((string) ($_POST['ContratoExistente'] ?? ''));
+$obsInformada = trim((string) ($_POST['obsPedido'] ?? ''));
+
+if ($obsInformada === '') {
     $obsPedido = 'Substituição de contrato - sem observação adicional';
 } else {
-    $obsPedido = $_POST['obsPedido'];
-};
-
-
-
+    $obsPedido = $obsInformada;
+}
 if ($ContratoExistente === "N") {
     // Verifica se o contrato novo já existe
     $sqlCheck = "SELECT COUNT(*) FROM TB02111 WHERE TB02111_CODIGO = :ContratoNov";
@@ -57,7 +62,7 @@ if ($ContratoExistente === "N") {
         exit;
     }
 
-} else if ($ContratoExistente === "S") {
+} elseif ($ContratoExistente === "S") {
     // Pega o cliente do contrato novo para usar na substituição
     $sqlCheck = "SELECT TB02111_CODCLI Cliente FROM TB02111 WHERE TB02111_CODIGO = :ContratoNov";
     $stmtCheck = $pdo->prepare($sqlCheck);
@@ -73,57 +78,85 @@ if ($ContratoExistente === "N") {
         exit;
     }
 
-} else if ($ContratoExistente === "S") {
-    // Pega o cliente do contrato novo para usar na substituição
-    $sqlCheck = "SELECT TB02111_CODCLI Cliente FROM TB02111 WHERE TB02111_CODIGO = :ContratoNov";
-    $stmtCheck = $pdo->prepare($sqlCheck);
-    $stmtCheck->execute([':ContratoNov' => $ContratoNov]);
-    $result = $stmtCheck->fetch(PDO::FETCH_ASSOC);
-    $CodCli = $result['Cliente'];
-
-    if(empty($CodCli)) {
-        echo "<script>
-        alert('Contrato novo não encontrado para obter cliente.');
-        window.location.href = '../views/subsRazSocial.php';
-    </script>";
-        exit;
-    }
+} else {
+    echo "<script>alert('Opção de contrato inválida.'); window.location.href = '../views/subsRazSocial.php';</script>";
+    exit;
 }
 
-if (empty($ContratoAnt) || empty($ContratoNov) || empty($patFormatado) || empty($user)) {
-    echo "DEBUG => ContratoAnt: '$ContratoAnt', ContratoNov: '$ContratoNov', CodCli: '$CodCli', Pats: $patFormatado, User: '$user'\n";
+if (empty($ContratoAnt) || empty($ContratoNov) || empty($CodCli) || empty($patFormatado) || empty($user)) {
     echo "Dados incompletos.";
     exit;
 }
 
-try {
+/**
+ * Localiza uma coluna retornada por uma procedure mesmo quando o driver SQL
+ * Server expõe rowsets intermediários.
+ */
+function obterRetornoProcedure(PDOStatement $stmt, string $coluna)
+{
+    do {
+        if ($stmt->columnCount() > 0) {
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                if (array_key_exists($coluna, $row)) {
+                    return $row[$coluna];
+                }
+            }
+        }
+    } while ($stmt->nextRowset());
 
+    return null;
+}
+
+try {
+    $pdo->beginTransaction();
 
     //cria pedido para cliente anterior
     $stmt2 = $pdo->prepare("
-        EXEC CriarPedidoCompra
-        @CodigosPat = $patFormatado,
-        @User = '$user',
+        EXEC [dbo].[CriarPedidoCompra]
+        @CodigosPat = :CodigosPat,
+        @User = :UsuarioPedido,
         @Operacao = '67',
         @Status = '42',
-        @Obs = '$obsPedido',
-        @Acessorios = '$vaiAcessorios';
+        @Obs = :ObservacaoPedido,
+        @Acessorios = :AcessoriosPedido;
     ");
-    $stmt2->execute();
-    $result = $stmt2->fetch(PDO::FETCH_ASSOC);
-    $NovPed = $result['NovPed'] ?? null;
+    $stmt2->execute([
+        ':CodigosPat' => $patFormatado,
+        ':UsuarioPedido' => $user,
+        ':ObservacaoPedido' => $obsPedido,
+        ':AcessoriosPedido' => $vaiAcessorios,
+    ]);
+    $NovPed = obterRetornoProcedure($stmt2, 'NovPed');
+    $stmt2->closeCursor();
 
+    if (empty($NovPed)) {
+        throw new RuntimeException('CriarPedidoCompra não retornou o código do pedido.');
+    }
 
-   /*  echo 'NovPed: ' . $NovPed;
-    echo 'ObsPedido: ' . $obsPedido; */
+    // Impede que uma falha silenciosa na TB02031 gere substituição parcial.
+    $stmtValidaPedido = $pdo->prepare("
+        SELECT
+            (SELECT COUNT(*) FROM [dbo].[TB02030] WHERE TB02030_CODIGO = :PedidoCabecalho) AS Cabecalhos,
+            (SELECT COUNT(*) FROM [dbo].[TB02031] WHERE TB02031_CODIGO = :PedidoItens) AS Itens
+    ");
+    $stmtValidaPedido->execute([
+        ':PedidoCabecalho' => $NovPed,
+        ':PedidoItens' => $NovPed,
+    ]);
+    $pedidoCriado = $stmtValidaPedido->fetch(PDO::FETCH_ASSOC);
+    $stmtValidaPedido->closeCursor();
+
+    if ((int) ($pedidoCriado['Cabecalhos'] ?? 0) !== 1 || (int) ($pedidoCriado['Itens'] ?? 0) < 1) {
+        throw new RuntimeException("O pedido {$NovPed} foi gerado sem itens na TB02031.");
+    }
 
     //cria orçamento
     $sql = "EXEC [dbo].[CRIA_ORC_SUB_CLI]
                 @ContratoAnt = :ContratoAnt,
                 @ContratoNov = :ContratoNov,
                 @CodCli  = :CodCli,
-                @Pats = $patFormatado,
-                @User = :user,
+                @Pats = :PatsOrcamento,
+                @User = :UsuarioOrcamento,
                 @Operacao = '63',
                 @Status = 'B2';";
 
@@ -132,18 +165,22 @@ try {
         ':ContratoAnt' => $ContratoAnt,//
         ':ContratoNov' => $ContratoNov,
         ':CodCli' => $CodCli,
-        ':user' => $user
+        ':PatsOrcamento' => $patFormatado,
+        ':UsuarioOrcamento' => $user,
     ]);
-    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    $novoOrcamento = $result[0]['NovoOrcamento'] ?? null;
+    $novoOrcamento = obterRetornoProcedure($stmt, 'NovoOrcamento');
+    $stmt->closeCursor();
 
+    if (empty($novoOrcamento)) {
+        throw new RuntimeException('CRIA_ORC_SUB_CLI não retornou o código do orçamento.');
+    }
 
     $sql = "EXEC [dbo].[SUBS_CILENTE_CONTRATO]
                 @ContratoAnt = :ContratoAnt,
                 @ContratoNov = :ContratoNov,
                 @CodCli  = :CodCli,
-                @Pats = $patFormatado,
-                @User = :user,
+                @Pats = :PatsSubstituicao,
+                @User = :UsuarioSubstituicao,
                 @Acessorios = :Acessorios,
                 @SituacaoContratoAnt = :SituacaoContratoAnt,
                 @ContratoExistente = :ContratoExistente;";
@@ -153,26 +190,51 @@ try {
         ':ContratoAnt' => $ContratoAnt,
         ':ContratoNov' => $ContratoNov,
         ':CodCli' => $CodCli,
+        ':PatsSubstituicao' => $patFormatado,
         ':Acessorios' => $vaiAcessorios,
-        ':user' => $user,
+        ':UsuarioSubstituicao' => $user,
         ':SituacaoContratoAnt' => $SituacaoContratoAnt,
         ':ContratoExistente' => $ContratoExistente
     ]);
+    $stmt->closeCursor();
 
+    $respIns = insereTabSubs(
+        $pdo,
+        null,
+        null,
+        $ContratoNov,
+        $user,
+        'S',
+        $vaiAcessorios,
+        $patsRazRegistro,
+        $ContratoAnt,
+        $CodCli,
+        null,
+        $NovPed,
+        true
+    );
+    error_log('[subsRazSocial] ' . $respIns . ' Pedido=' . $NovPed);
 
-    //echo "Substituição realizada com sucesso.";
-} catch (PDOException $e) {
-    echo "Erro ao alterar: " . $e->getMessage();
+    $pdo->commit();
+
+    echo "<script>alert('Dados alterados com sucesso. Pedido: {$NovPed}'); window.location.href = '../views/subsRazSocial.php';</script>";
+    exit;
+} catch (Throwable $e) {
+    try {
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
+    } catch (Throwable $rollbackError) {
+        error_log('[subsRazSocial] Falha adicional no rollback: ' . $rollbackError->getMessage());
+    }
+
+    $idErro = date('YmdHis');
+    error_log("[subsRazSocial][{$idErro}] " . $e->getMessage() . "\n" . $e->getTraceAsString());
+
+    $mensagem = json_encode(
+        "Não foi possível concluir a substituição. Nenhuma alteração foi gravada. Código do erro: {$idErro}.",
+        JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP
+    );
+    echo "<script>alert({$mensagem}); window.location.href = '../views/subsRazSocial.php';</script>";
+    exit;
 }
-
-$respIns = insereTabSubs($pdo, NULL, NULL, $ContratoNov, $user, 'S', $vaiAcessorios, $patFormatado, $ContratoAnt, $CodCli, null, $NovPed);
-error_log('[subsitemcontrato] resp insereTabSubs = ' . $respIns);
-//echo ' | RESP_SUBS=' . $respIns;  // temporário pra você ver no alert/resposta
-
-//echo "<script>alert('Dados alterados com sucesso.". $patFormatado . "');</script>";
-echo "<script>alert('Dados alterados com sucesso.'); window.location.href = '../views/subsRazSocial.php';</script>";
-exit;
-
-
-
-//echo 'ContratoNov: ' . $ContratoNov, 'ContratoAnt: ' . $ContratoAnt, 'CodCli: ' . $CodCli, 'Pats: ' . $patFormatado, 'User: ' . $user;

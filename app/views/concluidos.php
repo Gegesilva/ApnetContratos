@@ -91,7 +91,7 @@ include '../../config/database.php';
                                                         ,[TB01021_NOME]
                                                         ,TB02030_NTFISC NOTAPEDIDO
                                                         ,TB02018_NTFISC NOTAORCAMENTO
-                                                        ,FORMAT(ISNULL(TB02030_DTCAD, TB02018_DTCAD), 'dd/MM/yyyy hh:mm') DATAPEDIDO
+                                                        ,FORMAT(ISNULL(TB02030_DTCAD, TB02018_DTCAD), 'dd/MM/yyyy HH:mm') DATAPEDIDO
 
                                                 FROM [dbo].[SUBS_CONTRATO]
                                                 LEFT JOIN TB02002 ON TB02002_CODPRE = PEDIDO_COMPRA
