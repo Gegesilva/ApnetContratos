@@ -21,7 +21,7 @@ if (!isset($_SESSION['usuario'])) {
     exit;
 }
 
-header('Content-type: text/html; charset=ISO-8895-1');
+header('Content-type: text/html; charset=UTF-8');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['selecionados']) && is_array($_POST['selecionados']) && !empty($_POST['selecionados'])) {
     $_SESSION['pats_selecionados'] = $_POST['selecionados'];

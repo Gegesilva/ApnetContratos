@@ -8,7 +8,7 @@ if (!isset($_SESSION['usuario'])) {
 
 $user = $_SESSION['usuario'];
 
-header('Content-type: text/html; charset=ISO-8895-1');
+header('Content-type: text/html; charset=UTF-8');
 include '../../config/database.php';
 ?>
 

@@ -1,7 +1,7 @@
 <?php
 session_start();
 include '../../config/database.php';
-header('Content-type: text/html; charset=ISO-8895-1');
+header('Content-type: text/html; charset=UTF-8');
 ini_set('max_input_vars', 3000);
 error_reporting(0);
 ini_set('display_errors', '0');

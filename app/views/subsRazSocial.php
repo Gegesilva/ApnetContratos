@@ -7,7 +7,7 @@ if (!isset($_SESSION['usuario'])) {
   exit;
 }
 
-header('Content-type: text/html; charset=ISO-8895-1');
+header('Content-type: text/html; charset=UTF-8');
 
 ?>
 

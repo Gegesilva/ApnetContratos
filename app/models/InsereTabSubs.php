@@ -1,5 +1,5 @@
 <?php
-header('Content-type: text/html; charset=ISO-8859-1');
+header('Content-type: text/html; charset=UTF-8');
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }

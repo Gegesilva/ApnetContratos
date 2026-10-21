@@ -32,7 +32,7 @@ $patArray = array_values(array_unique(array_filter(array_map(
 $patFormatado = implode(',', $patArray);
 $patsRazRegistro = $patFormatado === '' ? '' : "'{$patFormatado}'";
 
-header('Content-type: text/html; charset=ISO-8859-1');
+header('Content-type: text/html; charset=UTF-8');
 include '../../config/database.php';
 
 $ContratoAnt = trim((string) ($_POST['contratoAnt'] ?? ''));
@@ -228,11 +228,8 @@ try {
         error_log('[subsRazSocial] Falha adicional no rollback: ' . $rollbackError->getMessage());
     }
 
-    $idErro = date('YmdHis');
-    error_log("[subsRazSocial][{$idErro}] " . $e->getMessage() . "\n" . $e->getTraceAsString());
-
     $mensagem = json_encode(
-        "Não foi possível concluir a substituição. Nenhuma alteração foi gravada. Código do erro: {$idErro}.",
+        $e->getMessage(),
         JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP
     );
     echo "<script>alert({$mensagem}); window.location.href = '../views/subsRazSocial.php';</script>";
