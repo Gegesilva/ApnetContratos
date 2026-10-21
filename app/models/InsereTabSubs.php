@@ -136,17 +136,11 @@ function insereTabSubs($pdo, $itemAntigo, $itemNovo, $contrato, $user, $tipo, $a
         if ($stmt->rowCount()) {
             return "Alteração feita com sucesso! na função";
         } else {
-            if ($lancarErro) {
-                throw new RuntimeException('Nenhum registro foi inserido em SUBS_CONTRATO.');
-            }
-            return "Nenhum item foi alterado.";
+            throw new RuntimeException('Nenhum registro foi inserido em SUBS_CONTRATO.');
         }
 
     } catch (Throwable $e) {
-        if ($lancarErro) {
-            throw $e;
-        }
-        return "Erro ao alterar: " . $e->getMessage();
+        throw $e;
     }
 }
 
@@ -199,8 +193,8 @@ function insereAcessorios($pdo, $itemAntigo, $itemNovo, $contrato, $user, $acess
             //return "Nenhum item foi alterado.";
         }
 
-    } catch (PDOException $e) {
-        return "Erro ao alterar: " . $e->getMessage();
+    } catch (Throwable $e) {
+        throw $e;
     }
 }
 
@@ -224,8 +218,8 @@ function atualizaEvento($pdo, $itemAntigo)
             //return "Nenhum item foi alterado.";
         }
 
-    } catch (PDOException $e) {
-        return "Erro ao alterar: " . $e->getMessage();
+    } catch (Throwable $e) {
+        throw $e;
     }
 }
 

@@ -125,9 +125,13 @@ try {
     $pdo->commit();
 
     // insere tab de acompanhamento (chamada feita mesmo que NovOrc/NovPed sejam null)
-    $respIns = insereTabSubs($pdo, $itemRetirado, $itemAdicionado, $contrato, $user, 'ES', '', NULL, NULL, NULL, $NovOrc, $NovPed);
-    error_log('[subsitemcontrato] resp insereTabSubs = ' . $respIns);
-    // echo ' | RESP_SUBS=' . $respIns;  // temporário pra você ver no alert/resposta
+    try {
+        $respIns = insereTabSubs($pdo, $itemRetirado, $itemAdicionado, $contrato, $user, 'ES', '', NULL, NULL, NULL, $NovOrc, $NovPed);
+        error_log('[subsitemcontrato] resp insereTabSubs = ' . $respIns);
+    } catch (Throwable $e) {
+        echo 'Erro ao alterar: ' . $e->getMessage();
+        exit;
+    }
 
     echo "Alteração feita com sucesso! " . $itemRetirado;
 } catch (Exception $e) {

@@ -84,10 +84,7 @@ function confirmarAlteracao() {
       },
       body: `itemRetirado=${encodeURIComponent(itemRetirado)}&itemAdicionado=${encodeURIComponent(itemAdicionado)}&obsPedido=${encodeURIComponent(obsPedido)}&acessoriosSelecionados=${encodeURIComponent(acessoriosSelecionados)}`
     })
-    .then(response => {
-      if (!response.ok) throw new Error(`Erro HTTP ${response.status}`);
-      return response.text();
-    })
+    .then(response => response.text())
     .then(data => {
       fecharModal();
       alert(data || "O servidor não retornou uma resposta.");

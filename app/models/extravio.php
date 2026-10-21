@@ -133,24 +133,26 @@ try {
 
     $pdo->commit();
 
-    echo "Alteração feita com sucesso!"/* . $itemAdicionado. ' | ' . $itemRetirado. ' | ' . $contrato . ' | ' . $acessorios */ ;
 } catch (Exception $e) {
     $pdo->rollBack();
     echo "Erro ao alterar: " . $e->getMessage();
 }
 
 // depois (APENAS debug, sem mudar regras):
-$respIns = insereTabSubs($pdo, $itemRetirado, $itemAdicionado, $contrato, $user, 'E', $acessorios, NULL, NULL, NULL, $NovOrc, $NovPed);
-error_log('[subsitemcontrato] resp insereTabSubs = ' . $respIns);
-// echo ' | RESP_SUBS=' . $respIns;  // temporário pra você ver no alert/resposta
+try {
+    $respIns = insereTabSubs($pdo, $itemRetirado, $itemAdicionado, $contrato, $user, 'E', $acessorios, NULL, NULL, NULL, $NovOrc, $NovPed);
+    error_log('[subsitemcontrato] resp insereTabSubs = ' . $respIns);
 
-if ($acessoriosSelecionados !== '') {
-    $respInsAcess = insereAcessorios($pdo, $itemRetirado, $itemAdicionado, $contrato, $user, $acessoriosSelecionados);
-    error_log('[subsitemcontrato] resp insereTabSubs = ' . $respInsAcess);
-    //echo ' | RESP_SUBS=' . $respInsAcess;  // temporário pra você ver no alert/resposta
+    if ($acessoriosSelecionados !== '') {
+        $respInsAcess = insereAcessorios($pdo, $itemRetirado, $itemAdicionado, $contrato, $user, $acessoriosSelecionados);
+        error_log('[subsitemcontrato] resp insereTabSubs = ' . $respInsAcess);
+    }
+
+    $respUpd = atualizaEvento($pdo, $itemRetirado);
+    error_log('[UptConcluido]  = ' . $respUpd);
+} catch (Throwable $e) {
+    echo 'Erro ao alterar: ' . $e->getMessage();
+    exit;
 }
 
-
-$respUpd = atualizaEvento($pdo, $itemRetirado);
-error_log('[UptConcluido]  = ' . $respUpd);
-//echo ' | RESP_SUBS=' . $respInsAcess;  // temporário pra você ver no alert/resposta
+echo "Alteração feita com sucesso!";
